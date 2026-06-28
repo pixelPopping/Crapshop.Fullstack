@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import  formatTime  from "../../utils/formatTime.jsx";
+import  formatTime  from "../../../backend/app/utils/formatTime.jsx";
 
 const DigitalClock = () => {
     const [clockTime, setClockTime] = useState(formatTime());
