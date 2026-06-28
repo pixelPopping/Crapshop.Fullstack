@@ -1,0 +1,85 @@
+.recensieForm-outer {
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    margin-top: 50px;
+}
+
+
+.recensieForm-inner input {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+}
+
+.recensieForm-inner form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .recensieForm-outer {
+        width: 100%;
+        margin-top: 30px;
+        padding: 0 16px;
+    }
+
+    .recensieForm-inner input,
+    .recensie-input input,
+    .recensie-input textarea {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .recensie-button-outer {
+        width: 100%;
+    }
+
+    .submit-button {
+        width: 100%;
+        font-size: 1rem;
+        padding: 14px;
+    }
+}
+
+
+.recensie-button-outer {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+}
+
+.recensie-button {
+    display: flex;
+    flex-direction: row;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 20px;
+    background: black;
+}
+
+.submit-button:hover{
+    background-color: lightgray;
+}
+
+.recensie-input input,
+.recensie-input textarea {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 12px;
+    margin-bottom: 50px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.recensie-input textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+

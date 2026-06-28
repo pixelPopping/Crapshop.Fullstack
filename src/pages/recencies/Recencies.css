@@ -1,0 +1,255 @@
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.recencies-title {
+    font-size: 90px;
+    font-weight: bold;
+}
+
+.outer-search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    padding: 50px;
+    width: 800px;
+    align-items: center;
+    justify-content: center;
+    border: solid 2px beige;
+    box-shadow: 0px 0px 10px #000;
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.icon-bar {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 10px;
+    padding: 20px;
+    align-items: center;
+}
+
+.layout-recencies {
+    display: grid;
+    width: 100vw;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    background-color: beige;
+}
+
+.navbar-four {
+    grid-area: header;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(90deg, rgba(61,36,232,1) 4%, rgba(78,24,230,1) 62%, rgba(74,18,199,1) 80%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 100px;
+}
+
+.nav-links4 {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav-links4 li a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.nav-links4 li a:hover,
+.nav-links4 li a.active {
+    color: #ddd;
+}
+
+.button-container4 {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.icon-item {
+    position: relative;
+    font-size: 1.4rem;
+    color: #f1f1f1;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.icon-item:hover {
+    color: #ddd;
+}
+
+.icon-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #e63946;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: bold;
+    line-height: 1;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+main {
+    grid-area: main;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.recencies-header h1 {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #4e18e6;
+    margin: 0;
+}
+
+.form-outer {
+    display: flex;
+    justify-content: center;
+    flex-basis: 100%;
+}
+
+.form-inner input {
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.outer-recencies {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inner-recencies {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.recencies-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.recencie-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    flex: 1 1 250px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.recencie-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #4e18e6;
+}
+
+.recencie-card p {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .nav-links4 {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .button-container4 {
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .icon-item {
+        font-size: 1.3rem;
+    }
+
+    .icon-count {
+        font-size: 0.6rem;
+        min-width: 16px;
+        height: 16px;
+    }
+
+    .recencies-header h1 {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+
+    .form-inner input {
+        max-width: 100%;
+    }
+
+    .inner-recencies {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .recencies-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    footer {
+        padding: 20px;
+    }
+
+    .footer-links ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navbar-four {
+        padding: 60px 20px;
+        clip-path: none;
+    }
+}
+
+

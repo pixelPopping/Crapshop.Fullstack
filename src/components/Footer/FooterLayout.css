@@ -1,0 +1,45 @@
+.outer-layout{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: flex-end;
+}
+
+.layout-footer {
+    display: flex;
+    width: 1200px;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #eee;
+    text-align: center;
+    padding: 30px;
+}
+
+.footer-links ul {
+    list-style: none;
+    width: 400px;
+    padding: 0;
+    margin: 0 0 15px 0;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.footer-links li a {
+    display: flex;
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+    font-weight: lighter;
+    padding: 6px 12px;
+    transition: background 0.2s ease;
+}
+
+.footer-links li a:hover {
+    background-color: red;
+}
+
+.footer-links li a.active {
+    background-color: red;
+}
+

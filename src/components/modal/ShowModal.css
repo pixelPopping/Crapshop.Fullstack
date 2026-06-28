@@ -1,0 +1,50 @@
+.search-modal {
+    position: absolute;
+    top: 300px; 
+    right: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 16px;
+    z-index: 100;
+    width: 300px;
+    font-size: 14px;
+}
+
+.modal-content h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.modal-content button {
+    background-color: #42D937;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.modal-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.modal-content li {
+    margin-bottom: 8px;
+}
+
+.modal-content a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}

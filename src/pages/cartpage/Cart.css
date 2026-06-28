@@ -1,0 +1,117 @@
+.outer-main-cart {
+    background-color: beige;
+    width: 100vw;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+ .cart-layout {
+         display: grid;
+         width: 100vw;
+         grid-template-rows: auto 1fr auto;
+         grid-template-areas:
+        "header"
+        "main"
+        "footer";
+         background-color: beige;
+         justify-items: start
+     }
+
+.inner-cart h2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: clamp(2rem, 10vw, 50px);
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 0px 1px 5px #000;
+    font-family: outfit, sans-serif;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 50px;
+    border: solid 1px #000;
+}
+
+.main-cart-outer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 60px;
+}
+
+.navbar-four-cart {
+    display: flex;
+    width: 100vw;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 40px;
+    background-color: lightgray;
+    border-bottom: 2px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.navbar-four-cart a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    padding: 0.5rem 16px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.navbar-four-cart a:hover {
+    background-color: #eee;
+}
+
+.main-cart-outer .cart-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.cart-item {
+    background: #fff;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+
+.reset-container {
+    display: flex;
+    border: solid 8px lightgray;
+    box-shadow: 0px 1px 5px #000;
+    padding: 20px;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 16px;
+}
+
+.reset-button button {
+    width: 100%;
+    padding: 16px;
+    border: 3px solid black;
+    margin-top: 10px;
+}
+
+.reset-button button:hover {
+    background-color: lightgray;
+}
+
