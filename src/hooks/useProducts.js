@@ -1,81 +1,52 @@
 import { useEffect, useState } from "react";
-import {
-    getProducts,
-    getCategories,
-} from "../api/productsApi";
+import { getProducts, getCategories } from "../api/productsApi";
 
 export default function useProducts() {
+  const [products, setProducts] = useState([]);
 
-    const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState(["Alle categorieën"]);
 
-    const [categories, setCategories] = useState([
-        "Alle categorieën",
-    ]);
+  const [loading, setLoading] = useState(true);
 
-    const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    const [error, setError] = useState("");
+  useEffect(() => {
+    const controller = new AbortController();
 
-    useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
 
-        const controller = new AbortController();
+        const products = await getProducts(controller.signal);
 
-        async function fetchData() {
+        const categories = await getCategories(controller.signal);
 
-            try {
+        setProducts(products);
 
-                setLoading(true);
+        setCategories(["Alle categorieën", ...categories]);
+      } catch (error) {
+        if (error.name !== "CanceledError" && error.code !== "ERR_CANCELED") {
+          console.error(error);
 
-                const products = await getProducts(
-                    controller.signal
-                );
-
-                const categories = await getCategories(
-                    controller.signal
-                );
-
-                setProducts(products);
-
-                setCategories([
-                    "Alle categorieën",
-                    ...categories,
-                ]);
-
-            } catch (error) {
-
-                if (
-                    error.name !== "CanceledError" &&
-                    error.code !== "ERR_CANCELED"
-                ) {
-                    console.error(error);
-
-                    setError(
-                        "Kon producten niet laden."
-                    );
-                }
-
-            } finally {
-
-                setLoading(false);
-
-            }
+          setError("Kon producten niet laden.");
         }
+      } finally {
+        setLoading(false);
+      }
+    }
 
-        fetchData();
+    fetchData();
 
-        return () => controller.abort();
+    return () => controller.abort();
+  }, []);
 
-    }, []);
+  return {
+    products,
 
-    return {
+    categories,
 
-        products,
+    loading,
 
-        categories,
-
-        loading,
-
-        error,
-
-    };
+    error,
+  };
 }

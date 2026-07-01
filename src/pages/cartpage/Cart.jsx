@@ -7,10 +7,10 @@ import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faHeart,
-    faShoppingCart,
-    faSignOutAlt,
-    faUser,
+  faHeart,
+  faShoppingCart,
+  faSignOutAlt,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
 import filterProducts from "../../helpers/filteredProducts.jsx";
@@ -21,102 +21,79 @@ import FooterLayout from "../../components/Footer/FooterLayout.jsx";
 import "./Cart.css";
 
 function Cart() {
-    const { items = [], price, reSet } = useContext(ShoppingCartContext);
-    const { isAuth, user } = useContext(AuthContext);
-    const { items: favoriteItems } = useContext(FavoriteContext);
+  const { items = [], price, reSet } = useContext(ShoppingCartContext);
+  const { isAuth, user } = useContext(AuthContext);
+  const { items: favoriteItems } = useContext(FavoriteContext);
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    const params = new URLSearchParams(location.search);
-    const zoekQuery = params.get("query")?.toLowerCase() || "";
+  const params = new URLSearchParams(location.search);
+  const zoekQuery = params.get("query")?.toLowerCase() || "";
 
-    const [query, setQuery] = useState(zoekQuery);
-    const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
-    const [showModal, setShowModal] = useState(zoekQuery.length > 0);
+  const [query, setQuery] = useState(zoekQuery);
+  const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
+  const [showModal, setShowModal] = useState(zoekQuery.length > 0);
 
-    const {
-        products,
-        categories,
-        loading,
-        error,
-    } = useProducts();
+  const { products, categories, loading, error } = useProducts();
 
-    const filteredProducts = filterProducts(
-        products,
-        query,
-        selectedCategory
-    );
+  const filteredProducts = filterProducts(products, query, selectedCategory);
 
-    const handleLogout = useHandleLogout();
+  const handleLogout = useHandleLogout();
 
-   return (
+  return (
     <>
-        <main className="cart-layout">
-            <section className="inner-cart">
-                {loading ? (
-                    <p>Producten worden geladen...</p>
-                ) : error ? (
-                    <p>{error}</p>
-                ) : (
-                    <>
-                        <h2>
-                            Shopping Bag –{" "}
-                            {items.length > 0
-                                ? items.map((item) => item.title).join(", ")
-                                : "Leeg"}
-                        </h2>
+      <main className="cart-layout">
+        <section className="inner-cart">
+          {loading ? (
+            <p>Producten worden geladen...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            <>
+              <h2>
+                Shopping Bag –{" "}
+                {items.length > 0
+                  ? items.map((item) => item.title).join(", ")
+                  : "Leeg"}
+              </h2>
 
-                        {items.length === 0 ? (
-                            <p>Shopping Bag is empty.</p>
-                        ) : (
-                            <>
-                                {items.map((item) => (
-                                    <CartItem
-                                        key={item.id}
-                                        item={item}
-                                    />
-                                ))}
+              {items.length === 0 ? (
+                <p>Shopping Bag is empty.</p>
+              ) : (
+                <>
+                  {items.map((item) => (
+                    <CartItem key={item.id} item={item} />
+                  ))}
 
-                                <div className="reset-container">
-                                    <p>
-                                        <strong>Total products:</strong>{" "}
-                                        {items.reduce(
-                                            (sum, i) => sum + i.quantity,
-                                            0
-                                        )}
-                                    </p>
+                  <div className="reset-container">
+                    <p>
+                      <strong>Total products:</strong>{" "}
+                      {items.reduce((sum, i) => sum + i.quantity, 0)}
+                    </p>
 
-                                    <p>
-                                        <strong>Total price:</strong> €
-                                        {price().toFixed(2)}
-                                    </p>
+                    <p>
+                      <strong>Total price:</strong> €{price().toFixed(2)}
+                    </p>
 
-                                    <div className="reset-button">
-                                        <button onClick={reSet}>
-                                            Reset
-                                        </button>
+                    <div className="reset-button">
+                      <button onClick={reSet}>Reset</button>
 
-                                        <button type="button">
-                                            Check-Out
-                                        </button>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </>
-                )}
-            </section>
-        </main>
+                      <button type="button">Check-Out</button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </section>
+      </main>
 
-        <footer>
-            <FooterLayout />
-        </footer>
+      <footer>
+        <FooterLayout />
+      </footer>
     </>
-);
+  );
 }
 
 export default Cart;
-
-
-
