@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import useProducts from "../../hooks/useProducts";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";

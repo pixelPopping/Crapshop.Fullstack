@@ -14,7 +14,7 @@ import SignUpForm from "../../components/signUpForm/SignUpForm.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
 
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 

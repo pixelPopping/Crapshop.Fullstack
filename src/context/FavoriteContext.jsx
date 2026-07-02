@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { AuthContext } from "./AuthContext.jsx";
+import { AuthContext } from "./AuthContext/AuthContext";
 import axios from "axios";
 
 export const FavoriteContext = createContext({});

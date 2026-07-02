@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";

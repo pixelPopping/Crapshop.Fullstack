@@ -13,7 +13,7 @@ import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import Shopcard from "../../components/shopcard/Shopcard.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 

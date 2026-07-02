@@ -10,26 +10,28 @@ export default function useProduct(id) {
     const controller = new AbortController();
 
     async function fetchProduct() {
-      try {
-        setLoading(true);
+        try {
+            setLoading(true);
+            setError("");
 
-        const data = await getProduct(id, controller.signal);
+            const data = await getProduct(id, controller.signal);
 
-        setProduct(data);
-      } catch (err) {
-        if (err.name !== "CanceledError") {
-          setError("Product kon niet worden geladen.");
+            setProduct(data);
+        } catch (err) {
+            if (err.name !== "CanceledError") {
+                setProduct(null);
+                setError("Product kon niet worden geladen.");
+            }
+        } finally {
+            setLoading(false);
         }
-      } finally {
-        setLoading(false);
-      }
     }
 
     fetchProduct();
 
     return () => controller.abort();
-  }, [id]);
-
+}, [id]);
+ 
   return {
     product,
     loading,

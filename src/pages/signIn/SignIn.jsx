@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import LoginForm from "../../components/loginform/LoginForm.jsx";
 import "./SigIn.css";
 

@@ -14,7 +14,7 @@ import Profile from "./pages/profile/Profile.jsx";
 import SignUp from "./pages/signUP/SignUp.jsx";
 import SignIn from "./pages/signIn/SignIn.jsx";
 import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext.jsx";
+import { AuthContext } from "./context/AuthContext/AuthContext.jsx";
 import Recencies from "./pages/recencies/Recencies.jsx";
 import CategoryPage from "./pages/categoryPage/CategoryPage.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";

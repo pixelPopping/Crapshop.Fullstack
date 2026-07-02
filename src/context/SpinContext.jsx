@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import getItems from "../helpers/getItems.jsx";
 import getAnglePerItem from "../helpers/getAnglePerItem";
 import getRandomIndex from "../helpers/getRandomIndex";
-import { AuthContext } from "./AuthContext.jsx";
+import { AuthContext } from "../context/AuthContext/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 
 export const SpinContext = createContext({});

@@ -15,7 +15,7 @@ import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
 
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 

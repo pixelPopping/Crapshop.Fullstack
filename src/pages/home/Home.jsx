@@ -15,12 +15,14 @@ import WheelOfFortune from "../../components/wheelOfFortune/WheelOfFortune.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { SpinContext } from "../../context/SpinContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";
 import getItems from "../../helpers/getItems";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
+import Loading from "../../components/loading/Loading.jsx";
+import ErrorMessage from "../../components/error/ErrorMessage.jsx";
 
 function Home() {
   const navigate = useNavigate();

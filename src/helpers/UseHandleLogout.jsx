@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FavoriteContext } from "../context/FavoriteContext.jsx";
-import { AuthContext } from "../context/AuthContext.jsx";
+import { AuthContext } from "../context/AuthContext/AuthContext.jsx";
 
 function UseHandleLogout() {
   const { resetFavorites } = useContext(FavoriteContext);
