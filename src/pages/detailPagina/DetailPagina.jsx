@@ -43,6 +43,7 @@ function DetailPagina() {
   const { products, categories } = useProducts();
 
   const { product, loading, error } = useProduct(id);
+  console.log({ product, loading, error });
 
   const filteredProducts = filterProducts(products, query, selectedCategory);
 
@@ -182,6 +183,8 @@ function DetailPagina() {
             <p>{error}</p>
           ) : (
             <>
+
+            <pre>{JSON.stringify(product, null, 2)}</pre>
               <DetailCard
                 key={product.id}
                 id={product.id}
