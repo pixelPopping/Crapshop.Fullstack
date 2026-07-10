@@ -1,9 +1,4 @@
-"""
-DATA
 
-Doel:
-Bevat alle producten van de webshop.
-"""
 
 products = [
     {
@@ -35,7 +30,7 @@ products = [
         "title": "T-Shirt",
         "description": "100% cotton T-shirt.",
         "price": 19.99,
-        "category": "men's clothing",
+        "category": "Men",
         "image": "https://via.placeholder.com/300",
         "rating": {
             "rate": 4.2,

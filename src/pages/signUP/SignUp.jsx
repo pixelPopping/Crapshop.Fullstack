@@ -13,7 +13,7 @@ import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import SignUpForm from "../../components/signUpForm/SignUpForm.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
-
+import { registerUser } from "../../api/authApi";
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
@@ -65,16 +65,8 @@ function SignUp() {
 
     const body = {
       username: data.username,
-      lastname: data.lastname,
-      gender: data.gender,
       email: data.email,
       password: data.password,
-      postalcode: data.postalcode,
-      unit: data.unit,
-      homeadress: data.homeadress,
-      city: data.city,
-      phonenumber: data.phonenumber,
-      dateOfBirth: data.date,
       roles: ["user"],
       cart: [],
     };
@@ -101,9 +93,7 @@ function SignUp() {
     console.log(JSON.stringify(body, null, 2));
 
     try {
-      const response = await axios.post("/api/users", body, {
-        headers,
-      });
+      const response = await registerUser(body);
 
       console.log("==================================");
       console.log("SUCCESS");

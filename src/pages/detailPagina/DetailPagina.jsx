@@ -125,10 +125,10 @@ function DetailPagina() {
           <nav className="navbar-four-detail">
             <ul className={`nav-links4 ${menuOpen ? "active" : ""}`}>
               <li>
-                <NavLink to="/products/men's clothing">Men</NavLink>
+                <NavLink to="/products/Men">Men</NavLink>
               </li>
               <li>
-                <NavLink to="/products/women's clothing">Women</NavLink>
+                <NavLink to="/products/electronic,s">Electronic,s</NavLink>
               </li>
               <li>
                 <NavLink to="/Shop">Shop</NavLink>
@@ -183,8 +183,7 @@ function DetailPagina() {
             <p>{error}</p>
           ) : (
             <>
-
-            <pre>{JSON.stringify(product, null, 2)}</pre>
+              <pre>{JSON.stringify(product, null, 2)}</pre>
               <DetailCard
                 key={product.id}
                 id={product.id}

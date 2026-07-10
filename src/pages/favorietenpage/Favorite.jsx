@@ -36,6 +36,7 @@ const FavorietenPage = () => {
   const [query, setQuery] = useState(zoekQuery);
   const [selectedCategory, setSelectedCategory] = useState(zoekCategory);
   const [showModal, setShowModal] = useState(zoekQuery.length > 0);
+  const { products, categories, loading, error } = useProducts();
 
   const filteredProducts = useMemo(
     () => filterProducts(products, query, selectedCategory),

@@ -46,12 +46,15 @@ function ProfilePagina() {
     async function fetchProductsAndCategories() {
       try {
         setLoading(true);
-        const [allRes, catRes] = await Promise.all([
-          axios.get("https://fakestoreapi.com/products"),
-          axios.get("https://fakestoreapi.com/products/categories"),
+        const [productsRes, categoriesRes] = await Promise.all([
+          axios.get("http://localhost:5000/api/products"),
+          axios.get("https://localhost:5000/products/categories"),
         ]);
-        setAllProducts(allRes.data);
-        setCategories(["Alle categorieën", ...catRes.data]);
+        setAllProducts(productsRes.data);
+        setCategories([
+          "Alle categorieën",
+          ...categoriesRes.data.map((category) => category.name),
+        ]);
       } catch {
         setError(true);
       } finally {

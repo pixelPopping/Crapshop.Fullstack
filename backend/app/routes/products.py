@@ -7,42 +7,37 @@ Bevat alle API-routes voor producten.
 
 from flask import Blueprint, jsonify
 from app.data.products import products
+from app.data.categories import categories
 
 products_bp = Blueprint("products", __name__)
 
 
-"""
-ROUTE: GET /api/products
-
-Doel:
-Haalt alle producten op.
-"""
+# Alle producten
 @products_bp.route("/", methods=["GET"])
 def get_products():
     return jsonify(products)
 
 
-"""
-ROUTE: GET /api/products/categories
-
-Doel:
-Haalt alle unieke productcategorieën op.
-"""
+# Alle categorieën
 @products_bp.route("/categories", methods=["GET"])
 def get_categories():
-    categories = list(
-        set(product["category"] for product in products)
-    )
-
     return jsonify(categories)
 
 
-"""
-ROUTE: GET /api/products/<id>
+# Producten per categorie
+@products_bp.route("/category/<string:name>", methods=["GET"])
+def get_products_by_category(name):
 
-Doel:
-Haalt één product op aan de hand van het id.
-"""
+    filtered_products = [
+        product
+        for product in products
+        if product["category"].lower() == name.lower()
+    ]
+
+    return jsonify(filtered_products)
+
+
+# Eén product ophalen
 @products_bp.route("/<int:id>", methods=["GET"])
 def get_product(id):
 

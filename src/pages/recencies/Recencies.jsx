@@ -57,11 +57,13 @@ function Recencies() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await axios.get("https://fakestoreapi.com/products");
+        const res = await axios.get(
+          "http://localhost:5000/api/products/categories",
+        );
         setAllProducts(res.data);
 
         const cat = await axios.get(
-          "https://fakestoreapi.com/products/categories",
+          "https://localhost:5000/products/categories",
         );
         setCategories(["Alle categorieën", ...cat.data]);
       } catch (e) {
@@ -130,10 +132,10 @@ function Recencies() {
         <nav className="navbar-four">
           <ul className={`nav-links4 ${menuOpen ? "active" : ""}`}>
             <li>
-              <NavLink to="/products/men's clothing">Men</NavLink>
+              <NavLink to="/products/Men">Men</NavLink>
             </li>
             <li>
-              <NavLink to="/products/women's clothing">Women</NavLink>
+              <NavLink to="/products/electronics">Electronics</NavLink>
             </li>
             <li>
               <NavLink to="/Shop">Shop</NavLink>

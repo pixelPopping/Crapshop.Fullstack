@@ -1,79 +1,68 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { getUserFromToken } from "./authHelper";
 import initialState from "./initialState";
-import { getUserFromToken } from "../AuthContext/authHelper";
 
 export const AuthContext = createContext({});
 
 function AuthContextProvider({ children }) {
-  const navigate = useNavigate();
   const [authState, setAuthState] = useState(initialState);
 
- useEffect(() => {
+  useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-        setAuthState({
-            ...initialState,
-            status: "done",
-        });
-        return;
+      setAuthState({
+        ...initialState,
+        status: "done",
+      });
+
+      return;
     }
 
     try {
-        setAuthState({
-            isAuth: true,
-            user: getUserFromToken(token),
-            status: "done",
-        });
+      setAuthState({
+        isAuth: true,
+        user: getUserFromToken(token),
+        status: "done",
+      });
     } catch (error) {
-        console.error("Ongeldige token:", error);
+      console.error(error);
 
-        localStorage.removeItem("token");
+      localStorage.removeItem("token");
 
-        setAuthState({
-            ...initialState,
-            status: "done",
-        });
+      setAuthState({
+        ...initialState,
+        status: "done",
+      });
     }
-}, []);
+  }, []);
 
+  function logIn(token) {
+    localStorage.setItem("token", token);
 
-function logIn(token) {
-    try {
-        localStorage.setItem("token", token);
+    setAuthState({
+      isAuth: true,
+      user: getUserFromToken(token),
+      status: "done",
+    });
+  }
 
-        setAuthState({
-            isAuth: true,
-            user: getUserFromToken(token),
-            status: "done",
-        });
-
-        navigate("/profile");
-    } catch (error) {
-        console.error("Ongeldige token:", error);
-    }
-}
-
- function logOut() {
+  function logOut() {
     localStorage.removeItem("token");
 
     setAuthState({
-        ...initialState,
-        status: "done",
+      ...initialState,
+      status: "done",
     });
+  }
 
-    navigate("/");
-}
-
-const contextData = {
+  const contextData = {
     isAuth: authState.isAuth,
     user: authState.user,
     isLoggedOut: !authState.isAuth,
-    login: logIn,
-    logout: logOut,
-};
-
+    logIn,
+    logOut,
+  };
 
   return (
     <AuthContext.Provider value={contextData}>

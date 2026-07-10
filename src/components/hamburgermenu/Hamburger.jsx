@@ -18,17 +18,17 @@ export default function Hamburger({ menuOpen, setMenuOpen, categories }) {
 
       {menuOpen && (
         <div className="hamburger-menu">
-          {categories.map((cat, index) => (
+          {categories.map((cat) => (
             <button
-              key={index}
+              key={cat.id}
               className="hamburger-link"
               onClick={() => {
-                const encodedCategory = encodeURIComponent(cat.toLowerCase());
+                const encodedCategory = encodeURIComponent(cat.name);
                 navigate(`/products/${encodedCategory}`);
                 setMenuOpen(false);
               }}
             >
-              {cat}
+              {cat.name}
             </button>
           ))}
         </div>

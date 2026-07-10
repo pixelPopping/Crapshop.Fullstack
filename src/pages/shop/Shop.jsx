@@ -58,10 +58,10 @@ function ShopPagina() {
           <nav className="navbar-four-shop">
             <ul className="nav-links4">
               <li>
-                <NavLink to="/products/men's clothing">Men</NavLink>
+                <NavLink to="/products/Men">Men</NavLink>
               </li>
               <li>
-                <NavLink to="/products/women's clothing">Women</NavLink>
+                <NavLink to="/products/electronics">electronics</NavLink>
               </li>
               <li>
                 <NavLink to="/">Home</NavLink>
@@ -144,16 +144,10 @@ function ShopPagina() {
         <nav className="sidebar">
           <ul>
             <li>
-              <NavLink to="/products/jewelery">Jewellery</NavLink>
-            </li>
-            <li>
               <NavLink to="/products/electronics">Electronics</NavLink>
             </li>
             <li>
-              <NavLink to="/products/men's clothing">Men</NavLink>
-            </li>
-            <li>
-              <NavLink to="/products/women's clothing">Women</NavLink>
+              <NavLink to="/products/Men">Men</NavLink>
             </li>
           </ul>
         </nav>

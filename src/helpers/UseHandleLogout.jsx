@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext/AuthContext.jsx";
 
 function UseHandleLogout() {
   const { resetFavorites } = useContext(FavoriteContext);
-  const { logout, user } = useContext(AuthContext);
+  const { logOut, user } = useContext(AuthContext);
 
   const getStorageKey = (userId) => `Favorieten_${userId || "guest"}`;
 
@@ -12,7 +12,7 @@ function UseHandleLogout() {
     const key = getStorageKey(user?.id);
     localStorage.removeItem(key);
     resetFavorites();
-    logout();
+    logOut();
   };
 }
 

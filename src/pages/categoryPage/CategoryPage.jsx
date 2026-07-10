@@ -24,6 +24,7 @@ import "./CategoryPage.css";
 
 const CategoryPage = () => {
   const { category } = useParams();
+  console.log("Category:", category);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -63,14 +64,14 @@ const CategoryPage = () => {
   useEffect(() => {
     async function GetCategory() {
       try {
-        const res = await axios.get("https://fakestoreapi.com/products");
+        const res = await axios.get("http://localhost:5000/api/products");
         setAllProducts(res.data);
 
         const filtered = res.data.filter((item) => item.category === category);
         setProducts(filtered);
 
         const cat = await axios.get(
-          "https://fakestoreapi.com/products/categories",
+          "https://localhost:5000/api/products/categories",
         );
         setCategories(["All category", ...cat.data]);
       } catch (error) {
@@ -89,10 +90,10 @@ const CategoryPage = () => {
         <nav className="navbar-four-category">
           <ul className="nav-links4">
             <li>
-              <NavLink to="/products/men's clothing">Men</NavLink>
+              <NavLink to="/products/Men">Men</NavLink>
             </li>
             <li>
-              <NavLink to="/products/women's clothing">Women</NavLink>
+              <NavLink to="/products/electronic,s">Electronic,s</NavLink>
             </li>
             <li>
               <NavLink to="/Shop">Shop</NavLink>

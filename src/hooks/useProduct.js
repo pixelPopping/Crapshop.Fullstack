@@ -12,34 +12,34 @@ export default function useProduct(id) {
     const controller = new AbortController();
 
     async function fetchProduct() {
-        try {
-            setLoading(true);
-            setError("");
+      try {
+        setLoading(true);
+        setError("");
 
-            const data = await getProduct(id, controller.signal);
-            console.log("Product uit API:", data);
+        const data = await getProduct(id, controller.signal);
+        console.log("Product uit API:", data);
 
-console.log("Na getProduct");
-console.log(data);
-            setProduct(data);
-       } catch (err) {
-    console.log("CATCH:", err);
-    console.log("Naam:", err.name);
-    console.log("Bericht:", err.message);
-    console.log("Response:", err.response);
+        console.log("Na getProduct");
+        console.log(data);
+        setProduct(data);
+      } catch (err) {
+        console.log("CATCH:", err);
+        console.log("Naam:", err.name);
+        console.log("Bericht:", err.message);
+        console.log("Response:", err.response);
 
-    setProduct(null);
-    setError("Product kon niet worden geladen.");
-        } finally {
-            setLoading(false);
-        }
+        setProduct(null);
+        setError("Product kon niet worden geladen.");
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchProduct();
 
     return () => controller.abort();
-}, [id]);
- 
+  }, [id]);
+
   return {
     product,
     loading,

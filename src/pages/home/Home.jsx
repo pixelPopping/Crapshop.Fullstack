@@ -50,10 +50,10 @@ function Home() {
       <nav className="navbar-four-header">
         <ul className="nav-links4">
           <li>
-            <NavLink to="/products/men's clothing">Men</NavLink>
+            <NavLink to="/products/Men">Men</NavLink>
           </li>
           <li>
-            <NavLink to="/products/women's clothing">Women</NavLink>
+            <NavLink to="/products/electronics">Electronics</NavLink>
           </li>
           <li>
             <NavLink to="/Shop">Shop</NavLink>
