@@ -41,7 +41,7 @@ Logt een gebruiker in.
 def login():
 
     data = request.get_json()
-
+##inhoud jwt token deze gegevens sla je op na succesvole login
     payload = {
         "id": 1,
         "username": data["email"].split("@")[0],
@@ -49,13 +49,13 @@ def login():
         "roles": ["USER"],
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     }
-
+##hier word de beveiliging gedaan of de handtekening wel klopt
     token = jwt.encode(
         payload,
         Config.SECRET_KEY,
         algorithm="HS256"
     )
-
+##python-dictonary word omgezet naar json
     return jsonify({
         "message": "Login gelukt.",
         "token": token
