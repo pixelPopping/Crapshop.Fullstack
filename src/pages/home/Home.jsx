@@ -175,7 +175,7 @@ function Home() {
             <div className="header-container">
               <div className="header">
                 <header>
-                  <h1>CrapShop.</h1>
+                  <h1>Crap.Shop</h1>
                 </header>
               </div>
               <section className="clock">

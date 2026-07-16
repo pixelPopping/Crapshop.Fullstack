@@ -63,7 +63,7 @@ function Recencies() {
         setAllProducts(res.data);
 
         const cat = await axios.get(
-          "https://localhost:5000/products/categories",
+          "https://localhost:5000/api/products/categories",
         );
         setCategories(["Alle categorieën", ...cat.data]);
       } catch (e) {

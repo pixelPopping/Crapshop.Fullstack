@@ -1,6 +1,6 @@
+import axiosClient from "../../api/axiosClient";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
@@ -42,46 +42,62 @@ function ProfilePagina() {
 
   const filteredProducts = filterProducts(allProducts, query, selectedCategory);
 
-  useEffect(() => {
-    async function fetchProductsAndCategories() {
-      try {
-        setLoading(true);
-        const [productsRes, categoriesRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/products"),
-          axios.get("https://localhost:5000/products/categories"),
-        ]);
-        setAllProducts(productsRes.data);
-        setCategories([
-          "Alle categorieën",
-          ...categoriesRes.data.map((category) => category.name),
-        ]);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
+ useEffect(() => {
+  async function fetchProfileData() {
+    try {
+      if (!user?.id) {
+        throw new Error("Geen gebruikers-ID beschikbaar");
       }
-    }
-    fetchProductsAndCategories();
-  }, []);
 
+      setLoading(true);
+      setError(false);
+
+      console.log("========== PROFILE DEBUG ==========");
+      console.log("isAuth:", isAuth);
+      console.log("user:", user);
+      console.log("token:", token);
+      console.log("===================================");
+
+      const response = await axiosClient.get("/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("Profile API Response:", response.data);
+
+      setApiData(response.data);
+    } catch (err) {
+      console.error("PROFILE ERROR:", err);
+
+      if (err.response) {
+        console.log("Status:", err.response.status);
+        console.log("Data:", err.response.data);
+      }
+
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (isAuth && token) {
+    fetchProfileData();
+  } else {
+    setLoading(false);
+  }
+}, [isAuth, token, user?.id]);
   useEffect(() => {
     async function fetchProfileData() {
       try {
         if (!user?.id) throw new Error("Geen gebruikers-ID beschikbaar");
         setLoading(true);
         setError(false);
-
-        const response = await axios.get(
-          `https://novi-backend-api-wgsgz.ondigitalocean.app/api/users/${user.id}`,
-          {
-            headers: {
-              accept: "application/json",
-              "novi-education-project-id":
-                "b72992a3-9bd0-4e8c-84d5-0e24aff4e81b",
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
+const response = await axiosClient.get("/profile", {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
         setApiData(response.data);
       } catch {
         setError(true);

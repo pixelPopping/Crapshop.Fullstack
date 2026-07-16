@@ -13,7 +13,7 @@ products_bp = Blueprint("products", __name__)
 
 
 # Alle producten
-@products_bp.route("/", methods=["GET"])
+@products_bp.route("", methods=["GET"])
 def get_products():
     return jsonify(products)
 

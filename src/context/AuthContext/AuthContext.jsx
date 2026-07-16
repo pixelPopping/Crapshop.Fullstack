@@ -5,12 +5,26 @@ import initialState from "./initialState";
 export const AuthContext = createContext({});
 
 function AuthContextProvider({ children }) {
-  const [authState, setAuthState] = useState(initialState);
+  const [authState, setAuthState] = useState({
+    isAuth: false,
+    user: null,
+    token: null,
+    status: "pending",
+  });
+
+  console.log("========== AUTH STATE ==========");
+  console.log(authState);
 
   useEffect(() => {
+    console.log("AuthContext useEffect gestart");
+
     const token = localStorage.getItem("token");
 
+    console.log("Token uit localStorage:", token);
+
     if (!token) {
+      console.log("Geen token gevonden.");
+
       setAuthState({
         ...initialState,
         status: "done",
@@ -20,13 +34,20 @@ function AuthContextProvider({ children }) {
     }
 
     try {
+      const user = getUserFromToken(token);
+
+      console.log("Gebruiker uit token:", user);
+
       setAuthState({
         isAuth: true,
-        user: getUserFromToken(token),
+        user,
+        token,
         status: "done",
       });
+
+      console.log("Authenticatie succesvol.");
     } catch (error) {
-      console.error(error);
+      console.error("Fout bij uitlezen token:", error);
 
       localStorage.removeItem("token");
 
@@ -38,16 +59,26 @@ function AuthContextProvider({ children }) {
   }, []);
 
   function logIn(token) {
+    console.log("====== LOGIN ======");
+    console.log("Ontvangen token:", token);
+
     localStorage.setItem("token", token);
+
+    const user = getUserFromToken(token);
+
+    console.log("User uit JWT:", user);
 
     setAuthState({
       isAuth: true,
-      user: getUserFromToken(token),
+      user,
+      token,
       status: "done",
     });
   }
 
   function logOut() {
+    console.log("====== LOGOUT ======");
+
     localStorage.removeItem("token");
 
     setAuthState({
@@ -59,14 +90,22 @@ function AuthContextProvider({ children }) {
   const contextData = {
     isAuth: authState.isAuth,
     user: authState.user,
+    token: authState.token,
     isLoggedOut: !authState.isAuth,
     logIn,
     logOut,
   };
 
+  console.log("========== CONTEXT DATA ==========");
+  console.log(contextData);
+
   return (
     <AuthContext.Provider value={contextData}>
-      {authState.status === "pending" ? <p>Loading...</p> : children}
+      {authState.status === "pending" ? (
+        <p>Loading...</p>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 }
