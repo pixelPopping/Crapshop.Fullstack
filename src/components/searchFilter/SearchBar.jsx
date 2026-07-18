@@ -8,42 +8,38 @@ import React from "react";
 import "./SearchBar.css";
 
 const SearchBar = ({
-                      inputValue,
-                      inputCallback,
-                      selectedCategory,
-                      onCategoryChange,
-                      categories,
-                      showCategories
-                  }) => {
-    return (
-        <div className="searchBarContainer">
-            <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => inputCallback(e.target.value)}
-                placeholder="Search on product..."
-                className="searchInput"
-            />
+  inputValue,
+  inputCallback,
+  selectedCategory,
+  onCategoryChange,
+  categories,
+  showCategories,
+}) => {
+  return (
+    <div className="searchBarContainer">
+      <input
+        type="text"
+        value={inputValue}
+        onChange={(e) => inputCallback(e.target.value)}
+        placeholder="Search on product..."
+        className="searchInput"
+      />
 
-            {showCategories && (
-                <select
-                    value={selectedCategory}
-                    onChange={(e) => onCategoryChange(e.target.value)}
-                    className="categorySelect"
-                >
-                    {categories.map((cat) => (
-                        <option key={cat} value={cat}>
-                            {cat}
-                        </option>
-                    ))}
-                </select>
-            )}
-        </div>
-    );
+      {showCategories && (
+        <select
+          value={selectedCategory}
+          onChange={(e) => onCategoryChange(e.target.value)}
+          className="categorySelect"
+        >
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
+  );
 };
 
 export default SearchBar;
-
-
-
-

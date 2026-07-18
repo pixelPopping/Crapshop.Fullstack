@@ -1,65 +1,67 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { AuthContext } from "../../context/AuthContext.jsx";
+
+import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
+import { loginUser } from "../../api/authApi";
+
 import LoginForm from "../../components/loginform/LoginForm.jsx";
-import './SigIn.css';
+
+import "./SigIn.css";
 
 function SignIn() {
-    const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const { login } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
 
-    const handleFormSubmit = async (data) => {
-        setLoading(true);
-        setErrorMessage("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-        try {
-            const response = await axios.post(
-                `/api/login`,
-                {
-                    email: data.email,
-                    password: data.password,
-                },
-                {
-                    headers: {
-                        accept: "application/json",
-                        "content-type": "application/json",
-                        "novi-education-project-id": "b72992a3-9bd0-4e8c-84d5-0e24aff4e81b",
-                    },
-                }
-            );
+  async function handleFormSubmit(data) {
+    setLoading(true);
+    setErrorMessage("");
 
-            const token = response.data.token;
-            localStorage.setItem("token", token);
-            login(token);
-            navigate("/");
-        } catch (error) {
-            setErrorMessage("Login Error try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      /*
+      LOGIN REQUEST
 
-    return (
-        <main className="signin-page">
-            <header>
-                <h1 className="crapshop"> CrapShop</h1>
-                <h2 className="crapshop">Login</h2>
-            </header>
-            {loading && <p>One moment, you proceed to be logged in...</p>}
-            <LoginForm onSubmit={handleFormSubmit} loading={loading} errorMessage={errorMessage} />
-        </main>
-    );
+      Stuurt de gegevens naar Flask.
+      */
+
+      const response = await loginUser({
+        email: data.email,
+        password: data.password,
+      });
+
+      /*
+      TOKEN OPSLAAN
+      */
+
+      logIn(response.token);
+
+      navigate("/");
+    } catch (error) {
+      setErrorMessage("Login mislukt.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <main className="signin-page">
+      <header>
+        <h1 className="crapshop">CrapShop</h1>
+        <h2 className="crapshop">Login</h2>
+      </header>
+
+      {loading && <p>Even geduld, je wordt ingelogd...</p>}
+
+      <LoginForm
+        onSubmit={handleFormSubmit}
+        loading={loading}
+        errorMessage={errorMessage}
+      />
+    </main>
+  );
 }
 
 export default SignIn;
-
-
-
-
-
-
-

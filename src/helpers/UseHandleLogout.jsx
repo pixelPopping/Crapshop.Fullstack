@@ -1,20 +1,21 @@
-import {useContext} from "react";
-import {FavoriteContext} from "../context/FavoriteContext.jsx";
-import {AuthContext} from "../context/AuthContext.jsx";
+import { useCallback, useContext } from "react";
+import { FavoriteContext } from "../context/FavoriteContext.jsx";
+import { AuthContext } from "../context/AuthContext/AuthContext.jsx";
 
-function UseHandleLogout() {
-    const {resetFavorites} = useContext(FavoriteContext);
-    const {logout, user} = useContext(AuthContext);
+function useHandleLogout() {
+  const { resetFavorites } = useContext(FavoriteContext);
+  const { logOut, user } = useContext(AuthContext);
 
-    const getStorageKey = (userId) => `Favorieten_${userId || "guest"}`;
+  const handleLogout = useCallback(() => {
+    const storageKey = `Favorieten_${user?.id ?? "guest"}`;
 
-    return () => {
-        const key = getStorageKey(user?.id);
-        localStorage.removeItem(key);
-        resetFavorites();
-        logout();
-    };
+    localStorage.removeItem(storageKey);
+
+    resetFavorites();
+    logOut();
+  }, [user, resetFavorites, logOut]);
+
+  return handleLogout;
 }
 
-
-export default UseHandleLogout;
+export default useHandleLogout;

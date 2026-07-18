@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import  formatTime  from "../../utils/formatTime.jsx";
+import formatTime from "../../../backend/app/utils/formatTime.jsx";
 
 const DigitalClock = () => {
-    const [clockTime, setClockTime] = useState(formatTime());
+  const [clockTime, setClockTime] = useState(formatTime());
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setClockTime(formatTime());
-        }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setClockTime(formatTime());
+    }, 1000);
 
-        return () => clearInterval(interval);
-    }, []);
+    return () => clearInterval(interval);
+  }, []);
 
-    return <div>{clockTime}</div>;
+  return <div>{clockTime}</div>;
 };
 
 export default DigitalClock;
