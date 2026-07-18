@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +12,10 @@ import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import SignUpForm from "../../components/signUpForm/SignUpForm.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
+
+import axiosClient from "../../api/axiosClient.js";
 import { registerUser } from "../../api/authApi";
+
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
@@ -25,6 +27,7 @@ import "./SignUp.css";
 
 function SignUp() {
   const navigate = useNavigate();
+
   const { isAuth, user } = useContext(AuthContext);
   const { items: cartItems } = useContext(ShoppingCartContext);
   const { items: favoriteItems } = useContext(FavoriteContext);
@@ -35,121 +38,65 @@ function SignUp() {
   const [query, setQuery] = useState(zoekQuery);
   const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
   const [showModal, setShowModal] = useState(zoekQuery.length > 0);
+
   const [allProducts, setAllProducts] = useState([]);
   const [categories, setCategories] = useState(["Alle categorieën"]);
+
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogout = useHandleLogout();
-  const filteredProducts = filterProducts(allProducts, query, selectedCategory);
+
+  const filteredProducts = filterProducts(
+    allProducts,
+    query,
+    selectedCategory
+  );
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await axios.get("https://fakestoreapi.com/products");
-        setAllProducts(res.data);
-        const cat = await axios.get(
-          "https://fakestoreapi.com/products/categories",
-        );
-        setCategories(["Alle categorieën", ...cat.data]);
-      } catch (e) {
-        console.error(e);
+        const productResponse = await axiosClient.get("/products");
+        setAllProducts(productResponse.data);
+
+        const categoryResponse = await axiosClient.get("/products/categories");
+        setCategories([
+          "Alle categorieën",
+          ...categoryResponse.data,
+        ]);
+      } catch (error) {
+        console.error(error);
       }
     }
+
     fetchProducts();
   }, []);
 
-  const handleFormSubmit = async (data) => {
+  async function handleFormSubmit(data) {
     setLoading(true);
     setErrorMessage("");
 
-    const body = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      roles: ["user"],
-      cart: [],
-    };
-
-    const headers = {
-      accept: "application/json",
-      "content-type": "application/json",
-      "novi-education-project-id": "b72992a3-9bd0-4e8c-84d5-0e24aff4e81b",
-    };
-
-    console.log("==================================");
-    console.log("DEBUG START");
-    console.log("==================================");
-
-    console.log("API URL:", "/api/users");
-
-    console.log("HEADERS:");
-    console.table(headers);
-
-    console.log("BODY:");
-    console.table(body);
-
-    console.log("RAW BODY:");
-    console.log(JSON.stringify(body, null, 2));
-
     try {
+      const body = {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        roles: ["user"],
+        cart: [],
+      };
+
       const response = await registerUser(body);
 
-      console.log("==================================");
-      console.log("SUCCESS");
-      console.log("==================================");
-
-      console.log("Status:", response.status);
-      console.log("Status Text:", response.statusText);
-      console.log("Response:");
-      console.log(response.data);
+      console.log(response);
 
       navigate("/signin");
     } catch (error) {
-      console.log("==================================");
-      console.log("ERROR");
-      console.log("==================================");
-
-      console.log("Message:");
-      console.log(error.message);
-
-      console.log("Status:");
-      console.log(error.response?.status);
-
-      console.log("Status Text:");
-      console.log(error.response?.statusText);
-
-      console.log("Response Data:");
-      console.log(error.response?.data);
-
-      console.log("Response Headers:");
-      console.log(error.response?.headers);
-
-      console.log("Request Config:");
-      console.log(error.config);
-
-      console.log("Complete Error:");
-      console.dir(error);
-
-      if (error.response) {
-        console.log("Axios Response");
-        console.dir(error.response);
-      }
-
-      if (error.request) {
-        console.log("Axios Request");
-        console.dir(error.request);
-      }
-
-      setErrorMessage("Registratie mislukt. Zie console voor details.");
+      console.error(error);
+      setErrorMessage("Registreren is mislukt.");
     } finally {
       setLoading(false);
-
-      console.log("==================================");
-      console.log("DEBUG EINDE");
-      console.log("==================================");
     }
-  };
+  }
 
   return (
     <div className="layout-signup">
@@ -181,21 +128,29 @@ function SignUp() {
           onCategoryChange={(value) => {
             setSelectedCategory(value);
             setShowModal(true);
+
             if (value !== "Alle categorieën") {
               navigate(
-                `?query=${encodeURIComponent(query)}&category=${encodeURIComponent(value)}`,
+                `?query=${encodeURIComponent(
+                  query
+                )}&category=${encodeURIComponent(value)}`
               );
             }
           }}
-          categories={["Alle categorieën", ...categories]}
+          categories={categories}
         />
 
         <div className="button-container-signup">
           {isAuth ? (
             <>
-              <div className="icon-item" onClick={handleLogout} title="Log uit">
+              <div
+                className="icon-item"
+                onClick={handleLogout}
+                title="Log uit"
+              >
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </div>
+
               <div
                 className="icon-item"
                 title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
@@ -212,6 +167,7 @@ function SignUp() {
               >
                 <FontAwesomeIcon icon={faUser} />
               </div>
+
               <div
                 className="icon-item"
                 onClick={() => navigate("/signin")}

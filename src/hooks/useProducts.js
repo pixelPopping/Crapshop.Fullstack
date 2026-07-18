@@ -26,8 +26,6 @@ export default function useProducts() {
         setCategories(["Alle categorieën", ...categories]);
       } catch (error) {
         if (error.name !== "CanceledError" && error.code !== "ERR_CANCELED") {
-          console.error(error);
-
           setError("Kon producten niet laden.");
         }
       } finally {

@@ -10,13 +10,7 @@ function DetailCard({ id, label, text, image, price }) {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   const isFavoriet = favorieten.some((item) => item.id === id);
-  console.log("DetailCard:", {
-    id,
-    label,
-    text,
-    image,
-    price,
-  });
+ 
   return (
     <div className="outer-container-detail">
       <section>

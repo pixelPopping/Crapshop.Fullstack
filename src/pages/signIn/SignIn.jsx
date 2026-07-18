@@ -40,8 +40,6 @@ function SignIn() {
 
       navigate("/");
     } catch (error) {
-      console.error(error);
-
       setErrorMessage("Login mislukt.");
     } finally {
       setLoading(false);

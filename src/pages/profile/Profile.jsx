@@ -52,29 +52,16 @@ function ProfilePagina() {
       setLoading(true);
       setError(false);
 
-      console.log("========== PROFILE DEBUG ==========");
-      console.log("isAuth:", isAuth);
-      console.log("user:", user);
-      console.log("token:", token);
-      console.log("===================================");
-
       const response = await axiosClient.get("/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log("Profile API Response:", response.data);
-
       setApiData(response.data);
     } catch (err) {
-      console.error("PROFILE ERROR:", err);
-
       if (err.response) {
-        console.log("Status:", err.response.status);
-        console.log("Data:", err.response.data);
       }
-
       setError(true);
     } finally {
       setLoading(false);

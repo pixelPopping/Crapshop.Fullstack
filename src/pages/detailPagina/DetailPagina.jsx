@@ -39,12 +39,9 @@ function DetailPagina() {
   const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
   const [showModal, setShowModal] = useState(zoekQuery.length > 0);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  
   const { products, categories } = useProducts();
-
   const { product, loading, error } = useProduct(id);
-  console.log({ product, loading, error });
-
   const filteredProducts = filterProducts(products, query, selectedCategory);
 
   useEffect(() => {

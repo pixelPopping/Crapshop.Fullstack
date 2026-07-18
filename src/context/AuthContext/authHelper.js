@@ -2,9 +2,7 @@ import { jwtDecode } from "jwt-decode";
 
 export function getUserFromToken(token) {
   const decoded = jwtDecode(token);
-
-  console.log("JWT DECODED:", decoded);
-
+  
   return {
     id: decoded.id,
     username: decoded.username,

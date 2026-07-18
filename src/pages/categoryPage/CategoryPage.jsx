@@ -19,12 +19,10 @@ import CategoryCard from "../../components/categoryCard/CategoryCard.jsx";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
-
 import "./CategoryPage.css";
 
 const CategoryPage = () => {
   const { category } = useParams();
-  console.log("Category:", category);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,7 +73,6 @@ const CategoryPage = () => {
         );
         setCategories(["All category", ...cat.data]);
       } catch (error) {
-        console.error(error);
       } finally {
         setLoading(false);
       }
