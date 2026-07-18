@@ -13,10 +13,8 @@ function AuthContextProvider({ children }) {
   });
 
   useEffect(() => {
-   
     const token = localStorage.getItem("token");
 
-   
     if (!token) {
       setAuthState({
         ...initialState,
@@ -46,7 +44,6 @@ function AuthContextProvider({ children }) {
   }, []);
 
   function logIn(token) {
-   
     localStorage.setItem("token", token);
 
     const user = getUserFromToken(token);
@@ -60,7 +57,6 @@ function AuthContextProvider({ children }) {
   }
 
   function logOut() {
-    
     localStorage.removeItem("token");
 
     setAuthState({
@@ -79,11 +75,7 @@ function AuthContextProvider({ children }) {
   };
   return (
     <AuthContext.Provider value={contextData}>
-      {authState.status === "pending" ? (
-        <p>Loading...</p>
-      ) : (
-        children
-      )}
+      {authState.status === "pending" ? <p>Loading...</p> : children}
     </AuthContext.Provider>
   );
 }

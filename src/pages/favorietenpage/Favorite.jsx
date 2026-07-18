@@ -56,8 +56,7 @@ const FavorietenPage = () => {
     if (stored) {
       try {
         setItems(JSON.parse(stored));
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   }, [user?.id, setItems]);
 

@@ -47,11 +47,7 @@ function SignUp() {
 
   const handleLogout = useHandleLogout();
 
-  const filteredProducts = filterProducts(
-    allProducts,
-    query,
-    selectedCategory
-  );
+  const filteredProducts = filterProducts(allProducts, query, selectedCategory);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -60,10 +56,7 @@ function SignUp() {
         setAllProducts(productResponse.data);
 
         const categoryResponse = await axiosClient.get("/products/categories");
-        setCategories([
-          "Alle categorieën",
-          ...categoryResponse.data,
-        ]);
+        setCategories(["Alle categorieën", ...categoryResponse.data]);
       } catch (error) {
         console.error(error);
       }
@@ -132,8 +125,8 @@ function SignUp() {
             if (value !== "Alle categorieën") {
               navigate(
                 `?query=${encodeURIComponent(
-                  query
-                )}&category=${encodeURIComponent(value)}`
+                  query,
+                )}&category=${encodeURIComponent(value)}`,
               );
             }
           }}
@@ -143,11 +136,7 @@ function SignUp() {
         <div className="button-container-signup">
           {isAuth ? (
             <>
-              <div
-                className="icon-item"
-                onClick={handleLogout}
-                title="Log uit"
-              >
+              <div className="icon-item" onClick={handleLogout} title="Log uit">
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </div>
 

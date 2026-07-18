@@ -57,17 +57,12 @@ function Recencies() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products",
-        );
+        const res = await axios.get("http://localhost:5000/api/products");
         setAllProducts(res.data);
 
-        const cat = await axios.get(
-          "https://localhost:5000/api/categories",
-        );
+        const cat = await axios.get("https://localhost:5000/api/categories");
         setCategories(["Alle categorieën", ...cat.data]);
-      } catch (e) {
-      }
+      } catch (e) {}
     }
     fetchProducts();
   }, []);

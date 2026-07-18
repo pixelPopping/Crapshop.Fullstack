@@ -17,7 +17,6 @@ export async function getCategories(signal) {
 }
 
 export async function getProduct(id, signal) {
-  
   const response = await axiosClient.get(`/products/${id}`, {
     signal,
   });

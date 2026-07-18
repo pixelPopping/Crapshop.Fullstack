@@ -42,49 +42,49 @@ function ProfilePagina() {
 
   const filteredProducts = filterProducts(allProducts, query, selectedCategory);
 
- useEffect(() => {
-  async function fetchProfileData() {
-    try {
-      if (!user?.id) {
-        throw new Error("Geen gebruikers-ID beschikbaar");
+  useEffect(() => {
+    async function fetchProfileData() {
+      try {
+        if (!user?.id) {
+          throw new Error("Geen gebruikers-ID beschikbaar");
+        }
+
+        setLoading(true);
+        setError(false);
+
+        const response = await axiosClient.get("/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setApiData(response.data);
+      } catch (err) {
+        if (err.response) {
+        }
+        setError(true);
+      } finally {
+        setLoading(false);
       }
+    }
 
-      setLoading(true);
-      setError(false);
-
-      const response = await axiosClient.get("/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setApiData(response.data);
-    } catch (err) {
-      if (err.response) {
-      }
-      setError(true);
-    } finally {
+    if (isAuth && token) {
+      fetchProfileData();
+    } else {
       setLoading(false);
     }
-  }
-
-  if (isAuth && token) {
-    fetchProfileData();
-  } else {
-    setLoading(false);
-  }
-}, [isAuth, token, user?.id]);
+  }, [isAuth, token, user?.id]);
   useEffect(() => {
     async function fetchProfileData() {
       try {
         if (!user?.id) throw new Error("Geen gebruikers-ID beschikbaar");
         setLoading(true);
         setError(false);
-const response = await axiosClient.get("/profile", {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-});
+        const response = await axiosClient.get("/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setApiData(response.data);
       } catch {
         setError(true);

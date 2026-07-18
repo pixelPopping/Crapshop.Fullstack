@@ -39,7 +39,7 @@ function DetailPagina() {
   const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
   const [showModal, setShowModal] = useState(zoekQuery.length > 0);
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   const { products, categories } = useProducts();
   const { product, loading, error } = useProduct(id);
   const filteredProducts = filterProducts(products, query, selectedCategory);
@@ -172,50 +172,50 @@ function DetailPagina() {
             setShowModal={setShowModal}
           />
         )}
-<section className="inner-container-detail">
-  {loading ? (
-    <p>Product wordt geladen...</p>
-  ) : error ? (
-    <p>{error}</p>
-  ) : (
-    <>
-      <pre>{JSON.stringify(product, null, 2)}</pre>
+        <section className="inner-container-detail">
+          {loading ? (
+            <p>Product wordt geladen...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            <>
+              <pre>{JSON.stringify(product, null, 2)}</pre>
 
-      {product && (
-        <DetailCard
-          key={product.id}
-          id={product.id}
-          label={product.title}
-          text={product.description}
-          price={product.price}
-          image={product.image}
-          cart={() =>
-            cart({
-              id: product.id,
-              title: product.title,
-              description: product.description,
-              image: product.image,
-              price: product.price,
-            })
-          }
-        />
-      )}
+              {product && (
+                <DetailCard
+                  key={product.id}
+                  id={product.id}
+                  label={product.title}
+                  text={product.description}
+                  price={product.price}
+                  image={product.image}
+                  cart={() =>
+                    cart({
+                      id: product.id,
+                      title: product.title,
+                      description: product.description,
+                      image: product.image,
+                      price: product.price,
+                    })
+                  }
+                />
+              )}
 
-      <div className="view-all-products">
-        <li>
-          <NavLink
-            to="/Shop"
-            className={({ isActive }) =>
-              isActive ? "active-link" : "default-link"
-            }
-          >
-            View All
-          </NavLink>
-        </li>
-      </div>
-    </>
-  )}
-</section>
+              <div className="view-all-products">
+                <li>
+                  <NavLink
+                    to="/Shop"
+                    className={({ isActive }) =>
+                      isActive ? "active-link" : "default-link"
+                    }
+                  >
+                    View All
+                  </NavLink>
+                </li>
+              </div>
+            </>
+          )}
+        </section>
 
         <aside className="shoppingcart-container">
           {!loading && !error && product && (
