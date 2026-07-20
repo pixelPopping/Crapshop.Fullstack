@@ -6,8 +6,8 @@ Bevat alle API-routes voor producten.
 """
 
 from flask import Blueprint, jsonify
-from app.data.products import products
-from app.data.categories import categories
+from app.services.products import products
+from app.services.categories import categories
 
 products_bp = Blueprint("products", __name__)
 
