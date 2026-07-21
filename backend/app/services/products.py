@@ -1,40 +1,82 @@
+"""
+PRODUCT SERVICE
+
+Doel:
+Bevat alle databasefuncties voor producten.
+"""
+
+from app.database.connection import get_db
 
 
-products = [
-    {
-        "id": 1,
-        "title": "Laptop",
-        "description": "Powerful laptop for work and gaming.",
-        "price": 999.99,
-        "category": "electronics",
-        "image": "https://via.placeholder.com/300",
-        "rating": {
-            "rate": 4.8,
-            "count": 120
-        }
-    },
-    {
-        "id": 2,
-        "title": "Keyboard",
-        "description": "Mechanical gaming keyboard.",
-        "price": 59.99,
-        "category": "electronics",
-        "image": "https://via.placeholder.com/300",
-        "rating": {
-            "rate": 4.5,
-            "count": 80
-        }
-    },
-    {
-        "id": 3,
-        "title": "T-Shirt",
-        "description": "100% cotton T-shirt.",
-        "price": 19.99,
-        "category": "Men",
-        "image": "https://via.placeholder.com/300",
-        "rating": {
-            "rate": 4.2,
-            "count": 45
-        }
-    }
-]
+def get_all_products():
+    """
+    Haalt alle producten op.
+    """
+
+    conn = get_db()
+
+    products = conn.execute(
+        "SELECT * FROM products"
+    ).fetchall()
+
+    conn.close()
+
+    return [dict(product) for product in products]
+
+
+def get_product_by_id(product_id):
+    """
+    Haalt één product op aan de hand van het ID.
+    """
+
+    conn = get_db()
+
+    product = conn.execute(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,),
+    ).fetchone()
+
+    conn.close()
+
+    return dict(product) if product else None
+
+
+def get_products_by_category(category):
+    """
+    Haalt alle producten op uit een bepaalde categorie.
+    """
+
+    conn = get_db()
+
+    products = conn.execute(
+        """
+        SELECT *
+        FROM products
+        WHERE LOWER(category) = LOWER(?)
+        """,
+        (category,),
+    ).fetchall()
+
+    conn.close()
+
+    return [dict(product) for product in products]
+
+
+def get_categories():
+    """
+    Haalt alle unieke categorieën op.
+    """
+
+    conn = get_db()
+
+    categories = conn.execute(
+        """
+        SELECT DISTINCT category
+        FROM products
+        ORDER BY category
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return [category["category"] for category in categories]
