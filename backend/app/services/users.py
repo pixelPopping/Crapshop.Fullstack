@@ -7,7 +7,6 @@ Bevat alle databasefuncties voor gebruikers.
 
 from app.database.connection import get_db
 
-
 def create_user(username, email, password_hash):
     """
     Voegt een nieuwe gebruiker toe.
