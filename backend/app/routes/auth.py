@@ -2,7 +2,17 @@ from flask import Blueprint, jsonify, request
 import jwt
 import datetime
 
+from werkzeug.security import (
+    generate_password_hash,
+)
+
 from config import Config
+
+from app.services.users import (
+    create_user,
+    get_user_by_email,
+    get_user_by_username,
+)
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -14,13 +24,43 @@ def register():
         return "", 200
 
     data = request.get_json()
-
-    print("REGISTER DATA:")
     print(data)
+
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+
+    # Controleer of alle velden zijn ingevuld
+    if not username or not email or not password:
+        return jsonify({
+            "message": "Alle velden zijn verplicht."
+        }), 400
+
+    # Controleer of de gebruikersnaam al bestaat
+    if get_user_by_username(username):
+        return jsonify({
+            "message": "Gebruikersnaam bestaat al."
+        }), 409
+
+    # Controleer of het e-mailadres al bestaat
+    if get_user_by_email(email):
+        return jsonify({
+            "message": "E-mailadres bestaat al."
+        }), 409
+
+    # Hash het wachtwoord
+    password_hash = generate_password_hash(password)
+
+    # Sla de gebruiker op
+    user_id = create_user(
+        username,
+        email,
+        password_hash,
+    )
 
     return jsonify({
         "message": "Registratie gelukt.",
-        "user": data
+        "user_id": user_id,
     }), 201
 
 

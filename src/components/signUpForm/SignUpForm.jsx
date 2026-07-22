@@ -23,6 +23,24 @@ const SignUpForm = ({ onSubmit, loading, errorMessage }) => {
             <section className="inner-form">
               <h3>Account Information</h3>
 
+              <label htmlFor="username-field">
+                Username:
+                <input
+                  type="text"
+                  id="username-field"
+                  {...register("username", {
+                    required: "Username is verplicht",
+                    minLength: {
+                      value: 3,
+                      message: "Minimum 3 characters",
+                    },
+                  })}
+                />
+                {errors.username && (
+                  <p className="error">{errors.username.message}</p>
+                )}
+              </label>
+
               <label htmlFor="email-field">
                 Email:
                 <input
@@ -31,7 +49,7 @@ const SignUpForm = ({ onSubmit, loading, errorMessage }) => {
                   {...register("email", {
                     required: "Email is verplicht",
                     validate: (value) =>
-                      value.includes("@") || "Email is not valid",
+                      value.includes("@") || "Email is niet geldig",
                   })}
                 />
                 {errors.email && (
@@ -45,10 +63,10 @@ const SignUpForm = ({ onSubmit, loading, errorMessage }) => {
                   type="password"
                   id="password-field"
                   {...register("password", {
-                    required: "Password is obliged",
+                    required: "Password is verplicht",
                     minLength: {
                       value: 8,
-                      message: "Minimum 8 characters long",
+                      message: "Minimum 8 karakters",
                     },
                   })}
                 />
@@ -58,12 +76,18 @@ const SignUpForm = ({ onSubmit, loading, errorMessage }) => {
               </label>
 
               <div className="submit-container">
-                <button className="submit" type="submit" disabled={loading}>
+                <button
+                  className="submit"
+                  type="submit"
+                  disabled={loading}
+                >
                   {loading ? "Please wait..." : "Register"}
                 </button>
               </div>
 
-              {errorMessage && <p className="error">{errorMessage}</p>}
+              {errorMessage && (
+                <p className="error">{errorMessage}</p>
+              )}
             </section>
           </div>
         </form>
