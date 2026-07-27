@@ -6,6 +6,7 @@ from config import Config
 from .routes.products import products_bp
 from .routes.auth import auth_bp
 from .routes.profile import profile_bp
+#from .routes.profile import profile_bp
 
 
 def create_app():
@@ -52,7 +53,7 @@ def create_app():
         profile_bp,
         url_prefix="/api/profile"
     )
-
+    
     print(app.url_map)
 
     print("\n========== GEREGISTREERDE ROUTES ==========")
@@ -60,4 +61,6 @@ def create_app():
         print(f"{rule.endpoint:30} -> {rule}")
     print("==========================================\n")
 
+
+    
     return app

@@ -1,4 +1,7 @@
-CREATE TABLE IF NOT EXISTS products (
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
@@ -9,7 +12,7 @@ CREATE TABLE IF NOT EXISTS products (
     rating_count INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,

@@ -42,60 +42,33 @@ function ProfilePagina() {
 
   const filteredProducts = filterProducts(allProducts, query, selectedCategory);
 
-  useEffect(() => {
-    async function fetchProfileData() {
-      try {
-        if (!user?.id) {
-          throw new Error("Geen gebruikers-ID beschikbaar");
-        }
+ useEffect(() => {
+  async function fetchProfileData() {
+    try {
+      setLoading(true);
+      setError(false);
 
-        setLoading(true);
-        setError(false);
+      const response = await axiosClient.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        const response = await axiosClient.get("/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setApiData(response.data);
-      } catch (err) {
-        if (err.response) {
-        }
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    if (isAuth && token) {
-      fetchProfileData();
-    } else {
+      setApiData(response.data);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
       setLoading(false);
     }
-  }, [isAuth, token, user?.id]);
-  useEffect(() => {
-    async function fetchProfileData() {
-      try {
-        if (!user?.id) throw new Error("Geen gebruikers-ID beschikbaar");
-        setLoading(true);
-        setError(false);
-        const response = await axiosClient.get("/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setApiData(response.data);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
+  }
 
-    if (isAuth && token) fetchProfileData();
-    else setLoading(false);
-  }, [isAuth, token, user?.id]);
+  if (isAuth && token) {
+    fetchProfileData();
+  } else {
+    setLoading(false);
+  }
+}, [isAuth, token]);
 
   useEffect(() => {
     function handleClickOutside(e) {
