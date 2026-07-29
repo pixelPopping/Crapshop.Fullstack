@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext/AuthContext";
-
+import {
+  getCart,
+  addToCart,
+  updateCart,
+  deleteCartItem,
+} from "../api/cartApi";
 export const ShoppingCartContext = createContext({});
 
 const ShoppingCartProvider = ({ children }) => {
@@ -8,6 +13,26 @@ const ShoppingCartProvider = ({ children }) => {
   const userId = user?.id;
   const [cartItems, setCartItems] = useState([]);
   const storageKey = `cart_${userId || "guest"}`;
+
+  useEffect(() => {
+  if (isLoggedOut) {
+    setCartItems([]);
+    return;
+  }
+
+  const fetchCart = async () => {
+    try {
+      const response = await getCart();
+      setCartItems(response.data);
+    } catch (error) {
+      console.error("Fout bij ophalen winkelwagen:", error);
+    }
+  };
+
+  if (userId) {
+    fetchCart();
+  }
+}, [userId, isLoggedOut]);
 
   useEffect(() => {
     if (isLoggedOut) {
