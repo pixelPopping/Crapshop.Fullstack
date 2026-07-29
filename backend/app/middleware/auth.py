@@ -40,6 +40,8 @@ def token_required(f):
                 algorithms=["HS256"],
             )
 
+            print(payload)
+
             g.user_id = payload["user_id"]
 
         except jwt.ExpiredSignatureError:
