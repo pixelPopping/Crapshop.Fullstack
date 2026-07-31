@@ -45,10 +45,25 @@ def get_or_create_cart(user_id):
 
 def get_cart_items(user_id):
     """
-    Haalt alle producten uit de winkelwagen van de gebruiker.
+    Haalt alle producten uit de winkelwagen van de gebruiker op.
     """
 
     conn = get_db()
+
+    print(f"\n=== Winkelwagen gebruiker {user_id} ===")
+
+    carts = conn.execute(
+        """
+        SELECT *
+        FROM carts
+        WHERE user_id = ?
+        """,
+        (user_id,),
+    ).fetchall()
+
+    print("Winkelwagens:")
+    for cart in carts:
+        print(dict(cart))
 
     items = conn.execute(
         """
@@ -56,6 +71,7 @@ def get_cart_items(user_id):
             products.id,
             products.title,
             products.price,
+            products.image,
             cart_items.quantity
         FROM carts
         JOIN cart_items
@@ -66,6 +82,10 @@ def get_cart_items(user_id):
         """,
         (user_id,),
     ).fetchall()
+
+    print("Producten in winkelwagen:")
+    for item in items:
+        print(dict(item))
 
     conn.close()
 

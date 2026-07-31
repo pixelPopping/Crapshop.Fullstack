@@ -169,7 +169,7 @@ function ShopPagina() {
                   text={item.description}
                   image={item.image}
                   price={item.price}
-                  rating={item.rating.rate}
+                  rating={item.rating_rate}
                 />
               ))}
             </section>
