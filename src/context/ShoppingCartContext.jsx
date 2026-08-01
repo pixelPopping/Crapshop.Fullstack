@@ -6,131 +6,115 @@ import {
   updateCart,
   deleteCartItem,
 } from "../api/cartApi";
+
 export const ShoppingCartContext = createContext({});
 
 const ShoppingCartProvider = ({ children }) => {
   const { user, isLoggedOut } = useContext(AuthContext);
+
   const userId = user?.id;
+
   const [cartItems, setCartItems] = useState([]);
-  const storageKey = `cart_${userId || "guest"}`;
 
-  useEffect(() => {
-  if (isLoggedOut) {
-    setCartItems([]);
-    return;
-  }
-
-  const fetchCart = async () => {
+  const refreshCart = async () => {
     try {
       const response = await getCart();
+
       setCartItems(response.data);
     } catch (error) {
       console.error("Fout bij ophalen winkelwagen:", error);
     }
   };
 
-  if (userId) {
-    fetchCart();
-  }
-}, [userId, isLoggedOut]);
+  useEffect(() => {
+    if (isLoggedOut) {
+      setCartItems([]);
+      return;
+    }
+
+    if (userId) {
+      refreshCart();
+    }
+  }, [userId, isLoggedOut]);
 
   const cart = async (newItem) => {
-  const quantityToAdd = parseInt(newItem.quantity) || 1;
+    const quantityToAdd = parseInt(newItem.quantity) || 1;
 
-  try {
-    await addToCart(newItem.id, quantityToAdd);
+    try {
+      await addToCart(newItem.id, quantityToAdd);
 
-    const response = await getCart();
+      await refreshCart();
+    } catch (error) {
+      console.error("Fout bij toevoegen:", error);
+    }
+  };
 
-    setCartItems(response.data);
-  } catch (error) {
-    console.error("Fout bij toevoegen aan winkelwagen:", error);
-  }
-};
+  const increaseQuantity = async (id) => {
+    const item = cartItems.find((item) => item.id === id);
+
+    if (!item) return;
+
+    try {
+      await updateCart(id, item.quantity + 1);
+
+      await refreshCart();
+    } catch (error) {
+      console.error("Fout bij verhogen:", error);
+    }
+  };
+
+  const decreaseQuantity = async (id) => {
+    const item = cartItems.find((item) => item.id === id);
+
+    if (!item) return;
+
+    try {
+      if (item.quantity === 1) {
+        await deleteCartItem(id);
+      } else {
+        await updateCart(id, item.quantity - 1);
+      }
+
+      await refreshCart();
+    } catch (error) {
+      console.error("Fout bij verlagen:", error);
+    }
+  };
+
+  const removeItem = async (id) => {
+    try {
+      await deleteCartItem(id);
+
+      await refreshCart();
+    } catch (error) {
+      console.error("Fout bij verwijderen:", error);
+    }
+  };
 
   const reset = () => {
     setCartItems([]);
-    localStorage.removeItem(storageKey);
   };
 
   const totalPrice = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
 
   const amountCart = () =>
     cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const increaseQuantity = async (id) => {
-  const item = cartItems.find((item) => item.id === id);
-
-  if (!item) {
-    return;
-  }
-
-  try {
-    await updateCart(id, item.quantity + 1);
-
-    const response = await getCart();
-
-    setCartItems(response.data);
-  } catch (error) {
-    console.error("Fout bij verhogen:", error);
-  }
-};
-
-  const decreaseQuantity = async (id) => {
-  const item = cartItems.find((item) => item.id === id);
-
-  if (!item) {
-    return;
-  }
-
-  try {
-    if (item.quantity === 1) {
-      await deleteCartItem(id);
-    } else {
-      await updateCart(id, item.quantity - 1);
-    }
-
-    const response = await getCart();
-
-    setCartItems(response.data);
-  } catch (error) {
-    console.error("Fout bij verlagen:", error);
-  }
-};
-
-  const setQuantity = (id, amount) =>
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: amount } : item,
-      ),
-    );
-
- const removeItem = async (id) => {
-  try {
-    await deleteCartItem(id);
-
-    const response = await getCart();
-       console.log("Na verwijderen:", response.data);
-
-    console.log(response.data);
-
-    setCartItems(response.data);
-  } catch (error) {
-    console.error("Fout bij verwijderen:", error);
-  }
-};
   return (
     <ShoppingCartContext.Provider
       value={{
         items: cartItems,
         cart,
+        refreshCart,
         reSet: reset,
         price: totalPrice,
         lengthcart: amountCart,
         increaseQuantity,
         decreaseQuantity,
-        setQuantity,
         removeItem,
       }}
     >

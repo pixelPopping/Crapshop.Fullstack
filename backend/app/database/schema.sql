@@ -1,5 +1,10 @@
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS cart_items;
+DROP TABLE IF EXISTS carts;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS products;
+
 
 CREATE TABLE products (
     id INTEGER PRIMARY KEY,
@@ -12,6 +17,7 @@ CREATE TABLE products (
     rating_count INTEGER
 );
 
+
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
@@ -20,6 +26,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
 CREATE TABLE carts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL UNIQUE,
@@ -27,6 +34,7 @@ CREATE TABLE carts (
 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE cart_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,6 +48,7 @@ CREATE TABLE cart_items (
     UNIQUE (cart_id, product_id)
 );
 
+
 CREATE TABLE orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
@@ -49,6 +58,7 @@ CREATE TABLE orders (
 
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
 
 CREATE TABLE order_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

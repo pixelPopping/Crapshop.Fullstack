@@ -18,27 +18,46 @@ import { AuthContext } from "./context/AuthContext/AuthContext.jsx";
 import Recencies from "./pages/recencies/Recencies.jsx";
 import CategoryPage from "./pages/categoryPage/CategoryPage.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";
+import Checkout from "./pages/checkout/checkout.jsx";
 
 function App() {
   const { isAuth } = useContext(AuthContext);
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/profile"
-          element={isAuth ? <Profile /> : <Navigate to="/signin" />}
-        />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/Shop" element={<Shop />} />
-        <Route path="/detailpagina/:id" element={<DetailPagina />} />
-        <Route path="/products/:category" element={<CategoryPage />} />
-        <Route path="/cart" element={isAuth ? <Cart /> : <Navigate to="/" />} />
-        <Route path="/recencies" element={<Recencies />} />
-        <Route path="/favorietenpage" element={<Favorite />} />
-      </Routes>
-    </>
+<Routes>
+  <Route path="/" element={<Home />} />
+
+  <Route
+    path="/profile"
+    element={isAuth ? <Profile /> : <Navigate to="/signin" />}
+  />
+
+  <Route path="/signup" element={<SignUp />} />
+
+  <Route path="/signin" element={<SignIn />} />
+
+  <Route path="/shop" element={<Shop />} />
+
+  <Route path="/detailpagina/:id" element={<DetailPagina />} />
+
+  <Route path="/products/:category" element={<CategoryPage />} />
+
+  <Route
+    path="/cart"
+    element={isAuth ? <Cart /> : <Navigate to="/signin" />}
+  />
+
+  <Route path="/recencies" element={<Recencies />} />
+
+  <Route path="/favorietenpage" element={<Favorite />} />
+
+  <Route
+    path="/checkout"
+    element={isAuth ? <Checkout /> : <Navigate to="/signin" />}
+  />
+</Routes>
+</>
   );
 }
+
 export default App;

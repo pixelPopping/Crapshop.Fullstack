@@ -1,3 +1,4 @@
+import { checkout } from "../../api/ordersApi.js";
 import React, { useContext, useState, useEffect } from "react";
 import useProducts from "../../hooks/useProducts";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
@@ -41,6 +42,21 @@ function Cart() {
 
   const handleLogout = useHandleLogout();
 
+const { refreshCart } = useContext(ShoppingCartContext);
+
+const handleCheckout = async () => {
+  try {
+    const response = await checkout();
+
+    await refreshCart();
+
+    alert(
+      `Bestelling geplaatst! Ordernummer: ${response.data.order_id}`
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
   return (
     <>
       <main className="cart-layout">
@@ -79,7 +95,9 @@ function Cart() {
                     <div className="reset-button">
                       <button onClick={reSet}>Reset</button>
 
-                      <button type="button">Check-Out</button>
+                    <button onClick={() => navigate("/checkout")}>
+                      Check-Out
+                    </button>
                     </div>
                   </div>
                 </>
