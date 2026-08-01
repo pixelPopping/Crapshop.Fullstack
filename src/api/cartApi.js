@@ -1,5 +1,34 @@
+import axios from "axios";
 
-  console.log("TOKEN:", token);
+const API_URL = "http://127.0.0.1:5000/api/cart";
+
+function getToken() {
+  return localStorage.getItem("token");
+}
+
+export function getCart() {
+  return axios.get(API_URL + "/", {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+}
+
+
+export function addToCart(productId, quantity = 1) {
+  return axios.post(
+    API_URL + "/items",
+    {
+      product_id: productId,
+      quantity: quantity,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+}
 
 export function updateCart(productId, quantity) {
   return axios.put(
