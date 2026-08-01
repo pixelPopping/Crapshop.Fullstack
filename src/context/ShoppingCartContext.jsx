@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext/AuthContext";
-
+import {
+  getCart,
+  addToCart,
+  updateCart,
+  deleteCartItem,
+} from "../api/cartApi";
 export const ShoppingCartContext = createContext({});
 
 const ShoppingCartProvider = ({ children }) => {
@@ -10,37 +15,38 @@ const ShoppingCartProvider = ({ children }) => {
   const storageKey = `cart_${userId || "guest"}`;
 
   useEffect(() => {
-    if (isLoggedOut) {
-      localStorage.removeItem(storageKey);
-      setCartItems([]);
-      return;
-    }
+  if (isLoggedOut) {
+    setCartItems([]);
+    return;
+  }
 
-    const storedCart = localStorage.getItem(storageKey);
-    if (storedCart) {
-      setCartItems(JSON.parse(storedCart));
+  const fetchCart = async () => {
+    try {
+      const response = await getCart();
+      setCartItems(response.data);
+    } catch (error) {
+      console.error("Fout bij ophalen winkelwagen:", error);
     }
-  }, [userId, isLoggedOut]);
-
-  useEffect(() => {
-    if (!isLoggedOut) {
-      localStorage.setItem(storageKey, JSON.stringify(cartItems));
-    }
-  }, [cartItems, storageKey, isLoggedOut]);
-
-  const cart = (newItem) => {
-    const quantityToAdd = parseInt(newItem.quantity) || 1;
-    setCartItems((prevItems) => {
-      const existing = prevItems.find((item) => item.id === newItem.id);
-      return existing
-        ? prevItems.map((item) =>
-            item.id === newItem.id
-              ? { ...item, quantity: item.quantity + quantityToAdd }
-              : item,
-          )
-        : [...prevItems, { ...newItem, quantity: quantityToAdd }];
-    });
   };
+
+  if (userId) {
+    fetchCart();
+  }
+}, [userId, isLoggedOut]);
+
+  const cart = async (newItem) => {
+  const quantityToAdd = parseInt(newItem.quantity) || 1;
+
+  try {
+    await addToCart(newItem.id, quantityToAdd);
+
+    const response = await getCart();
+
+    setCartItems(response.data);
+  } catch (error) {
+    console.error("Fout bij toevoegen aan winkelwagen:", error);
+  }
+};
 
   const reset = () => {
     setCartItems([]);
@@ -53,21 +59,45 @@ const ShoppingCartProvider = ({ children }) => {
   const amountCart = () =>
     cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const increaseQuantity = (id) =>
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
-      ),
-    );
+  const increaseQuantity = async (id) => {
+  const item = cartItems.find((item) => item.id === id);
 
-  const decreaseQuantity = (id) =>
-    setCartItems((prev) =>
-      prev
-        .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
+  if (!item) {
+    return;
+  }
+
+  try {
+    await updateCart(id, item.quantity + 1);
+
+    const response = await getCart();
+
+    setCartItems(response.data);
+  } catch (error) {
+    console.error("Fout bij verhogen:", error);
+  }
+};
+
+  const decreaseQuantity = async (id) => {
+  const item = cartItems.find((item) => item.id === id);
+
+  if (!item) {
+    return;
+  }
+
+  try {
+    if (item.quantity === 1) {
+      await deleteCartItem(id);
+    } else {
+      await updateCart(id, item.quantity - 1);
+    }
+
+    const response = await getCart();
+
+    setCartItems(response.data);
+  } catch (error) {
+    console.error("Fout bij verlagen:", error);
+  }
+};
 
   const setQuantity = (id, amount) =>
     setCartItems((prev) =>
@@ -76,9 +106,20 @@ const ShoppingCartProvider = ({ children }) => {
       ),
     );
 
-  const removeItem = (id) =>
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+ const removeItem = async (id) => {
+  try {
+    await deleteCartItem(id);
 
+    const response = await getCart();
+       console.log("Na verwijderen:", response.data);
+
+    console.log(response.data);
+
+    setCartItems(response.data);
+  } catch (error) {
+    console.error("Fout bij verwijderen:", error);
+  }
+};
   return (
     <ShoppingCartContext.Provider
       value={{

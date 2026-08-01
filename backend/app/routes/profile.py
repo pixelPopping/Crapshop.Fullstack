@@ -1,47 +1,25 @@
-from flask import Blueprint, jsonify, request
-import jwt
+from flask import Blueprint, jsonify, g
 
-from config import Config
+from app.middleware.auth import token_required
+from app.services.users import get_user_by_id
 
 profile_bp = Blueprint("profile", __name__)
 
 
-@profile_bp.route("", methods=["GET", "OPTIONS"], strict_slashes=False)
-@profile_bp.route("/", methods=["GET", "OPTIONS"], strict_slashes=False)
+@profile_bp.route("/", methods=["GET"])
+@token_required
 def get_profile():
 
-    if request.method == "OPTIONS":
-        return "", 200
+    user = get_user_by_id(g.user_id)
 
-    auth_header = request.headers.get("Authorization")
-
-    if not auth_header:
+    if user is None:
         return jsonify({
-            "message": "Geen token gevonden."
-        }), 401
+            "message": "Gebruiker niet gevonden."
+        }), 404
 
-    try:
-        token = auth_header.split(" ")[1]
-
-        payload = jwt.decode(
-            token,
-            Config.SECRET_KEY,
-            algorithms=["HS256"]
-        )
-
-        return jsonify({
-            "id": payload["id"],
-            "username": payload["username"],
-            "email": payload["email"],
-            "roles": payload["roles"]
-        }), 200
-
-    except jwt.ExpiredSignatureError:
-        return jsonify({
-            "message": "Token verlopen."
-        }), 401
-
-    except jwt.InvalidTokenError:
-        return jsonify({
-            "message": "Ongeldige token."
-        }), 401
+    return jsonify({
+        "id": user["id"],
+        "username": user["username"],
+        "email": user["email"],
+        "created_at": user["created_at"],
+    }), 200

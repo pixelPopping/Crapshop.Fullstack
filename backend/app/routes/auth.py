@@ -1,57 +1,70 @@
-from flask import Blueprint, jsonify, request
-import jwt
-import datetime
+"""
+AUTH ROUTES
 
+Bevat:
+- Registreren
+- Inloggen
+"""
+
+import datetime
+from app.middleware.auth import token_required
+import jwt
+from flask import (
+    Blueprint,
+    current_app,
+    jsonify,
+    request,
+    g,
+)
 from werkzeug.security import (
+    check_password_hash,
     generate_password_hash,
 )
-
-from config import Config
 
 from app.services.users import (
     create_user,
     get_user_by_email,
+    get_user_by_id,
     get_user_by_username,
 )
 
 auth_bp = Blueprint("auth", __name__)
 
 
-@auth_bp.route("/register", methods=["POST", "OPTIONS"], strict_slashes=False)
+@auth_bp.route("/register", methods=["POST"])
 def register():
-
-    if request.method == "OPTIONS":
-        return "", 200
+    """
+    Registreert een nieuwe gebruiker.
+    """
 
     data = request.get_json()
-    print(data)
+
+    if data is None:
+        return jsonify({
+            "message": "Ongeldige JSON."
+        }), 400
 
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
 
-    # Controleer of alle velden zijn ingevuld
     if not username or not email or not password:
         return jsonify({
             "message": "Alle velden zijn verplicht."
         }), 400
 
-    # Controleer of de gebruikersnaam al bestaat
     if get_user_by_username(username):
         return jsonify({
             "message": "Gebruikersnaam bestaat al."
         }), 409
 
-    # Controleer of het e-mailadres al bestaat
     if get_user_by_email(email):
         return jsonify({
             "message": "E-mailadres bestaat al."
         }), 409
 
-    # Hash het wachtwoord
     password_hash = generate_password_hash(password)
 
-    # Sla de gebruiker op
     user_id = create_user(
         username,
         email,
@@ -64,30 +77,75 @@ def register():
     }), 201
 
 
-@auth_bp.route("/login", methods=["POST", "OPTIONS"], strict_slashes=False)
+@auth_bp.route("/login", methods=["POST"])
 def login():
-
-    if request.method == "OPTIONS":
-        return "", 200
+    """
+    Logt een gebruiker in en retourneert een JWT.
+    """
 
     data = request.get_json()
 
+    if data is None:
+        return jsonify({
+            "message": "Ongeldige JSON."
+        }), 400
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({
+            "message": "Email en wachtwoord zijn verplicht."
+        }), 400
+
+    user = get_user_by_email(email)
+
+    if user is None:
+        return jsonify({
+            "message": "Ongeldige inloggegevens."
+        }), 401
+
+    if not check_password_hash(
+        user["password_hash"],
+        password,
+    ):
+        return jsonify({
+            "message": "Ongeldige inloggegevens."
+        }), 401
+
     payload = {
-        "id": 1,
-        "username": data["email"].split("@")[0],
-        "email": data["email"],
-        "roles": ["USER"],
-        "exp": datetime.datetime.utcnow()
-        + datetime.timedelta(hours=1)
+        "user_id": user["id"],
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
     }
 
     token = jwt.encode(
         payload,
-        Config.SECRET_KEY,
-        algorithm="HS256"
+        current_app.config["SECRET_KEY"],
+        algorithm="HS256",
     )
 
     return jsonify({
         "message": "Login gelukt.",
-        "token": token
+        "token": token,
+    }), 200
+
+@auth_bp.route("/me", methods=["GET"])
+@token_required
+def me():
+    """
+    Geeft de ingelogde gebruiker terug.
+    """
+
+    user = get_user_by_id(g.user_id)
+
+    if user is None:
+        return jsonify({
+            "message": "Gebruiker niet gevonden."
+        }), 404
+
+    return jsonify({
+        "id": user["id"],
+        "username": user["username"],
+        "email": user["email"],
+        "created_at": user["created_at"],
     }), 200

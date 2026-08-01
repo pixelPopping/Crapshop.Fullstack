@@ -40,3 +40,50 @@ CrapShop/
 ├── package.json
 ├── package-lock.json
 └── README.md
+
+
+React (Cart.jsx)
+        │
+        ▼
+ShoppingCartContext
+        │
+        ▼
+getCart()
+        │
+        ▼
+Axios
+        │
+HTTP GET /api/cart/
+        │
+        ▼
+Flask Route
+        │
+        ▼
+token_required
+        │
+JWT controleren
+        │
+g.user_id = 1
+        │
+        ▼
+Cart Service
+        │
+        ▼
+SQLite
+        │
+SELECT ...
+        │
+        ▼
+Resultaat
+        │
+        ▼
+Flask → JSON
+        │
+        ▼
+Axios
+        │
+        ▼
+setCartItems(...)
+        │
+        ▼
+React rendert opnieuw

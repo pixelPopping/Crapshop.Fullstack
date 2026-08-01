@@ -44,17 +44,23 @@ function AuthContextProvider({ children }) {
   }, []);
 
   function logIn(token) {
-    localStorage.setItem("token", token);
+  console.log("========== AUTH DEBUG ==========");
+  console.log("Token ontvangen:", token);
 
-    const user = getUserFromToken(token);
+  localStorage.setItem("token", token);
 
-    setAuthState({
-      isAuth: true,
-      user,
-      token,
-      status: "done",
-    });
-  }
+  console.log("Token opgeslagen:", localStorage.getItem("token"));
+  console.log("================================");
+
+  const user = getUserFromToken(token);
+
+  setAuthState({
+    isAuth: true,
+    user,
+    token,
+    status: "done",
+  });
+}
 
   function logOut() {
     localStorage.removeItem("token");
