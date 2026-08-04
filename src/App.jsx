@@ -19,6 +19,7 @@ import Recencies from "./pages/recencies/Recencies.jsx";
 import CategoryPage from "./pages/categoryPage/CategoryPage.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";
 import Checkout from "./pages/checkout/checkout.jsx";
+import Success from "./pages/success/Succes.jsx";
 
 function App() {
   const { isAuth } = useContext(AuthContext);
@@ -50,6 +51,9 @@ function App() {
   <Route path="/recencies" element={<Recencies />} />
 
   <Route path="/favorietenpage" element={<Favorite />} />
+
+   <Route path="/success" element={<Success/>} />
+
 
   <Route
     path="/checkout"

@@ -1,7 +1,22 @@
+:root{
+  display: flex;
+  width: 100%;
+  background-color: beige;
+}
+
+
+.outer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: beige;
+}
+
 .checkout-page {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+  background-color: beige;
 }
 
 .checkout-page h1 {

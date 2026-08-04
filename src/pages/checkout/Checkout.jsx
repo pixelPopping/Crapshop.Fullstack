@@ -1,28 +1,22 @@
 import React, { useContext } from "react";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext";
-import { checkout } from "../../api/ordersApi";
 import { useNavigate } from "react-router-dom";
+import { createCheckoutSession } from "../../api/paymentsApi";
 
 import "./Checkout.css";
 
 function Checkout() {
-  const { items, price, refreshCart } = useContext(ShoppingCartContext);
+  const { items, price } = useContext(ShoppingCartContext);
 
   const navigate = useNavigate();
 
-  const handleCheckout = async () => {
+  const handlePayment = async () => {
     try {
-      const response = await checkout();
+      const response = await createCheckoutSession();
 
-      await refreshCart();
-
-      alert(
-        `Bestelling geplaatst! Ordernummer: ${response.data.order_id}`
-      );
-
-      navigate("/success");
+      window.location.href = response.data.url;
     } catch (error) {
-      console.error("Checkout mislukt:", error);
+      console.error("Stripe-fout:", error);
     }
   };
 
@@ -46,8 +40,8 @@ function Checkout() {
       <section className="checkout-summary">
         <h2>Totaal: €{price().toFixed(2)}</h2>
 
-        <button onClick={handleCheckout}>
-          Bestelling plaatsen
+        <button onClick={handlePayment}>
+          Betaal met Stripe
         </button>
       </section>
     </main>

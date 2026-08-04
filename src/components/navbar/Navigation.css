@@ -1,0 +1,16 @@
+.navigation{
+    display: flex;
+    width: 500px;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: column;
+}
+
+.unordered-list{
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+}
+

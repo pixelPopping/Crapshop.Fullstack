@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
+import "./navigation.css";
+
 function Navigation() {
   return (
-    <div className="Navigation">
+    <div className="navigation">
       <nav className="navbar">
         <ul className="unordered-list">
           <li>

@@ -8,6 +8,8 @@ from .routes.auth import auth_bp
 from .routes.profile import profile_bp
 from .routes.cart import cart_bp
 from app.database.connection import get_db
+from app.routes.payments import payment_bp
+
 
 
 
@@ -69,6 +71,11 @@ def create_app():
     url_prefix="/api/orders",
     )
 
+ 
+    app.register_blueprint(
+    payment_bp,
+    url_prefix="/api/payments",
+    )
 
 
 
