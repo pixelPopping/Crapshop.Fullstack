@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import DropDown from "../dropdown/DropDown.jsx";
-import "./DetailCard.css";
+import styles from "./DetailCard.module.css";
 
 function DetailCard({ id, label, text, image, price }) {
   const { cart } = useContext(ShoppingCartContext);
@@ -12,30 +12,30 @@ function DetailCard({ id, label, text, image, price }) {
   const isFavoriet = favorieten.some((item) => item.id === id);
 
   return (
-    <div className="outer-container-detail">
+    <div className={styles.outerContainerDetail}>
       <section>
-        <article>
-          <div className="card-content">
-            <div className="card-header">
-              <h2 className="h2-text">{label}</h2>
-              <p className="card-text">{text}</p>
-              <p className="card-text">
+        <article className={styles.innerContainer}>
+          <div className={styles.cardContent}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.text}>{label}</h2>
+              <p className={styles.cardText}>{text}</p>
+              <p className={styles.cardText}>
                 <strong>Prijs:</strong> €{price}
               </p>
             </div>
-            <div className="main-img">
+            <div className={styles.mainImg}>
               <img src={image} alt={label} />
             </div>
           </div>
 
-          <div className="card-container">
-            <div className="cart-buttons">
+          <div className={styles.cardContainer}>
+            <div className={styles.cartButtons}>
               <DropDown
                 value={selectedQuantity}
                 onChange={setSelectedQuantity}
               />
               <button
-                className="add-button"
+                className={styles.addButton}
                 onClick={() =>
                   cart({
                     id,
@@ -50,7 +50,8 @@ function DetailCard({ id, label, text, image, price }) {
                 Cart
               </button>
               <button
-                className={`favorite-button ${isFavoriet ? "favoriet" : ""}`}
+                className={`${styles.favoriteButton} ${isFavoriet ? styles.favoriet : ""
+}`}
                 onClick={() =>
                   toggleFavorite({
                     id,

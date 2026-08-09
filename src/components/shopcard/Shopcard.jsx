@@ -1,9 +1,9 @@
 import React from "react";
-import "./Shopcard.css";
+import styles from "./Shopcard.module.css";
 
 function Shopcard({ id, label, image, onClick, rating, price }) {
   return (
-    <article className="card" onClick={onClick}>
+    <article className={styles.card} onClick={onClick}>
       <h3>
         {label} {id}
       </h3>

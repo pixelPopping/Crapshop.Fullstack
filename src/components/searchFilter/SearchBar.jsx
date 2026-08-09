@@ -5,7 +5,7 @@
 ///stap 4 filter methode gebruiken om zoekresultaten te filteren
 ///stap 5 state verplaatsen naar app.jsx zodat bij alle componenten de zoekbalk functioneel is
 import React from "react";
-import "./SearchBar.css";
+import styles from "./SearchBar.module.css";
 
 const SearchBar = ({
   inputValue,
@@ -22,14 +22,14 @@ const SearchBar = ({
         value={inputValue}
         onChange={(e) => inputCallback(e.target.value)}
         placeholder="Search on product..."
-        className="searchInput"
+        className={styles.searchInput}
       />
 
       {showCategories && (
         <select
           value={selectedCategory}
           onChange={(e) => onCategoryChange(e.target.value)}
-          className="categorySelect"
+          className={styles.categorySelect}
         >
           {categories.map((cat) => (
             <option key={cat} value={cat}>

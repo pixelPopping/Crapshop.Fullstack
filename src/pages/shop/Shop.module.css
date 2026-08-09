@@ -7,7 +7,7 @@ body {
   color: #1a1a1a;
 }
 
-.shop-outercontainer {
+.shopOuterContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,7 +22,7 @@ body {
   justify-content: center;
 }
 
-.shop-outer {
+.shopOuter {
   display: flex;
   width: 100vw;
   flex-direction: row;
@@ -30,7 +30,7 @@ body {
   flex: 3 1 auto;
 }
 
-.shop-header {
+.shopHeader {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -84,7 +84,7 @@ body {
   flex: 1;
 }
 
-.nav-links4 {
+.navLinksShop {
   display: flex;
   gap: 20px;
   list-style: none;
@@ -92,7 +92,7 @@ body {
   margin: 0;
 }
 
-.navbar-four-shop {
+.navbarFourShop {
   grid-area: header;
   display: flex;
   flex-direction: column;
@@ -102,14 +102,14 @@ body {
   padding: 20px;
 }
 
-.nav-links4-shop li a {
+.navLinksShop li a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
   position: relative;
 }
 
-.nav-links4-shop a::after {
+.navLinksShop a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -122,11 +122,11 @@ body {
     background-color 0.35s ease-in-out;
 }
 
-.nav-links-shop a:hover::after {
+.navLinksShop a:hover::after {
   width: 100%;
 }
 
-.nav-links-shop a.active::after {
+.navLinksShop a.active::after {
   width: 100%;
   background-color: red;
 }
@@ -139,7 +139,7 @@ body {
   padding-top: 50px;
 }
 
-.icon-bar {
+.iconBar {
   display: flex;
   justify-content: flex-end;
   gap: 60px;
@@ -147,18 +147,18 @@ body {
   padding: 20px;
 }
 
-.icon-item {
+.iconItem {
   cursor: pointer;
   position: relative;
   font-size: 1.4rem;
   color: #333;
 }
 
-.icon-item:hover {
+.iconItem:hover {
   color: #0078d4;
 }
 
-.icon-count {
+.iconCount {
   position: absolute;
   top: -8px;
   right: -10px;
@@ -216,7 +216,7 @@ body {
   background-color: red;
 }
 
-.shop-products {
+.shopProducts {
   display: flex;
   width: 1200px;
   flex-direction: row;
@@ -231,7 +231,7 @@ body {
   padding: 20px;
 }
 
-.product-list {
+.productList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

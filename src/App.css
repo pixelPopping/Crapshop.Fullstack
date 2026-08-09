@@ -5,9 +5,10 @@
 }
 
 
-html{
+html body{
   text-align: center;
   justify-content: center;
+  width: 100vw;
 }
 
 button {

@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Hamburger.css";
+import styles from "./Hamburger.module.css";
 
 export default function Hamburger({ menuOpen, setMenuOpen, categories }) {
   const navigate = useNavigate();
 
   return (
-    <div className="hamburger-wrapper">
+    <div className={styles.hamburgerWrapper}>
       <div
-        className={`hamburger ${menuOpen ? "open" : ""}`}
+        className={`${styles.hamburger} ${menuOpen ? styles.open : ""}`}
         onClick={() => setMenuOpen(!menuOpen)}
       >
         <span></span>
@@ -17,11 +17,11 @@ export default function Hamburger({ menuOpen, setMenuOpen, categories }) {
       </div>
 
       {menuOpen && (
-        <div className="hamburger-menu">
+        <div className={styles.hamburgerMenu}>
           {categories.map((cat) => (
             <button
               key={cat.id}
-              className="hamburger-link"
+              className={styles.hamburgerLink}
               onClick={() => {
                 const encodedCategory = encodeURIComponent(cat.name);
                 navigate(`/products/${encodedCategory}`);

@@ -8,7 +8,7 @@ import {
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import useProducts from "../../hooks/useProducts";
-import "./Shop.css";
+import  styles from "./Shop.module.css";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import Shopcard from "../../components/shopcard/Shopcard.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
@@ -48,15 +48,15 @@ function ShopPagina() {
   );
 
   return (
-    <div className="shop-outercontainer">
-      <div className="shop">
+    <div className={styles.shopOuterContainer}>
+      <div className={styles.shop}>
         <h1>Shop.</h1>
       </div>
 
-      <section className="shop-outer">
-        <header className="shop-header">
-          <nav className="navbar-four-shop">
-            <ul className="nav-links4">
+      <section className={styles.shopOuter}>
+        <header className={styles.shopHeader}>
+          <nav className={styles.navbarFourShop}>
+            <ul className={styles.navLinksShop}>
               <li>
                 <NavLink to="/products/Men">Men</NavLink>
               </li>
@@ -69,7 +69,7 @@ function ShopPagina() {
             </ul>
           </nav>
 
-          <div className="searchbar">
+          <div className={styles.searchbar}>
             <SearchBar
               inputValue={query}
               inputCallback={setQuery}
@@ -79,9 +79,9 @@ function ShopPagina() {
             />
           </div>
 
-          <div className="icon-bar">
+          <div className={styles.iconBar}>
             <div
-              className="icon-item"
+              className={styles.iconItem}
               onClick={() => navigate("/favorietenpage")}
               title="Favorieten"
             >
@@ -92,26 +92,26 @@ function ShopPagina() {
             </div>
 
             <div
-              className="icon-item"
+              className={styles.iconItem}
               onClick={() => navigate("/cart")}
               title="Winkelwagen"
             >
               <FontAwesomeIcon icon={faShoppingCart} />
               {items.length > 0 && (
-                <span className="icon-count">{items.length}</span>
+                <span className={styles.iconCount}>{items.length}</span>
               )}
             </div>
 
             {isAuth ? (
               <>
                 <div
-                  className="icon-item"
+                  className={styles.iconItem}
                   title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div
-                  className="icon-item"
+                  className={styles.iconItem}
                   onClick={handleLogout}
                   title="Log uit"
                 >
@@ -121,14 +121,14 @@ function ShopPagina() {
             ) : (
               <>
                 <div
-                  className="icon-item"
+                  className={styles.iconItem}
                   onClick={() => navigate("/signup")}
                   title="Sign Up"
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div
-                  className="icon-item"
+                  className={styles.iconItem}
                   onClick={() => navigate("/signin")}
                   title="Login"
                 >
@@ -141,7 +141,7 @@ function ShopPagina() {
       </section>
 
       <div className="inner-container">
-        <nav className="sidebar">
+        <nav className={styles.sidebar}>
           <ul>
             <li>
               <NavLink to="/products/electronics">Electronics</NavLink>
@@ -152,7 +152,7 @@ function ShopPagina() {
           </ul>
         </nav>
 
-        <main className="shop-products">
+        <main className={styles.shopProducts}>
           {loading && <p>Loading...</p>}
           {error && <p>There was an error fetching the products.</p>}
           {!loading && !error && filteredItems.length === 0 && (
@@ -160,7 +160,7 @@ function ShopPagina() {
           )}
 
           {!loading && !error && filteredItems.length > 0 && (
-            <section className="product-list">
+            <section className={styles.productList}>
               {filteredItems.map((item) => (
                 <Shopcard
                   key={item.id}

@@ -20,7 +20,7 @@ import DetailCard from "../../components/detailcard/DetailCard";
 import ShoppingCart from "../../components/shoppingcart/ShoppingCart";
 import FooterLayout from "../../components/footer/FooterLayout";
 import filterProducts from "../../helpers/filteredProducts.jsx";
-import "./DetailPagina.css";
+import styles from "./DetailPagina.module.css";
 
 function DetailPagina() {
   const { id } = useParams();
@@ -59,41 +59,41 @@ function DetailPagina() {
   }, []);
 
   return (
-    <main className="main-outer">
-      <div className="layout">
-        <header className="shop-header-detail">
-          <div className="icon-bar">
+    <main className={styles.mainOuter}>
+      <div className={styles.layout}>
+        <header className={styles.shopHeaderDetail}>
+          <div className={styles.iconBar}>
             <div
-              className="icon-item-detail"
+              className={styles.iconItemDetail}
               onClick={() => navigate("/favorietenpage")}
               title="Favorieten"
             >
               <FontAwesomeIcon icon={faHeart} />
               {favoriteItems.length > 0 && (
-                <span className="icon-count">{favoriteItems.length}</span>
+                <span className={styles.iconCount}>{favoriteItems.length}</span>
               )}
             </div>
             <div
-              className="icon-item-detail"
+              className={styles.winkelwagen}
               onClick={() => navigate("/cart")}
               title="Winkelwagen"
             >
               <FontAwesomeIcon icon={faShoppingCart} />
               {items.length > 0 && (
-                <span className="icon-count">{items.length}</span>
+                <span className={styles.iconCount}>{items.length}</span>
               )}
             </div>
 
             {isAuth ? (
               <>
                 <div
-                  className="icon-item-detail"
+                  className={styles.iconItemDetail}
                   title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div
-                  className="icon-item-detail"
+                  className={styles.iconItemDetail}
                   onClick={handleLogout}
                   title="Log uit"
                 >
@@ -103,14 +103,14 @@ function DetailPagina() {
             ) : (
               <>
                 <div
-                  className="icon-item-detail"
+                  className={styles.iconItemDetail}
                   onClick={() => navigate("/signup")}
                   title="Sign Up"
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div
-                  className="icon-item-detail"
+                  className={styles.iconItemDetail}
                   onClick={() => navigate("/signin")}
                   title="Login"
                 >
@@ -119,8 +119,10 @@ function DetailPagina() {
               </>
             )}
           </div>
-          <nav className="navbar-four-detail">
-            <ul className={`nav-links4 ${menuOpen ? "active" : ""}`}>
+          <nav className={styles.navbarFourDetail}>
+            <ul className={`${styles.navLinks} ${ menuOpen ? styles.active : ""
+  }`}
+>
               <li>
                 <NavLink to="/products/Men">Men</NavLink>
               </li>
@@ -136,7 +138,7 @@ function DetailPagina() {
             </ul>
           </nav>
         </header>
-        <div className="search-detail-container">
+        <div className={styles.searchDetailContainer}>
           <SearchBar
             inputValue={query}
             inputCallback={(value) => {
@@ -172,7 +174,7 @@ function DetailPagina() {
             setShowModal={setShowModal}
           />
         )}
-        <section className="inner-container-detail">
+        <section className={styles.innerContainerDetail}>
           {loading ? (
             <p>Product wordt geladen...</p>
           ) : error ? (
@@ -201,7 +203,7 @@ function DetailPagina() {
                 />
               )}
 
-              <div className="view-all-products">
+              <div className={styles.viewAllProducts}>
                 <li>
                   <NavLink
                     to="/Shop"
@@ -217,7 +219,7 @@ function DetailPagina() {
           )}
         </section>
 
-        <aside className="shoppingcart-container">
+        <aside className={styles.shoppingCartContainer}>
           {!loading && !error && product && (
             <ShoppingCart
               product={product}
