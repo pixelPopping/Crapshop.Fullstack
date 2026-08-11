@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
-import "./FavorietenItem.css";
+import styles from "./FavorietenItem.module.css";
 
 function FavorietenItem({ item }) {
   const { removeFavorite } = useContext(FavoriteContext);
 
   return (
-    <section className="outer-favorieten">
-      <div className="favorieten-item-inner">
-        <div className="favorieten-image-wrapper">
+    <section className={styles.favoriteLayout}>
+      <div className={styles.favorietenItemInner}>
+        <div className={styles.favorietenImageWrapper}>
           <img
             src={item.image}
             alt={item.title}
@@ -18,13 +18,13 @@ function FavorietenItem({ item }) {
           />
         </div>
 
-        <div className="favorieten-text-buttons">
+        <div className={styles.favorietenTextButtons}>
           <p>
             {item.title} – €{item.price} × {item.quantity ?? 1} = €
             {(item.price * (item.quantity ?? 1)).toFixed(2)}
           </p>
 
-          <div className="buttons-favorieten">
+          <div className={styles.buttonsFavorieten}>
             <button onClick={() => removeFavorite(item.id)}>Remove</button>
           </div>
         </div>

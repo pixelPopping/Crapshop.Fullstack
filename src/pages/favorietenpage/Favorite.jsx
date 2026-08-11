@@ -19,7 +19,7 @@ import FooterLayout from "../../components/footer/FooterLayout";
 import SearchBar from "../../components/searchFilter/SearchBar";
 import useHandleLogout from "../../helpers/useHandleLogout";
 import filterProducts from "../../helpers/filteredProducts";
-import "./Favorite.css";
+import  "./Favorite.css";
 
 const FavorietenPage = () => {
   const { items = [], setItems, totalFavorites } = useContext(FavoriteContext);
@@ -74,7 +74,7 @@ const FavorietenPage = () => {
   }, [user, setItems]);
 
   return (
-    <div className="favorite-layout">
+  <div className="favorite-layout">
       <nav className="navbar-four-favorites">
         <ul className="nav-links4">
           <li>

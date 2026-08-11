@@ -16,6 +16,7 @@ import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
+import App from "../../App.jsx";
 
 function ShopPagina() {
   const [query, setQuery] = useState("");
@@ -140,7 +141,7 @@ function ShopPagina() {
         </header>
       </section>
 
-      <div className="inner-container">
+      <div className={styles.innerContainer}>
         <nav className={styles.sidebar}>
           <ul>
             <li>

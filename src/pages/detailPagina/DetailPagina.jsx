@@ -181,8 +181,7 @@ function DetailPagina() {
             <p>{error}</p>
           ) : (
             <>
-              <pre>{JSON.stringify(product, null, 2)}</pre>
-
+          
               {product && (
                 <DetailCard
                   key={product.id}

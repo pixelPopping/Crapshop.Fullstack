@@ -1,28 +1,29 @@
-.outer-main-cart {
-  background-color: beige;
-  width: 100vw;
-}
-
-body {
-  height: 100%;
+html,
+body,
+#root {
   margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-.cart-layout {
-  display: grid;
-  width: 100vw;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "header"
-    "main"
-    "footer";
+  min-height: 100%;
   background-color: beige;
-  justify-items: start;
 }
 
-.inner-cart h2 {
+.mainCartOuter {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  width: 100%;
+}
+
+
+.cartLayout {
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  width: 100%;
+  align-items: center;
+}
+
+.innerCart h2 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -37,23 +38,9 @@ body {
   border: solid 1px #000;
 }
 
-.main-cart-outer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
 
-.icon-container {
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 60px;
-}
 
-.navbar-four-cart {
+.navbarFourCart {
   display: flex;
   width: 100vw;
   flex-direction: row;
@@ -78,7 +65,7 @@ body {
   background-color: #eee;
 }
 
-.main-cart-outer .cart-items {
+.mainCartOuter .cart-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
@@ -92,7 +79,7 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.reset-container {
+.resetContainer {
   display: flex;
   border: solid 8px lightgray;
   box-shadow: 0px 1px 5px #000;
@@ -103,13 +90,14 @@ body {
   gap: 16px;
 }
 
-.reset-button button {
+.resetButton button {
   width: 100%;
   padding: 16px;
   border: 3px solid black;
   margin-top: 10px;
 }
 
-.reset-button button:hover {
+.resetButton button:hover {
   background-color: lightgray;
 }
+

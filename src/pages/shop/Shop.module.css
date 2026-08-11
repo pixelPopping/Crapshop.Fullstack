@@ -7,6 +7,13 @@ body {
   color: #1a1a1a;
 }
 
+.innerContainer {
+    width: 100vw;
+    gap: 36px;
+    justify-content: center;
+    padding: 30px;
+}
+
 .shopOuterContainer {
   display: flex;
   flex-direction: column;
@@ -15,11 +22,6 @@ body {
   margin: 20px 0 50px 0;
   padding: 20px;
   background: beige;
-}
-
-.navbar-four {
-  display: flex;
-  justify-content: center;
 }
 
 .shopOuter {

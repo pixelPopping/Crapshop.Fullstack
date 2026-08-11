@@ -59,6 +59,7 @@ function WheelOfFortune({
             ))}
           </div>
         </div>
+        <div className={styles.outerContainerButton}>
         <button
           className={styles.spinButton}
           onClick={handleSpin}
@@ -75,6 +76,7 @@ function WheelOfFortune({
             <p>{results}</p>
           </div>
         )}
+        </div>
     </section>
   );
 }
