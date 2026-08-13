@@ -1,59 +1,59 @@
-.recensieForm-outer {
+.recensieFormOuter {
   display: flex;
   flex-direction: column;
   width: 1200px;
   margin-top: 50px;
 }
 
-.recensieForm-inner input {
+.recensieFormInner input {
   display: flex;
   flex-direction: column;
   width: 800px;
 }
 
-.recensieForm-inner form {
+.recensieFormInner form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 @media (max-width: 768px) {
-  .recensieForm-outer {
+  .recensieFormOuter {
     width: 100%;
     margin-top: 30px;
     padding: 0 16px;
   }
 
-  .recensieForm-inner input,
-  .recensie-input input,
-  .recensie-input textarea {
+  .recensieFormInner input,
+  .recensieInput input,
+  .recensieInput textarea {
     width: 100%;
     max-width: 100%;
   }
 
-  .recensie-button-outer {
+  .recensieutButtonOuter {
     width: 100%;
   }
 
-  .submit-button {
+  .submitButton {
     width: 100%;
     font-size: 1rem;
     padding: 14px;
   }
 }
 
-.recensie-button-outer {
+.recensieButtonOuter {
   display: flex;
   flex-direction: column;
   width: 140px;
 }
 
-.recensie-button {
+.recensieButton {
   display: flex;
   flex-direction: row;
 }
 
-.submit-button {
+.submitButton {
   width: 100%;
   padding: 20px;
   background: black;

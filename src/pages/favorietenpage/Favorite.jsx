@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import useProducts from "../../hooks/useProducts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -8,6 +7,8 @@ import {
   faShoppingCart,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
+
+import useProducts from "../../hooks/useProducts";
 
 import { FavoriteContext } from "../../context/FavoriteContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -17,204 +18,478 @@ import FavorietenItem from "../../components/favorietenitem/FavorietenItem";
 import ShowModal from "../../components/modal/ShowModal";
 import FooterLayout from "../../components/footer/FooterLayout";
 import SearchBar from "../../components/searchFilter/SearchBar";
+
 import useHandleLogout from "../../helpers/useHandleLogout";
 import filterProducts from "../../helpers/filteredProducts";
-import  "./Favorite.css";
+
+import styles from "./Favorite.module.css";
 
 const FavorietenPage = () => {
-  const { items = [], setItems, totalFavorites } = useContext(FavoriteContext);
+  const {
+    items = [],
+    setItems,
+    totalFavorites,
+  } = useContext(FavoriteContext);
+
   const { user, isAuth } = useContext(AuthContext);
-  const { items: cartItems } = useContext(ShoppingCartContext);
+
+  const { items: cartItems = [] } = useContext(
+    ShoppingCartContext
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
 
-  const zoekQuery = params.get("query")?.toLowerCase() || "";
-  const zoekCategory = params.get("category") || "Alle categorieën";
-
-  const [query, setQuery] = useState(zoekQuery);
-  const [selectedCategory, setSelectedCategory] = useState(zoekCategory);
-  const [showModal, setShowModal] = useState(zoekQuery.length > 0);
-  const { products, categories, loading, error } = useProducts();
-
-  const filteredProducts = useMemo(
-    () => filterProducts(products, query, selectedCategory),
-    [products, query, selectedCategory],
-  );
+  const {
+    products = [],
+    categories = [],
+    loading,
+    error,
+  } = useProducts();
 
   const handleLogout = useHandleLogout();
-  const getStorageKey = (userId) => `Favorieten_${userId || "guest"}`;
 
-  const totaalPrijs = items
-    .reduce((acc, item) => acc + item.price * item.quantity, 0)
-    .toFixed(2);
+  // ============================================
+  // URL PARAMETERS
+  // ============================================
+
+  const params = new URLSearchParams(location.search);
+
+  const zoekQuery =
+    params.get("query")?.toLowerCase() || "";
+
+  const zoekCategory =
+    params.get("category") || "Alle categorieën";
+
+  // ============================================
+  // STATE
+  // ============================================
+
+  const [query, setQuery] = useState(zoekQuery);
+
+  const [selectedCategory, setSelectedCategory] =
+    useState(zoekCategory);
+
+  const [showModal, setShowModal] = useState(
+    zoekQuery.length > 0
+  );
+
+  // ============================================
+  // LOCAL STORAGE
+  // ============================================
+
+  const getStorageKey = (userId) =>
+    `Favorieten_${userId || "guest"}`;
+
+  // ============================================
+  // FILTER PRODUCTS
+  // ============================================
+
+  const filteredProducts = useMemo(() => {
+    return filterProducts(
+      products,
+      query,
+      selectedCategory
+    );
+  }, [products, query, selectedCategory]);
+
+  // ============================================
+  // TOTAL PRICE
+  // ============================================
+
+  const totaalPrijs = useMemo(() => {
+    const total = items.reduce((acc, item) => {
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.quantity) || 1;
+
+      return acc + price * quantity;
+    }, 0);
+
+    return total.toFixed(2);
+  }, [items]);
+
+  // ============================================
+  // LOAD FAVORITES
+  // ============================================
 
   useEffect(() => {
     const key = getStorageKey(user?.id);
     const stored = localStorage.getItem(key);
-    if (stored) {
-      try {
-        setItems(JSON.parse(stored));
-      } catch (e) {}
+
+    if (!stored) {
+      setItems([]);
+      return;
+    }
+
+    try {
+      const parsedItems = JSON.parse(stored);
+
+      if (Array.isArray(parsedItems)) {
+        setItems(parsedItems);
+      } else {
+        setItems([]);
+      }
+    } catch (error) {
+      console.error(
+        "Fout bij het laden van favorieten:",
+        error
+      );
+
+      setItems([]);
     }
   }, [user?.id, setItems]);
 
+  // ============================================
+  // SAVE FAVORITES
+  // ============================================
+
   useEffect(() => {
     const key = getStorageKey(user?.id);
-    localStorage.setItem(key, JSON.stringify(items));
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(items)
+    );
   }, [items, user?.id]);
 
+  // ============================================
+  // SYNC URL WITH SEARCH STATE
+  // ============================================
+
   useEffect(() => {
-    if (!user) {
-      const guestKey = getStorageKey("guest");
-      const stored = localStorage.getItem(guestKey);
-      setItems(stored ? JSON.parse(stored) : []);
-    }
-  }, [user, setItems]);
+    setQuery(zoekQuery);
+    setSelectedCategory(zoekCategory);
+
+    setShowModal(
+      zoekQuery.length > 0 ||
+        zoekCategory !== "Alle categorieën"
+    );
+  }, [zoekQuery, zoekCategory]);
+
+  // ============================================
+  // SEARCH
+  // ============================================
+
+  const handleSearchChange = (value) => {
+    setQuery(value);
+
+    navigate(
+      `?query=${encodeURIComponent(
+        value
+      )}&category=${encodeURIComponent(
+        selectedCategory
+      )}`
+    );
+
+    setShowModal(value.length > 0);
+  };
+
+  // ============================================
+  // CATEGORY
+  // ============================================
+
+  const handleCategoryChange = (value) => {
+    setSelectedCategory(value);
+
+    navigate(
+      `?query=${encodeURIComponent(
+        query
+      )}&category=${encodeURIComponent(value)}`
+    );
+
+    setShowModal(
+      query.length > 0 ||
+        value !== "Alle categorieën"
+    );
+  };
+
+  // ============================================
+  // RENDER
+  // ============================================
 
   return (
-  <div className="favorite-layout">
-      <nav className="navbar-four-favorites">
-        <ul className="nav-links4">
+    <div className={styles.favoriteLayout}>
+
+      {/* ======================================
+          NAVBAR
+      ======================================= */}
+
+      <nav className={styles.navbarFourFavorites}>
+
+        {/* Navigation */}
+
+        <ul className={styles.navLinks}>
           <li>
-            <NavLink to="/products/men's clothing">Men</NavLink>
+            <NavLink to="/products/men's clothing">
+              Men
+            </NavLink>
           </li>
+
           <li>
-            <NavLink to="/products/women's clothing">Women</NavLink>
+            <NavLink to="/products/women's clothing">
+              Women
+            </NavLink>
           </li>
+
           <li>
-            <NavLink to="/Shop">Shop</NavLink>
+            <NavLink to="/Shop">
+              Shop
+            </NavLink>
           </li>
+
           <li>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">
+              Home
+            </NavLink>
           </li>
         </ul>
+
+        {/* Search */}
 
         <SearchBar
           type="text"
           inputValue={query}
-          inputCallback={(value) => {
-            setQuery(value);
-            navigate(
-              `?query=${encodeURIComponent(value)}&category=${encodeURIComponent(selectedCategory)}`,
-            );
-            setShowModal(true);
-          }}
+          inputCallback={handleSearchChange}
           selectedCategory={selectedCategory}
-          onCategoryChange={(value) => {
-            setSelectedCategory(value);
-            setShowModal(true);
-            navigate(
-              `?query=${encodeURIComponent(query)}&category=${encodeURIComponent(value)}`,
-            );
-          }}
+          onCategoryChange={
+            handleCategoryChange
+          }
           categories={categories}
         />
 
-        <div className="button-container-favorites">
+        {/* Icons */}
+
+        <div className={styles.navIcons}>
+
+          {/* ==================================
+              AUTHENTICATED USER
+          =================================== */}
+
           {isAuth ? (
             <>
+              {/* Logout */}
+
               <button
-                className="icon-item"
+                type="button"
+                className={styles.iconItem}
                 onClick={handleLogout}
                 title="Log uit"
+                aria-label="Log uit"
               >
-                <FontAwesomeIcon icon={faSignOutAlt} />
+                <FontAwesomeIcon
+                  icon={faSignOutAlt}
+                />
               </button>
+
+              {/* User */}
+
               <span
-                className="icon-item"
-                title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
+                className={styles.iconItem}
+                title={`Ingelogd als ${
+                  user?.username ?? "Onbekend"
+                }`}
               >
                 <FontAwesomeIcon icon={faUser} />
               </span>
             </>
           ) : (
             <>
+              {/* Sign Up */}
+
               <button
-                className="icon-item"
-                onClick={() => navigate("/signup")}
+                type="button"
+                className={styles.iconItem}
+                onClick={() =>
+                  navigate("/signup")
+                }
                 title="Sign Up"
+                aria-label="Sign Up"
               >
                 <FontAwesomeIcon icon={faUser} />
               </button>
+
+              {/* Login */}
+
               <button
-                className="icon-item"
-                onClick={() => navigate("/signin")}
+                type="button"
+                className={styles.iconItem}
+                onClick={() =>
+                  navigate("/signin")
+                }
                 title="Login"
+                aria-label="Login"
               >
                 <FontAwesomeIcon icon={faUser} />
               </button>
             </>
           )}
 
+          {/* ==================================
+              SHOPPING CART
+          =================================== */}
+
           <button
-            className="icon-item"
-            onClick={() => navigate("/cart")}
+            type="button"
+            className={styles.iconItem}
+            onClick={() =>
+              navigate("/cart")
+            }
             title="Winkelwagen"
+            aria-label="Winkelwagen"
           >
-            <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faShoppingCart} />
+            <div className={styles.iconWrapper}>
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+              />
+
               {cartItems.length > 0 && (
-                <span className="icon-count">{cartItems.length}</span>
+                <span
+                  className={styles.iconCount}
+                >
+                  {cartItems.length}
+                </span>
               )}
             </div>
           </button>
 
+          {/* ==================================
+              FAVORITES
+          =================================== */}
+
           <button
-            className="icon-item"
-            onClick={() => navigate("/favorietenpage")}
+            type="button"
+            className={styles.iconItem}
+            onClick={() =>
+              navigate("/favorietenpage")
+            }
             title="Favorieten"
+            aria-label="Favorieten"
           >
-            <div className="icon-wrapper">
-              <FontAwesomeIcon icon={faHeart} />
+            <div className={styles.iconWrapper}>
+              <FontAwesomeIcon
+                icon={faHeart}
+              />
+
               {items.length > 0 && (
-                <span className="icon-count">{items.length}</span>
+                <span
+                  className={styles.iconCount}
+                >
+                  {items.length}
+                </span>
               )}
             </div>
           </button>
+
         </div>
       </nav>
 
-      <main className="favorite-content">
+      {/* ======================================
+          MAIN
+      ======================================= */}
+
+      <main className={styles.favoriteContent}>
+
         {loading ? (
-          <p>Producten worden geladen...</p>
+          <p>
+            Producten worden geladen...
+          </p>
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <section className="favorite-inner">
+          <section
+            className={styles.favoriteInner}
+          >
+
             <h2>❤️ Favorites</h2>
+
+            {/* ==================================
+                EMPTY FAVORITES
+            =================================== */}
+
             {items.length === 0 ? (
-              <p>You havent add Favorites.</p>
+              <p>
+                You haven't added any
+                favorites yet.
+              </p>
             ) : (
-              <div className="favorieten-items-grid">
-                {items.map((item) => (
-                  <FavorietenItem key={item.id} item={item} />
-                ))}
-                <div className="favorieten-summary">
+              <>
+
+                {/* ==================================
+                    FAVORITES
+                =================================== */}
+
+                <div
+                  className={
+                    styles.favorietenItemsGrid
+                  }
+                >
+                  {items.map((item) => (
+                    <FavorietenItem
+                      key={item.id}
+                      item={item}
+                    />
+                  ))}
+                </div>
+
+                {/* ==================================
+                    SUMMARY
+                =================================== */}
+
+                <div
+                  className={
+                    styles.favorietenSummary
+                  }
+                >
                   <p>
-                    <strong>Total Price: €{totaalPrijs}</strong>
+                    <strong>
+                      Total Price: €
+                      {totaalPrijs}
+                    </strong>
                   </p>
+
                   <p>
-                    <em>Total Favorites: {totalFavorites}</em>
+                    <em>
+                      Total Favorites:{" "}
+                      {totalFavorites}
+                    </em>
                   </p>
                 </div>
-              </div>
+
+              </>
             )}
+
+            {/* ==================================
+                SEARCH MODAL
+            =================================== */}
+
             {showModal && (
               <ShowModal
                 query={query}
-                selectedCategory={selectedCategory}
-                filteredProducts={filteredProducts}
-                setShowModal={setShowModal}
+                selectedCategory={
+                  selectedCategory
+                }
+                filteredProducts={
+                  filteredProducts
+                }
+                setShowModal={
+                  setShowModal
+                }
               />
             )}
+
           </section>
         )}
+
       </main>
+
+      {/* ======================================
+          FOOTER
+      ======================================= */}
+
       <footer>
         <FooterLayout />
       </footer>
+
     </div>
   );
 };

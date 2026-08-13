@@ -16,7 +16,7 @@ const SearchBar = ({
   showCategories,
 }) => {
   return (
-    <div className="searchBarContainer">
+    <div className={styles.searchBarContainer}>
       <input
         type="text"
         value={inputValue}

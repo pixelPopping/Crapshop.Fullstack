@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./RecenciesForm.css";
+import styles from "./RecenciesForm.module.css";
 
 function RecensieForm({ recencies, setRecencies }) {
   const [name, setName] = useState("");
@@ -37,9 +37,9 @@ function RecensieForm({ recencies, setRecencies }) {
   const isDisabled = !name.trim() || !email.trim() || !message.trim();
 
   return (
-    <div className="recensieForm-outer">
-      <section className="recensieForm-inner">
-        <form className="recensie-input" onSubmit={handleSubmit}>
+    <div className={styles.recensieFormOuter}>
+      <section className={styles.recensieFormInner}>
+        <form className={styles.recensieInput} onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Name"
@@ -61,10 +61,10 @@ function RecensieForm({ recencies, setRecencies }) {
             maxLength={200}
             rows={4}
           />
-          <section className="recensie-button-outer">
-            <div className="recensie-button">
+          <section className={styles.recensieButtonOuter}>
+            <div className={styles.recensieButton}>
               <button
-                className="submit-button"
+                className={styles.submitButton}
                 type="submit"
                 disabled={isDisabled}
               >
