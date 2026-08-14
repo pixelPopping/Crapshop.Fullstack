@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import "./LoginForm.css";
+import styles from "./LoginForm.module.css";
+
 
 const LoginForm = ({ onSubmit, loading }) => {
   const {
@@ -9,8 +10,8 @@ const LoginForm = ({ onSubmit, loading }) => {
   } = useForm();
 
   return (
-    <main className="outer-signin">
-      <section className="inner-signin">
+    <main className={styles.outerSignin}>
+      <section className={styles.innerSignin}>
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
 
           <label htmlFor="username-field">
@@ -64,10 +65,13 @@ const LoginForm = ({ onSubmit, loading }) => {
               <p className="error">{errors.password.message}</p>
             )}
           </label>
-
-          <button type="submit" disabled={loading}>
+          <div className={styles.outerSubmitContainer}>
+          <section className={styles.innerSubmitButtonContainer}>
+          <button className={styles.submitButton} type="submit" disabled={loading}>
             {loading ? "Just one moment..." : "Log In"}
           </button>
+          </section>
+          </div>
         </form>
       </section>
     </main>

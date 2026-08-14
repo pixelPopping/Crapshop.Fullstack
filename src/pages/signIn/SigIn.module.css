@@ -1,0 +1,22 @@
+.outerLogin {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.signInpage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+}
+
+
+.crapshop {
+  font-family: outfit, helvetica, sans-serif;
+  font-size: 100px;
+  font-weight: lighter;
+  text-transform: uppercase;
+  text-shadow: 0px 1px 5px #000;
+}

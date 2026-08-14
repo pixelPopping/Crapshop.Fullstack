@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
-import "./navigation.css";
+import styles from "./navigation.module.css";
 
 function Navigation() {
   return (
-    <div className="navigation">
-      <nav className="navbar">
-        <ul className="unordered-list">
+    <div className={styles.navigation}>
+      <section className={styles.innerNavbar}>
+      <nav className={styles.navContainer}>
+        <ul className={styles.unorderedList}>
           <li>
             <NavLink
               to="/"
@@ -78,6 +79,7 @@ function Navigation() {
           </li>
         </ul>
       </nav>
+      </section>
     </div>
   );
 }

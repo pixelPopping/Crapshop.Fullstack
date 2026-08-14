@@ -16,7 +16,7 @@ import SearchBar from "../../components/searchFilter/SearchBar";
 import Hamburger from "../../components/hamburgermenu/Hamburger";
 import ShowModal from "../../components/modal/ShowModal";
 import filterProducts from "../../helpers/filteredProducts.jsx";
-import "./Profile.css";
+import styles from  "./Profile.module.css";
 
 function ProfilePagina() {
   const navigate = useNavigate();
@@ -88,38 +88,38 @@ function ProfilePagina() {
   if (error) return <p>There is a error with Fetching the API data.</p>;
 
   return (
-    <div className="profile-outer">
-      <div className="holygrail">
-        <header className="holygrail-header">
-          <div className="header-right">
+    <div className={styles.profileOuter}>
+      <div className={styles.holygrail}>
+        <header className={styles.holygrailHeader}>
+          <div className={styles.headerRight}>
             <Hamburger
               menuOpen={menuOpen}
               setMenuOpen={setMenuOpen}
               categories={categories}
             />
             <div
-              className="icon-item"
+              className={styles.iconItem}
               onClick={() => navigate("/favorietenpage")}
             >
               <FontAwesomeIcon icon={faHeart} />
               {favoriteItems.length > 0 && (
-                <span className="icon-count">{favoriteItems.length}</span>
+                <span className={styles.iconCount}>{favoriteItems.length}</span>
               )}
             </div>
-            <div className="icon-item" onClick={() => navigate("/cart")}>
+            <div className={styles.iconItem} onClick={() => navigate("/cart")}>
               <FontAwesomeIcon icon={faShoppingCart} />
               {cartItems.length > 0 && (
-                <span className="icon-count">{cartItems.length}</span>
+                <span className={styles.iconCount}>{cartItems.length}</span>
               )}
             </div>
-            <div className="icon-item" title={`Ingelogd als ${user?.email}`}>
+            <div className={styles.iconItem} title={`Ingelogd als ${user?.email}`}>
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <div className="icon-item" onClick={handleLogout}>
+            <div className={styles.iconItem} onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} />
             </div>
           </div>
-          <div className="sidebar-right">
+          <div className={styles.sidebarRight}>
             <SearchBar
               inputValue={query}
               inputCallback={(value) => {
@@ -134,7 +134,7 @@ function ProfilePagina() {
           </div>
         </header>
 
-        <nav className="holygrail-sidebar">
+        <nav className={styles.holygrailSidebar}>
           <ul>
             <li>
               <NavLink to="/Shop">Shop</NavLink>
@@ -148,7 +148,7 @@ function ProfilePagina() {
           </ul>
         </nav>
 
-        <main className="holygrail-content">
+        <main className={styles.holygrailContent}>
           {showModal && (
             <ShowModal
               query={query}
@@ -158,11 +158,11 @@ function ProfilePagina() {
             />
           )}
 
-          <div className="profile-container">
-            <div className="profile-header">
+          <div className={styles.profileContainer}>
+            <div className={styles.profileHeader}>
               <h1>Profile</h1>
             </div>
-            <div className="profile-section">
+            <div>
               <h2>Files From token</h2>
               <p>
                 <strong>ID:</strong> {user?.id}
@@ -171,7 +171,7 @@ function ProfilePagina() {
                 <strong>Email:</strong> {user?.email}
               </p>
             </div>
-            <div className="profile-section">
+            <div>
               <h2>Extra Files From API</h2>
               {apiData ? (
                 <div>
@@ -194,8 +194,8 @@ function ProfilePagina() {
           </div>
         </main>
 
-        <footer className="holygrail-footer">
-          <div className="layout-footer">
+        <footer className={styles.holygrailFooter}>
+          <div className={styles.layoutFooter}>
             <li>
               <NavLink to="/profile">Profile</NavLink>
             </li>

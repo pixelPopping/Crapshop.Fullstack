@@ -1,6 +1,6 @@
 :root{
   display: flex;
-  width: 100%;
+  width: 100vw;
   background-color: beige;
 }
 
@@ -12,25 +12,22 @@
   background-color: beige;
 }
 
-.checkout-page {
+.checkoutPage {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
   background-color: beige;
 }
 
-.checkout-page h1 {
+
+.checkoutPage h1 {
   margin-bottom: 30px;
 }
 
-.checkout-items {
+.checkoutItems {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.checkout-item {
-  display: flex;
   justify-content: space-between;
   align-items: center;
 
@@ -39,16 +36,19 @@
   border-radius: 8px;
 }
 
-.checkout-summary {
-  margin-top: 32px;
-
+.checkoutSummary {
+  margin-top: 7px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 50px;
+  padding: 40px;
 }
 
-.checkout-summary button {
-  padding: 12px 24px;
+.payButton button {
+  width: 100%;
+  padding: 24px;
+  margin-top: 7px;
   border: none;
   border-radius: 8px;
   cursor: pointer;

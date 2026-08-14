@@ -3,7 +3,7 @@ import { ShoppingCartContext } from "../../context/ShoppingCartContext";
 import { useNavigate } from "react-router-dom";
 import { createCheckoutSession } from "../../api/paymentsApi";
 
-import "./Checkout.css";
+import styles from  "./Checkout.module.css";
 
 function Checkout() {
   const { items, price } = useContext(ShoppingCartContext);
@@ -21,12 +21,13 @@ function Checkout() {
   };
 
   return (
-    <main className="checkout-page">
+    <div className={styles.outer}>
+    <main className={styles.checkoutPage}>
       <h1>Checkout</h1>
 
-      <section className="checkout-items">
+      <section className={styles.checkoutItems}>
         {items.map((item) => (
-          <div key={item.id} className="checkout-item">
+          <div key={item.id} className={styles.checkoutItem}>
             <div>
               <h3>{item.title}</h3>
               <p>Aantal: {item.quantity}</p>
@@ -37,14 +38,18 @@ function Checkout() {
         ))}
       </section>
 
-      <section className="checkout-summary">
+      <section className={styles.checkoutSummary}>
         <h2>Totaal: €{price().toFixed(2)}</h2>
 
-        <button onClick={handlePayment}>
-          Betaal met Stripe
+        <section className={styles.payButton}>
+        <button  onClick={handlePayment}>
+          pay with Stripe
         </button>
+        </section>
       </section>
+        <button onClick={() => navigate("/")}>Home</button>
     </main>
+    </div>
   );
 }
 

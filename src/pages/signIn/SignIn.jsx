@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Navigation from "../../components/navbar/Navigation.jsx";
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { loginUser } from "../../api/authApi";
 
 import LoginForm from "../../components/loginform/LoginForm.jsx";
 
-import "./SigIn.css";
+import styles from "./SigIn.module.css";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -47,10 +47,15 @@ function SignIn() {
   }
 
   return (
-    <main className="signin-page">
+    <>
+       <nav>
+         <Navigation/>
+        </nav>
+    <div className={styles.outerLogin}>
+    <main className={styles.signInpage}>
       <header>
-        <h1 className="crapshop">CrapShop</h1>
-        <h2 className="crapshop">Login</h2>
+        <h1 className={styles.crapshop}>CrapShop</h1>
+        <h2 className={styles.crapshop}>Login</h2>
       </header>
 
       {loading && <p>Even geduld, je wordt ingelogd...</p>}
@@ -61,6 +66,8 @@ function SignIn() {
         errorMessage={errorMessage}
       />
     </main>
+    </div>
+    </>
   );
 }
 

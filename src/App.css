@@ -11,15 +11,7 @@ html body{
   width: 100vw;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  background: #333;
-  color: white;
-  cursor: pointer;
-}
+
 
 @media (max-width: 768px) {
   #root {
