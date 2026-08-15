@@ -40,19 +40,8 @@ body,
 
 
 
-.navbarFourCart {
-  display: flex;
-  width: 100vw;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  padding: 40px;
-  background-color: lightgray;
-  border-bottom: 2px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
 
-.navbar-four-cart a {
+.navbarFourCart a {
   text-decoration: none;
   color: black;
   font-weight: 500;

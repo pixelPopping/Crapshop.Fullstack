@@ -20,11 +20,13 @@ import CategoryPage from "./pages/categoryPage/CategoryPage.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";
 import Checkout from "./pages/checkout/checkout.jsx";
 import Success from "./pages/success/Succes.jsx";
+import Navigation from "./components/navbar/Navigation.jsx";
 
 function App() {
   const { isAuth } = useContext(AuthContext);
   return (
     <>
+    <Navigation/>
 <Routes>
   <Route path="/" element={<Home />} />
 

@@ -17,7 +17,6 @@ function Cart() {
     <>
       <div className={styles.mainCartOuter}>
         <nav className={styles.navbarFourCart}>
-          <Navigation />
         </nav>
 
         <main className={styles.cartLayout}>

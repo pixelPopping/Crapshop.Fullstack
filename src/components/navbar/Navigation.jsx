@@ -3,10 +3,11 @@ import styles from "./navigation.module.css";
 
 function Navigation() {
   return (
-    <div className={styles.navigation}>
-      <section className={styles.innerNavbar}>
-      <nav className={styles.navContainer}>
-        <ul className={styles.unorderedList}>
+     <>
+      <div className={styles.outerNavigation}>
+      <div className={styles.navbarContainer}>
+      <nav className={styles.navigation}>
+        <ul>
           <li>
             <NavLink
               to="/"
@@ -79,8 +80,9 @@ function Navigation() {
           </li>
         </ul>
       </nav>
-      </section>
-    </div>
+      </div>
+      </div>
+    </>
   );
 }
 

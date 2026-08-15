@@ -1,18 +1,26 @@
-. {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-}
-
-.innerNavbar {
+.outerNavigation {
     display: flex;
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    background: linear-gradient(
+    90deg,
+    rgba(10, 54, 125, 1) 0%,
+    rgba(87, 199, 133, 1) 28%,
+    rgba(83, 191, 237, 1) 100%
+    );
 }
 
-.navbarContainer {
+.navigation{
     display: flex;
     flex-direction: row;
+}
+
+
+.navbarContainer{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    list-style: none;
 }

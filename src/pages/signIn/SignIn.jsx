@@ -47,10 +47,7 @@ function SignIn() {
   }
 
   return (
-    <>
-       <nav>
-         <Navigation/>
-        </nav>
+    <> 
     <div className={styles.outerLogin}>
     <main className={styles.signInpage}>
       <header>
