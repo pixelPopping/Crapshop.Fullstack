@@ -20,7 +20,9 @@ const SearchBar = ({
       <input
         type="text"
         value={inputValue}
-        onChange={(e) => inputCallback(e.target.value)}
+        onChange={(e) =>
+          inputCallback(e.target.value)
+        }
         placeholder="Search on product..."
         className={styles.searchInput}
       />
@@ -28,7 +30,9 @@ const SearchBar = ({
       {showCategories && (
         <select
           value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
+          onChange={(e) =>
+            onCategoryChange(e.target.value)
+          }
           className={styles.categorySelect}
         >
           {categories.map((cat) => (

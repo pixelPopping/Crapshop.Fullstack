@@ -1,4 +1,4 @@
-.shopping-cart {
+.shoppingCart {
   width: 400px;
   padding: 16px;
   font-family: "Outfit", sans-serif;
@@ -12,17 +12,17 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.empty-cart {
+.emptyCart {
   font-style: italic;
   color: #777;
 }
 
-.cart-items {
+.cartItems {
   list-style: none;
   padding: 0;
 }
 
-.cart-item {
+.cartItem {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,18 +30,18 @@
   padding-bottom: 1rem;
 }
 
-.item-image {
+.itemImage {
   width: 150px;
   height: 150px;
   object-fit: contain;
   margin-right: 1rem;
 }
 
-.item-details {
+.itemDetails {
   font-size: 1rem;
 }
 
-.total-price {
+.totalPrice {
   font-size: 1.2rem;
   margin-top: 2rem;
 }
