@@ -1,13 +1,30 @@
-export default function filterProducts(products = [], query = "", category = "Alle categorieën") {
-  if (!Array.isArray(products)) return [];
+export default function filterProducts(
+  products = [],
+  query = "",
+  category = "Alle categorieën",
+) {
+  if (!Array.isArray(products)) {
+    return [];
+  }
+
+  const searchQuery = query.trim().toLowerCase();
+  const selectedCategory = category.trim().toLowerCase();
 
   return products.filter((product) => {
+    const title = product.title?.toLowerCase() || "";
+    const description = product.description?.toLowerCase() || "";
+    const productCategory =
+      product.category?.toLowerCase() || "";
+
     const matchesQuery =
-      product.title?.toLowerCase().includes(query.toLowerCase());
+      searchQuery === "" ||
+      title.includes(searchQuery) ||
+      description.includes(searchQuery);
 
     const matchesCategory =
-      category === "Alle categorieën" ||
-      product.category === category;
+      selectedCategory === "" ||
+      selectedCategory === "alle categorieën" ||
+      productCategory === selectedCategory;
 
     return matchesQuery && matchesCategory;
   });

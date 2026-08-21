@@ -130,13 +130,13 @@ function Recencies() {
   }`}
 >
             <li>
-              <NavLink to="/products/Men">Men</NavLink>
+              <NavLink to="/gallery">Gallery</NavLink>
             </li>
             <li>
-              <NavLink to="/products/electronics">Electronics</NavLink>
+              <NavLink to="/recipi">Starter & Bread </NavLink>
             </li>
             <li>
-              <NavLink to="/Shop">Shop</NavLink>
+              <NavLink to="/Shop">Bakkery</NavLink>
             </li>
             <li>
               <NavLink to="/">Home</NavLink>

@@ -8,6 +8,7 @@ body {
 }
 
 .innerContainer {
+    display: flex;
     width: 100vw;
     gap: 36px;
     justify-content: center;
@@ -220,7 +221,8 @@ body {
 
 .shopProducts {
   display: flex;
-  width: 1200px;
+  width: 100%;
+  max-width: 1300px;
   flex-direction: row;
   justify-content: center;
   flex: 1;

@@ -16,16 +16,14 @@ import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
-import { SpinContext } from "../../context/SpinContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";
 import getItems from "../../helpers/getItems";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
-import { getProducts, getCategories } from "../../api/productsApi.js";
 import Loading from "../../components/loading/Loading.jsx";
 import ErrorMessage from "../../components/error/ErrorMessage.jsx";
 import useProducts from "../../hooks/useProducts.js";
-import App from "../../App.jsx";
+
 
 function Home() {
   const navigate = useNavigate();
@@ -66,20 +64,20 @@ function Home() {
     <nav className={styles.navbar}>
       <ul className={styles.navLinks}>
         <li>
-          <NavLink to="/products/men's clothing">
-            Men
-          </NavLink>
-        </li>
-
-        <li>
-          <NavLink to="/products/electronics">
-            Electronics
-          </NavLink>
-        </li>
-
-        <li>
           <NavLink to="/shop">
-            Shop
+            Bakkery
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/recipi">
+            Starter & Bread
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/gallery">
+            Gallery
           </NavLink>
         </li>
       </ul>
@@ -197,7 +195,7 @@ function Home() {
       <main className={styles.main}>
         <div className={styles.headerContainer}>
           <header className={styles.header}>
-            <h1>Crap.Shop</h1>
+            <h1>Stella@Home.</h1>
           </header>
 
           <section className={styles.clock}>
@@ -205,8 +203,11 @@ function Home() {
           </section>
         </div>
 
-        <section className={styles.wheelSection}>
-          <WheelOfFortune />
+        <section className={styles.imageContainer}>
+          <img className={styles.homeImage}
+           src="/assets/home/Stella@home.jpg"
+           alt="homeimage"
+           />
         </section>
 
         <section className={styles.outerLinkContainer}>

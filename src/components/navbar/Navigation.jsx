@@ -20,62 +20,32 @@ function Navigation() {
           </li>
           <li>
             <NavLink
-              to="/Shop"
+              to="/shop"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              Shop
+              Bakkery
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/signin"
+              to="/recipi"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              SignIn
+              Starter & Bread
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/signup"
+              to="/gallery"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              SignUp
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Profile
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/recencies"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Recencies
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/favorietenpage"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Favorieten
+              Gallery
             </NavLink>
           </li>
         </ul>

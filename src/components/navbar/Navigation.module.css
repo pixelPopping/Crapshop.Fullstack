@@ -3,12 +3,7 @@
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    background: linear-gradient(
-    90deg,
-    rgba(10, 54, 125, 1) 0%,
-    rgba(87, 199, 133, 1) 28%,
-    rgba(83, 191, 237, 1) 100%
-    );
+    background-color: beige;
 }
 
 .navigation{

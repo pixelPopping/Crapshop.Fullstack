@@ -9,19 +9,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import useProducts from "../../hooks/useProducts";
-
 import { FavoriteContext } from "../../context/FavoriteContext";
 import { AuthContext } from "../../context/AuthContext";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext";
-
 import FavorietenItem from "../../components/favorietenitem/FavorietenItem";
 import ShowModal from "../../components/modal/ShowModal";
-import FooterLayout from "../../components/footer/FooterLayout";
+import FooterLayout from "../../components/Footer/FooterLayout";
 import SearchBar from "../../components/searchFilter/SearchBar";
-
-import useHandleLogout from "../../helpers/useHandleLogout";
+import useHandleLogout from "../../helpers/UseHandleLogout";
 import filterProducts from "../../helpers/filteredProducts";
-
 import styles from "./Favorite.module.css";
 
 const FavorietenPage = () => {
@@ -48,11 +44,6 @@ const FavorietenPage = () => {
   } = useProducts();
 
   const handleLogout = useHandleLogout();
-
-  // ============================================
-  // URL PARAMETERS
-  // ============================================
-
   const params = new URLSearchParams(location.search);
 
   const zoekQuery =
@@ -60,10 +51,6 @@ const FavorietenPage = () => {
 
   const zoekCategory =
     params.get("category") || "Alle categorieën";
-
-  // ============================================
-  // STATE
-  // ============================================
 
   const [query, setQuery] = useState(zoekQuery);
 
@@ -74,16 +61,9 @@ const FavorietenPage = () => {
     zoekQuery.length > 0
   );
 
-  // ============================================
-  // LOCAL STORAGE
-  // ============================================
-
   const getStorageKey = (userId) =>
     `Favorieten_${userId || "guest"}`;
 
-  // ============================================
-  // FILTER PRODUCTS
-  // ============================================
 
   const filteredProducts = useMemo(() => {
     return filterProducts(
@@ -92,10 +72,6 @@ const FavorietenPage = () => {
       selectedCategory
     );
   }, [products, query, selectedCategory]);
-
-  // ============================================
-  // TOTAL PRICE
-  // ============================================
 
   const totaalPrijs = useMemo(() => {
     const total = items.reduce((acc, item) => {
@@ -108,9 +84,6 @@ const FavorietenPage = () => {
     return total.toFixed(2);
   }, [items]);
 
-  // ============================================
-  // LOAD FAVORITES
-  // ============================================
 
   useEffect(() => {
     const key = getStorageKey(user?.id);
@@ -139,10 +112,6 @@ const FavorietenPage = () => {
     }
   }, [user?.id, setItems]);
 
-  // ============================================
-  // SAVE FAVORITES
-  // ============================================
-
   useEffect(() => {
     const key = getStorageKey(user?.id);
 
@@ -152,9 +121,6 @@ const FavorietenPage = () => {
     );
   }, [items, user?.id]);
 
-  // ============================================
-  // SYNC URL WITH SEARCH STATE
-  // ============================================
 
   useEffect(() => {
     setQuery(zoekQuery);
@@ -166,9 +132,6 @@ const FavorietenPage = () => {
     );
   }, [zoekQuery, zoekCategory]);
 
-  // ============================================
-  // SEARCH
-  // ============================================
 
   const handleSearchChange = (value) => {
     setQuery(value);
@@ -184,9 +147,6 @@ const FavorietenPage = () => {
     setShowModal(value.length > 0);
   };
 
-  // ============================================
-  // CATEGORY
-  // ============================================
 
   const handleCategoryChange = (value) => {
     setSelectedCategory(value);
@@ -203,37 +163,27 @@ const FavorietenPage = () => {
     );
   };
 
-  // ============================================
-  // RENDER
-  // ============================================
 
   return (
     <div className={styles.favoriteLayout}>
-
-      {/* ======================================
-          NAVBAR
-      ======================================= */}
-
       <nav className={styles.navbarFourFavorites}>
-
-        {/* Navigation */}
 
         <ul className={styles.navLinks}>
           <li>
-            <NavLink to="/products/men's clothing">
-              Men
+            <NavLink to="/gallery">
+              Gallery
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/products/women's clothing">
-              Women
+            <NavLink to="/recipi">
+              Starter & Bread
             </NavLink>
           </li>
 
           <li>
             <NavLink to="/Shop">
-              Shop
+              Bakkery
             </NavLink>
           </li>
 
