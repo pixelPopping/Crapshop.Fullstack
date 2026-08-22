@@ -359,12 +359,7 @@
   justify-content: center;
   width: 100%;
   margin-top: 150px;
-  background: linear-gradient(
-    90deg,
-    #ffaf7b 0%,
-    #ff7e5f 50%,
-    #ff6a88 100%
-  );
+  background-color: lightgray;
 
   box-shadow: 0 1px 4px #000;
 }
