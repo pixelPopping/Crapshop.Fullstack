@@ -1,99 +1,77 @@
-import React, { useContext, useState, useEffect } from "react";
-import useProducts from "../../hooks/useProducts";
-import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
-import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
-import { FavoriteContext } from "../../context/FavoriteContext.jsx";
-import { useNavigate, useLocation, NavLink } from "react-router-dom";
-import SearchBar from "../../components/searchFilter/SearchBar.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faShoppingCart,
-  faSignOutAlt,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-import filterProducts from "../../helpers/filteredProducts.jsx";
-import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
-import ShowModal from "../../components/modal/ShowModal.jsx";
+import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
+
 import CartItem from "../../components/cartItem/CartItem.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
-import "./Cart.css";
+import Navigation from "../../components/navbar/Navigation.jsx";
+import styles from "./Cart.module.css";
 
 function Cart() {
   const { items = [], price, reSet } = useContext(ShoppingCartContext);
-  const { isAuth, user } = useContext(AuthContext);
-  const { items: favoriteItems } = useContext(FavoriteContext);
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const params = new URLSearchParams(location.search);
-  const zoekQuery = params.get("query")?.toLowerCase() || "";
-
-  const [query, setQuery] = useState(zoekQuery);
-  const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
-  const [showModal, setShowModal] = useState(zoekQuery.length > 0);
-
-  const { products, categories, loading, error } = useProducts();
-
-  const filteredProducts = filterProducts(products, query, selectedCategory);
-
-  const handleLogout = useHandleLogout();
 
   return (
     <>
-      <main className="cart-layout">
-        <section className="inner-cart">
-          {loading ? (
-            <p>Producten worden geladen...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
-            <>
-              <h2>
-                Shopping Bag –{" "}
-                {items.length > 0
-                  ? items.map((item) => item.title).join(", ")
-                  : "Leeg"}
-              </h2>
+      <div className={styles.mainCartOuter}>
+        <nav className={styles.navbarFourCart}>
+        </nav>
 
-              {items.length === 0 ? (
-                <p>Shopping Bag is empty.</p>
-              ) : (
-                <>
-                  {items.map((item) => (
-                    <CartItem key={item.id} item={item} />
-                  ))}
+        <main className={styles.cartLayout}>
+          <section className={styles.innerCart}>
+            <h2>
+              Shopping Bag –{" "}
+              {items.length > 0
+                ? items.map((item) => item.title).join(", ")
+                : "Leeg"}
+            </h2>
 
-                  <div className="reset-container">
-                    <p>
-                      <strong>Total products:</strong>{" "}
-                      {items.reduce((sum, i) => sum + i.quantity, 0)}
-                    </p>
+            {items.length === 0 ? (
+              <p>Shopping Bag is empty.</p>
+            ) : (
+              <>
+                {items.map((item) => (
+                  <CartItem key={item.id} item={item} />
+                ))}
 
-                    <p>
-                      <strong>Total price:</strong> €{price().toFixed(2)}
-                    </p>
+                <div className={styles.resetContainer}>
+                  <p>
+                    <strong>Total products:</strong>{" "}
+                    {items.reduce(
+                      (sum, item) => sum + item.quantity,
+                      0
+                    )}
+                  </p>
 
-                    <div className="reset-button">
-                      <button onClick={reSet}>Reset</button>
+                  <p>
+                    <strong>Total price:</strong> €
+                    {price().toFixed(2)}
+                  </p>
+                  <div className={styles.resetContainer}>
+                  <section className={styles.resetButton}>
+                    <button onClick={reSet}>
+                      Reset
+                    </button>
 
-                      <button type="button">Check-Out</button>
-                    </div>
+                    <button onClick={() => navigate("/checkout")}>
+                      Check-Out
+                    </button>
+                  </section>
                   </div>
-                </>
-              )}
-            </>
-          )}
-        </section>
-      </main>
-
-      <footer>
-        <FooterLayout />
-      </footer>
+                </div>
+              </>
+            )}
+          </section>
+        </main>
+        <footer>
+          <FooterLayout />
+        </footer>
+      </div>
     </>
   );
 }
 
 export default Cart;
+

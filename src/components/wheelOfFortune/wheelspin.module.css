@@ -1,0 +1,335 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+/* ==========================================
+   WHEEL CONTAINER
+========================================== */
+
+button {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.outerContainerButton{
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+}
+
+
+.wheelContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.animatedBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 40px;
+}
+
+/* ==========================================
+   WHEEL
+========================================== */
+
+.mainbox {
+  position: relative;
+  width: clamp(320px, 60vw, 600px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 6px solid #333;
+  background: radial-gradient(circle, #ffffff 0%, #f3f3f3 100%);
+  box-shadow: 0 0 35px rgba(0, 0, 0, .25);
+}
+
+.box1 {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 3s cubic-bezier(.25,1,.5,1);
+  transform-origin: center center;
+  margin-bottom: 100px;
+}
+
+.box1 span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================
+   FONT
+========================================== */
+
+.font {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: black;
+
+  font-family: "Outfit", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.font h5 {
+  margin: 0;
+}
+
+/* ==========================================
+   SEGMENTS
+========================================== */
+
+.span1 {
+  background: lightgreen;
+  clip-path: polygon(0 17%,0 50%,50% 50%);
+}
+
+.span2 {
+  background: red;
+  clip-path: polygon(0 17%,30% 0,50% 50%);
+}
+
+.span3 {
+  background: royalblue;
+  clip-path: polygon(30% 0,71% 0,50% 50%);
+}
+
+.span4 {
+  background: yellow;
+  clip-path: polygon(71% 0,100% 18%,50% 50%);
+}
+
+.span5 {
+  background: orange;
+  clip-path: polygon(100% 18%,100% 50%,50% 50%);
+}
+
+.span6 {
+  background: green;
+  clip-path: polygon(0 50%,0 83%,50% 50%);
+}
+
+.span7 {
+  background: turquoise;
+  clip-path: polygon(0 83%,30% 100%,50% 50%);
+}
+
+.span8 {
+  background: violet;
+  clip-path: polygon(30% 100%,71% 100%,50% 50%);
+}
+
+.span9 {
+  background: purple;
+  clip-path: polygon(71% 100%,100% 82%,50% 50%);
+}
+
+.span10 {
+  background: lightpink;
+  clip-path: polygon(100% 82%,100% 50%,50% 50%);
+}
+
+/* ==========================================
+   TEXT POSITIONS
+========================================== */
+
+.span1 h5 {
+  position: absolute;
+  top: 40%;
+  right: 73%;
+  transform: rotate(198deg);
+}
+
+.span2 h5 {
+  position: absolute;
+  top: 24%;
+  right: 59%;
+  transform: rotate(-138deg);
+}
+
+.span3 h5 {
+  position: absolute;
+  top: 16%;
+  right: 40%;
+  transform: rotate(-82deg);
+}
+
+.span4 h5 {
+  position: absolute;
+  top: 20%;
+  right: 21%;
+  transform: rotate(-46deg);
+}
+
+.span5 h5 {
+  position: absolute;
+  top: 40%;
+  right: 10%;
+  transform: rotate(-15deg);
+}
+
+.span6 h5 {
+  position: absolute;
+  top: 60%;
+  right: 73%;
+  transform: rotate(162deg);
+}
+
+.span7 h5 {
+  position: absolute;
+  top: 79%;
+  right: 59%;
+  transform: rotate(128deg);
+}
+
+.span8 h5 {
+  position: absolute;
+  top: 84%;
+  right: 40%;
+  transform: rotate(98deg);
+}
+
+.span9 h5 {
+  position: absolute;
+  top: 80%;
+  right: 21%;
+  transform: rotate(46deg);
+}
+
+.span10 h5 {
+  position: absolute;
+  top: 60%;
+  right: 10%;
+  transform: rotate(15deg);
+}
+
+/* ==========================================
+   POINTER
+========================================== */
+
+.pointer {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 0;
+  height: 0;
+
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-top: 35px solid #000;
+
+  z-index: 100;
+}
+
+/* ==========================================
+   SPIN BUTTON
+========================================== */
+
+.buttonContainer{
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+
+.spinButton {
+  width: 100%;
+  margin-bottom: 50px;
+  padding: 16px 30px;
+  border: none;
+  border-radius: 10px;
+
+  background: #d90429;
+  color: white;
+
+  font-family: "Outfit", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all .25s ease;
+}
+
+.spinButton:hover:not(:disabled) {
+  background: #b00020;
+  transform: translateY(-2px);
+}
+
+.spinButton:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   RESULT
+========================================== */
+
+.spinResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.spinResult h3 {
+  color: #222;
+  font-size: 1.4rem;
+}
+
+.spinResult p {
+  color: #d90429;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 768px) {
+
+  .mainbox {
+    width: 90%;
+  }
+
+  .font {
+    font-size: 14px;
+  }
+
+  .spinButton {
+    width: 90%;
+    font-size: 16px;
+  }
+
+  .pointer {
+    border-left-width: 12px;
+    border-right-width: 12px;
+    border-top-width: 24px;
+  }
+
+  .span1 h5,
+  .span2 h5,
+  .span3 h5,
+  .span4 h5,
+  .span5 h5,
+  .span6 h5,
+  .span7 h5,
+  .span8 h5,
+  .span9 h5,
+  .span10 h5 {
+    font-size: 10px;
+  }
+}

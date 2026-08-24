@@ -1,11 +1,16 @@
 from flask import Flask
 from flask_cors import CORS
 
+from .routes.orders import order_bp
 from config import Config
 from .routes.products import products_bp
 from .routes.auth import auth_bp
 from .routes.profile import profile_bp
 from .routes.cart import cart_bp
+from app.database.connection import get_db
+from app.routes.payments import payment_bp
+
+
 
 
 def create_app():
@@ -56,7 +61,23 @@ def create_app():
     app.register_blueprint(
     cart_bp,
     url_prefix="/api/cart",
-)
+    )
+
+
+
+
+    app.register_blueprint(
+    order_bp,
+    url_prefix="/api/orders",
+    )
+
+ 
+    app.register_blueprint(
+    payment_bp,
+    url_prefix="/api/payments",
+    )
+
+
 
     print(app.url_map)
 

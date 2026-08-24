@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -8,7 +8,6 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 
-import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import SignUpForm from "../../components/signUpForm/SignUpForm.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
@@ -23,47 +22,28 @@ import { FavoriteContext } from "../../context/FavoriteContext.jsx";
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";
 
-import "./SignUp.css";
+import styles from "./SignUp.module.css";
 
 function SignUp() {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { isAuth, user } = useContext(AuthContext);
   const { items: cartItems } = useContext(ShoppingCartContext);
   const { items: favoriteItems } = useContext(FavoriteContext);
-
   const params = new URLSearchParams(location.search);
   const zoekQuery = params.get("query")?.toLowerCase() || "";
-
   const [query, setQuery] = useState(zoekQuery);
-  const [selectedCategory, setSelectedCategory] = useState("Alle categorieën");
+  const [selectedCategory, setSelectedCategory] =useState("Alle categorieën");
   const [showModal, setShowModal] = useState(zoekQuery.length > 0);
-
   const [allProducts, setAllProducts] = useState([]);
-  const [categories, setCategories] = useState(["Alle categorieën"]);
-
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const handleLogout = useHandleLogout();
-
-  const filteredProducts = filterProducts(allProducts, query, selectedCategory);
-
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const productResponse = await axiosClient.get("/products");
-        setAllProducts(productResponse.data);
-
-        const categoryResponse = await axiosClient.get("/products/categories");
-        setCategories(["Alle categorieën", ...categoryResponse.data]);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchProducts();
-  }, []);
+  const filteredProducts = filterProducts(
+    allProducts,
+    query,
+    selectedCategory
+  );
 
   async function handleFormSubmit(data) {
     setLoading(true);
@@ -80,11 +60,12 @@ function SignUp() {
 
       const response = await registerUser(body);
 
-      console.log(response);
+      console.log("Registratie succesvol:", response);
 
       navigate("/signin");
     } catch (error) {
-      console.error(error);
+      console.error("Registreren mislukt:", error);
+
       setErrorMessage("Registreren is mislukt.");
     } finally {
       setLoading(false);
@@ -92,57 +73,24 @@ function SignUp() {
   }
 
   return (
-    <div className="layout-signup">
-      <nav className="navbar-four-signup">
-        <ul className="nav-links4">
-          <li>
-            <NavLink to="/products/men's clothing">Men</NavLink>
-          </li>
-          <li>
-            <NavLink to="/products/women's clothing">Women</NavLink>
-          </li>
-          <li>
-            <NavLink to="/Shop">Shop</NavLink>
-          </li>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-        </ul>
-
-        <SearchBar
-          type="text"
-          inputValue={query}
-          inputCallback={(value) => {
-            setQuery(value);
-            navigate(`?query=${encodeURIComponent(value)}`);
-            setShowModal(true);
-          }}
-          selectedCategory={selectedCategory}
-          onCategoryChange={(value) => {
-            setSelectedCategory(value);
-            setShowModal(true);
-
-            if (value !== "Alle categorieën") {
-              navigate(
-                `?query=${encodeURIComponent(
-                  query,
-                )}&category=${encodeURIComponent(value)}`,
-              );
-            }
-          }}
-          categories={categories}
-        />
-
-        <div className="button-container-signup">
+    <div className={styles.layoutSignup}>
+      <nav>
+        <div className={styles.buttonContainerSignup}>
           {isAuth ? (
             <>
-              <div className="icon-item" onClick={handleLogout} title="Log uit">
+              <div
+                className="icon-item"
+                onClick={handleLogout}
+                title="Log uit"
+              >
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </div>
 
               <div
                 className="icon-item"
-                title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
+                title={`Ingelogd als ${
+                  user?.username ?? "Onbekend"
+                }`}
               >
                 <FontAwesomeIcon icon={faUser} />
               </div>
@@ -150,7 +98,7 @@ function SignUp() {
           ) : (
             <>
               <div
-                className="icon-item"
+                className={styles.iconItem}
                 onClick={() => navigate("/signup")}
                 title="Sign Up"
               >
@@ -158,7 +106,7 @@ function SignUp() {
               </div>
 
               <div
-                className="icon-item"
+                className={styles.iconItem}
                 onClick={() => navigate("/signin")}
                 title="Login"
               >
@@ -167,19 +115,24 @@ function SignUp() {
             </>
           )}
 
+          {/* Winkelwagen */}
           <div
-            className="icon-item"
+            className={styles.iconItem}
             onClick={() => navigate("/cart")}
             title="Winkelwagen"
           >
             <div className="icon-wrapper">
               <FontAwesomeIcon icon={faShoppingCart} />
+
               {cartItems.length > 0 && (
-                <span className="icon-count">{cartItems.length}</span>
+                <span className="icon-count">
+                  {cartItems.length}
+                </span>
               )}
             </div>
           </div>
 
+          {/* Favorieten */}
           <div
             className="icon-item"
             onClick={() => navigate("/favorietenpage")}
@@ -187,15 +140,24 @@ function SignUp() {
           >
             <div className="icon-wrapper">
               <FontAwesomeIcon icon={faHeart} />
+
               {favoriteItems.length > 0 && (
-                <span className="icon-count">{favoriteItems.length}</span>
+                <span className="icon-count">
+                  {favoriteItems.length}
+                </span>
               )}
             </div>
           </div>
+
         </div>
       </nav>
 
+      {/* =========================
+          MAIN
+      ========================= */}
       <main>
+
+        {/* Zoekresultaten */}
         <section>
           {showModal && (
             <ShowModal
@@ -207,16 +169,24 @@ function SignUp() {
           )}
         </section>
 
-        <SignUpForm
-          onSubmit={handleFormSubmit}
-          loading={loading}
-          errorMessage={errorMessage}
-        />
+        {/* Registratieformulier */}
+        <section>
+          <SignUpForm
+            onSubmit={handleFormSubmit}
+            loading={loading}
+            errorMessage={errorMessage}
+          />
+        </section>
+
       </main>
 
+      {/* =========================
+          FOOTER
+      ========================= */}
       <footer>
         <FooterLayout />
       </footer>
+
     </div>
   );
 }

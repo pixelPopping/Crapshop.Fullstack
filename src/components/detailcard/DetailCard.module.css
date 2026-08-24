@@ -1,0 +1,156 @@
+.outerContainerDetail {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 80px;
+  padding: 20px;
+}
+
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.mainImg img{
+  width: 400px;
+  height: 400px;
+}
+
+.text  {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #ff3b3b;
+}
+
+.cardText {
+  font-size: 20px;
+  font-weight: lighter;
+  color: #39ff14;
+}
+
+
+.cardHeader {
+  display: flex;
+  flex: 1 1 800px;
+  max-width: 500px;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.winkelwagen {
+  margin-top: 40px;
+}
+
+.mainImg {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+img {
+  padding: 20px;
+  width: 100%;
+  height: auto;
+}
+
+.cardContent {
+  display: flex;
+  flex: 1;
+  max-width: 800px;
+  padding: 30px;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.cartButtons {
+  display: flex;
+  flex: 1 1 200px;
+  max-width: 100px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 40px;
+}
+
+.addButton {
+  flex: 1;
+  min-width: 120px;
+  border: solid 2px black;
+  background: linear-gradient(135deg, #e63946, #ff6a00);
+  color: #fff;
+}
+
+.addButton:active {
+  transform: scale(0.98) translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.addButton:hover {
+  background: linear-gradient(135deg, #ff6a00, #ffd700);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.favoriteButton {
+  min-width: 40px;
+  border: solid 2px black;
+  background: linear-gradient(135deg, #e63946, #ff6a00);
+}
+
+.favoriteButton:hover {
+  background: linear-gradient(135deg, #ff6a00, #ffd700);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 600px) {
+  .outercontainerDetail {
+    margin-top: 40px;
+    padding: 10px;
+  }
+
+  .innerContainer,
+  .cardContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cardheader {
+    margin: 20px 0;
+    align-items: center;
+    padding: 15px;
+  }
+
+  .cartButtons {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 100%;
+  }
+
+  img {
+    padding: 10px;
+  }
+
+  .cardcontent {
+    padding: 20px;
+  }
+}

@@ -1,0 +1,54 @@
+.outerCart {
+  display: flex;
+  flex-direction: row;
+}
+
+.cartItemInner {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  flex-direction: row;
+  border-bottom: solid 2px black;
+  margin-bottom: 100px;
+}
+
+.imageWrapper {
+  flex-basis: 800px;
+  padding: 30px;
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+
+.cart-item-inner img {
+  width: 100%;
+}
+
+.cartTextButtons {
+  display: flex;
+  flex-basis: 800px;
+  flex-direction: column-reverse;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonsCart {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.buttonsCart button {
+  width: 100%;
+  padding: 20px;
+  border: solid black 2px;
+  flex-shrink: 3;
+}
+
+.buttonsCart p {
+  color: black;
+}
+
+.buttonsCart button:hover {
+  background-color: lightgray;
+}

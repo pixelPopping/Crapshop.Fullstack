@@ -4,9 +4,7 @@ CART SERVICE
 Doel:
 Bevat alle databasefuncties voor de winkelwagen.
 """
-
 from app.database.connection import get_db
-
 
 def get_or_create_cart(user_id):
     """

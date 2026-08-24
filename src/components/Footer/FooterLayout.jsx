@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
-import "./FooterLayout.css";
+import styles from "./FooterLayout.module.css";
 
 function FooterLayout() {
   return (
-    <section className="outer-layout">
-      <footer className="layout-footer">
-        <div className="footer-links">
+    <section className={styles.outerLayout}>
+      <footer className={styles.layoutFooter}>
+        <div className={styles.footerLinks}>
           <ul>
             <li>
               <NavLink to="/profile">Profile</NavLink>

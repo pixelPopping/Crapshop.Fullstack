@@ -23,7 +23,7 @@ import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";
 import HandleLike from "../../helpers/HandleLike.jsx";
 
-import "./Recencies.css";
+import styles from  "./Recencies.module.css";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
 
 function Recencies() {
@@ -68,11 +68,11 @@ function Recencies() {
   }, []);
 
   return (
-    <div className="layout-recencies">
-      <header className="recencies-header">
-        <div className="icon-bar">
+    <div className={styles.layoutRecencies}>
+      <header className={styles.recenciesheader}>
+        <div className={styles.iconBar}>
           <div
-            className="icon-item"
+            className={styles.iconItem}
             onClick={() => navigate("/favorietenpage")}
             title="Favorieten"
           >
@@ -82,7 +82,7 @@ function Recencies() {
             )}
           </div>
           <div
-            className="icon-item"
+            className={styles.iconItem}
             onClick={() => navigate("/cart")}
             title="Winkelwagen"
           >
@@ -94,26 +94,26 @@ function Recencies() {
           {isAuth ? (
             <>
               <div
-                className="icon-item"
+                className={styles.iconItem}
                 title={`Ingelogd als ${user?.username ?? "Onbekend"}`}
               >
                 <FontAwesomeIcon icon={faUser} />
               </div>
-              <div className="icon-item" onClick={handleLogout} title="Log uit">
+              <div className={styles.iconItem} onClick={handleLogout} title="Log uit">
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </div>
             </>
           ) : (
             <>
               <div
-                className="icon-item"
+                className={styles.iconItem}
                 onClick={() => navigate("/signup")}
                 title="Sign Up"
               >
                 <FontAwesomeIcon icon={faUser} />
               </div>
               <div
-                className="icon-item"
+                className={styles.iconItem}
                 onClick={() => navigate("/signin")}
                 title="Login"
               >
@@ -123,16 +123,20 @@ function Recencies() {
           )}
         </div>
 
-        <nav className="navbar-four">
-          <ul className={`nav-links4 ${menuOpen ? "active" : ""}`}>
+        <nav className={styles.navbarFour}>
+          <ul
+  className={`${styles.navLinks} ${
+    menuOpen ? styles.active : ""
+  }`}
+>
             <li>
-              <NavLink to="/products/Men">Men</NavLink>
+              <NavLink to="/gallery">Gallery</NavLink>
             </li>
             <li>
-              <NavLink to="/products/electronics">Electronics</NavLink>
+              <NavLink to="/recipi">Starter & Bread </NavLink>
             </li>
             <li>
-              <NavLink to="/Shop">Shop</NavLink>
+              <NavLink to="/Shop">Bakkery</NavLink>
             </li>
             <li>
               <NavLink to="/">Home</NavLink>
@@ -140,8 +144,8 @@ function Recencies() {
           </ul>
         </nav>
 
-        <div className="outer-search-container">
-          <div className="search-container">
+        <div className={styles.outerSearchContainer}>
+          <div className={styles.searchContainer}>
             <SearchBar
               inputValue={query}
               inputCallback={(value) => {
@@ -179,7 +183,7 @@ function Recencies() {
           />
         )}
 
-        <h1 className="recencies-title">Reviews</h1>
+        <h1 className={styles.recenciesTitle}>Reviews</h1>
 
         <div className="form-outer">
           <section className="form-inner">

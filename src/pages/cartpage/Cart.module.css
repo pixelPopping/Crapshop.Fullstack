@@ -1,0 +1,92 @@
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  background-color: beige;
+}
+
+.mainCartOuter {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  width: 100%;
+}
+
+
+.cartLayout {
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  width: 100%;
+  align-items: center;
+}
+
+.innerCart h2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: clamp(2rem, 10vw, 50px);
+  font-weight: bold;
+  text-transform: uppercase;
+  text-shadow: 0px 1px 5px #000;
+  font-family: outfit, sans-serif;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  padding: 50px;
+  border: solid 1px #000;
+}
+
+
+
+
+.navbarFourCart a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  padding: 0.5rem 16px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.navbar-four-cart a:hover {
+  background-color: #eee;
+}
+
+.mainCartOuter .cart-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.cart-item {
+  background: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.resetContainer {
+  display: flex;
+  border: solid 8px lightgray;
+  box-shadow: 0px 1px 5px #000;
+  padding: 20px;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+}
+
+.resetButton button {
+  width: 100%;
+  padding: 16px;
+  border: 3px solid black;
+  margin-top: 10px;
+}
+
+.resetButton button:hover {
+  background-color: lightgray;
+}
+

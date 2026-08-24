@@ -1,34 +1,52 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Hamburger.css";
+import styles from "./Hamburger.module.css";
 
-export default function Hamburger({ menuOpen, setMenuOpen, categories }) {
+export default function Hamburger({
+  menuOpen,
+  setMenuOpen,
+  categories = [],
+}) {
   const navigate = useNavigate();
 
   return (
-    <div className="hamburger-wrapper">
-      <div
-        className={`hamburger ${menuOpen ? "open" : ""}`}
-        onClick={() => setMenuOpen(!menuOpen)}
+    <div className={styles.hamburgerWrapper}>
+      <button
+        type="button"
+        className={`${styles.hamburger} ${
+          menuOpen ? styles.open : ""
+        }`}
+        onClick={(event) => {
+          event.stopPropagation();
+          setMenuOpen((previous) => !previous);
+        }}
+        aria-label="Open menu"
+        aria-expanded={menuOpen}
       >
         <span></span>
         <span></span>
         <span></span>
-      </div>
+      </button>
 
       {menuOpen && (
-        <div className="hamburger-menu">
-          {categories.map((cat) => (
+        <div
+          className={styles.hamburgerMenu}
+          onClick={(event) => event.stopPropagation()}
+        >
+          {categories.map((category) => (
             <button
-              key={cat.id}
-              className="hamburger-link"
+              type="button"
+              key={category}
+              className={styles.hamburgerLink}
               onClick={() => {
-                const encodedCategory = encodeURIComponent(cat.name);
-                navigate(`/products/${encodedCategory}`);
+                navigate(
+                  `/Shop?category=${encodeURIComponent(category)}`
+                );
+
                 setMenuOpen(false);
               }}
             >
-              {cat.name}
+              {category}
             </button>
           ))}
         </div>

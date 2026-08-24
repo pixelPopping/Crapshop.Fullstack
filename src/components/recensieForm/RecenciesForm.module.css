@@ -1,0 +1,80 @@
+.recensieFormOuter {
+  display: flex;
+  flex-direction: column;
+  width: 1200px;
+  margin-top: 50px;
+}
+
+.recensieFormInner input {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+}
+
+.recensieFormInner form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .recensieFormOuter {
+    width: 100%;
+    margin-top: 30px;
+    padding: 0 16px;
+  }
+
+  .recensieFormInner input,
+  .recensieInput input,
+  .recensieInput textarea {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .recensieutButtonOuter {
+    width: 100%;
+  }
+
+  .submitButton {
+    width: 100%;
+    font-size: 1rem;
+    padding: 14px;
+  }
+}
+
+.recensieButtonOuter {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+}
+
+.recensieButton {
+  display: flex;
+  flex-direction: row;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 20px;
+  background: black;
+}
+
+.submit-button:hover {
+  background-color: lightgray;
+}
+
+.recensie-input input,
+.recensie-input textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px 12px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.recensie-input textarea {
+  resize: vertical;
+  min-height: 100px;
+}

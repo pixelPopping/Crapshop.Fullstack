@@ -1,0 +1,47 @@
+.shoppingCart {
+  width: 400px;
+  padding: 16px;
+  font-family: "Outfit", sans-serif;
+}
+
+.shopbag h2 {
+  font-size: 40px;
+  padding: 40px;
+  margin-bottom: 1rem;
+  border: solid 1px lightgray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.emptyCart {
+  font-style: italic;
+  color: #777;
+}
+
+.cartItems {
+  list-style: none;
+  padding: 0;
+}
+
+.cartItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.itemImage {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-right: 1rem;
+}
+
+.itemDetails {
+  font-size: 1rem;
+}
+
+.totalPrice {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}

@@ -1,9 +1,13 @@
 import { NavLink } from "react-router-dom";
+import styles from "./navigation.module.css";
+
 function Navigation() {
   return (
-    <div className="Navigation">
-      <nav className="navbar">
-        <ul className="unordered-list">
+     <>
+      <div className={styles.outerNavigation}>
+      <div className={styles.navbarContainer}>
+      <nav className={styles.navigation}>
+        <ul>
           <li>
             <NavLink
               to="/"
@@ -16,67 +20,39 @@ function Navigation() {
           </li>
           <li>
             <NavLink
-              to="/Shop"
+              to="/shop"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              Shop
+              Bakkery
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/signin"
+              to="/recipi"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              SignIn
+              Starter & Bread
             </NavLink>
           </li>
           <li>
             <NavLink
-              to="/signup"
+              to="/gallery"
               className={({ isActive }) =>
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              SignUp
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Profile
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/recencies"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Recencies
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/favorietenpage"
-              className={({ isActive }) =>
-                isActive === true ? "active-link" : "default-link"
-              }
-            >
-              Favorieten
+              Gallery
             </NavLink>
           </li>
         </ul>
       </nav>
-    </div>
+      </div>
+      </div>
+    </>
   );
 }
 

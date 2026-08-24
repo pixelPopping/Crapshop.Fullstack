@@ -1,0 +1,44 @@
+.outerLayout {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: flex-end;
+}
+
+.layoutFooter {
+  display: flex;
+  width: 1200px;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #eee;
+  text-align: center;
+  padding: 30px;
+}
+
+.footerLinks ul {
+  list-style: none;
+  width: 400px;
+  padding: 0;
+  margin: 0 0 15px 0;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.footerLinks li a {
+  display: flex;
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+  font-weight: lighter;
+  padding: 6px 12px;
+  transition: background 0.2s ease;
+}
+
+.footerLinks li a:hover {
+  background-color: red;
+}
+
+.footerLinks li a.active {
+  background-color: red;
+}
