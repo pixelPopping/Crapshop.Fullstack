@@ -23,6 +23,7 @@ import ErrorMessage from "../../components/error/ErrorMessage.jsx";
 import useProducts from "../../hooks/useProducts.js";
 
 
+
 function Home() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -195,10 +196,6 @@ function Home() {
           <header className={styles.header}>
             <h1>Stella@Home.</h1>
           </header>
-
-          <section className={styles.clock}>
-            <ClockTime />
-          </section>
         </div>
 
         <section className={styles.imageContainer}>
