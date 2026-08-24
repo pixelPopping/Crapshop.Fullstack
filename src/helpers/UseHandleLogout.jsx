@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { FavoriteContext } from "../context/FavoriteContext.jsx";
 import { AuthContext } from "../context/AuthContext/AuthContext.jsx";
 
-function useHandleLogout() {
+function UseHandleLogout() {
   const { resetFavorites } = useContext(FavoriteContext);
   const { logOut, user } = useContext(AuthContext);
 
@@ -18,4 +18,4 @@ function useHandleLogout() {
   return handleLogout;
 }
 
-export default useHandleLogout;
+export default UseHandleLogout;

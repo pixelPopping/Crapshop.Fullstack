@@ -8,7 +8,6 @@ import {
     faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Home.module.css";
-import ClockTime from "../../components/digitaleClock/DIgitaleClock.jsx";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
