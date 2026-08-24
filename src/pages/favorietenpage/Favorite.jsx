@@ -12,7 +12,7 @@ import useProducts from "../../hooks/useProducts";
 import { FavoriteContext } from "../../context/FavoriteContext";
 import { AuthContext } from "../../context/AuthContext";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext";
-import FavorietenItem from "../../components/favorietenitem/FavorietenItem";
+import FavorietenItem from "../../components/favorietenItem/FavorietenItem.jsx";
 import ShowModal from "../../components/modal/ShowModal";
 import FooterLayout from "../../components/Footer/FooterLayout";
 import SearchBar from "../../components/searchFilter/SearchBar";

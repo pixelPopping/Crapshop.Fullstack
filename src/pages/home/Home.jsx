@@ -8,7 +8,6 @@ import {
     faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Home.module.css";
-import ClockTime from "../../components/digitaleClock/DIgitaleClock.jsx";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
@@ -21,6 +20,7 @@ import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 import Loading from "../../components/loading/Loading.jsx";
 import ErrorMessage from "../../components/error/ErrorMessage.jsx";
 import useProducts from "../../hooks/useProducts.js";
+
 
 
 function Home() {
@@ -195,10 +195,6 @@ function Home() {
           <header className={styles.header}>
             <h1>Stella@Home.</h1>
           </header>
-
-          <section className={styles.clock}>
-            <ClockTime />
-          </section>
         </div>
 
         <section className={styles.imageContainer}>

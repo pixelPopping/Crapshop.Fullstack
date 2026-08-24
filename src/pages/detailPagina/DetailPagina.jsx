@@ -16,7 +16,7 @@ import { ShoppingCartContext } from "../../context/ShoppingCartContext";
 import { AuthContext } from "../../context/AuthContext";
 import { FavoriteContext } from "../../context/FavoriteContext";
 
-import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
+import UseHandleLogout from "../../helpers/UseHandleLogout.jsx";
 import filterProducts from "../../helpers/filteredProducts.jsx";
 
 import SearchBar from "../../components/searchFilter/SearchBar";
@@ -42,7 +42,7 @@ function DetailPagina() {
   const { items: favoriteItems } =
     useContext(FavoriteContext);
 
-  const handleLogout = useHandleLogout();
+  const handleLogout = UseHandleLogout();
 
   const params = new URLSearchParams(location.search);
 
