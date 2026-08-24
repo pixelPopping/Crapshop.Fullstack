@@ -1,6 +1,5 @@
-import { useContext, useState, useEffect, useMemo } from "react";
+import { useContext, useState, useMemo } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faUser,
@@ -9,9 +8,8 @@ import {
     faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Home.module.css";
-import ClockTime from "../../components/digitaleClock/DigitaleClock.jsx";
+import ClockTime from "../../components/digitaleClock/DIgitaleClock.jsx";
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
-import WheelOfFortune from "../../components/wheelOfFortune/WheelOfFortune.jsx";
 import ShowModal from "../../components/modal/ShowModal.jsx";
 import Hamburger from "../../components/hamburgermenu/Hamburger.jsx";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";

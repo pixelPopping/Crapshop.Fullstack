@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navigation from "../../components/navbar/Navigation.jsx";
+import LayoutFooter from "../../components/Footer/FooterLayout.jsx";
 import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
 import { loginUser } from "../../api/authApi";
 
@@ -63,6 +63,11 @@ function SignIn() {
         errorMessage={errorMessage}
       />
     </main>
+    <div className={styles.footerContainer}>
+    <footer>
+      <LayoutFooter/>
+    </footer>
+    </div>
     </div>
     </>
   );

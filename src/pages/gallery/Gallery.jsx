@@ -1,14 +1,43 @@
+import "./Gallery.css";
+import FooterLayout from "../../components/Footer/FooterLayout";
 
-function Gallery(){
-    return(
+function Gallery() {
+    const images = [
+        {
+            src: "assets/gallery/broodenInKeuken.jpg",
+            alt: "Brood in de keuken",
+        },
+        {
+            src: "assets/gallery/croissantsOptafel.jpg",
+            alt: "Croissants op tafel",
+        },
+        {
+            src: "assets/gallery/koffieBroodjeRijzen.jpg",
+            alt: "Koffie en broodjes rijzen",
+        },
+        {
+            src: "assets/gallery/croissantsRijzen.jpg",
+            alt: "Croissants rijzen",
+        },
+        {
+            src: "assets/gallery/sourdoughKruis.jpg",
+            alt: "Sourdough met kruis",
+        },
+    ];
+
+    return (
         <>
-        <img src="assets/gallery/broodenInKeuken.jpg" alt="brood in keuken"></img>
-        <img src="assets/gallery/croissantsOptafel.jpg" alt="croissants op tafel"></img>
-        <img src="assets/gallery/koffieBroodjeRijzen.jpg" alt="koffie broodjes rijzen"></img>
-        <img src="assets/gallery/croissantsRijzen.jpg" alt="croissants Rijzen"></img>
-        <img src="assets/gallery/sourdoughKruis.jpg" alt="sourdough met kruis"></img>
+        <main className="outermain">
+        <section className="gallery">
+            {images.map((image, index) => (
+                <div className={`gallery-item item-${index + 1}`} key={image.src}>
+                    <img src={image.src} alt={image.alt} />
+                </div>
+            ))}
+        </section>
+        </main>
         </>
-    )
+    );
 }
 
-export default Gallery
+export default Gallery;

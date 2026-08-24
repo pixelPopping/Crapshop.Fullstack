@@ -14,7 +14,12 @@
   width: 100%;
 }
 
-.text {
+.mainImg img{
+  width: 400px;
+  height: 400px;
+}
+
+.text  {
   font-family: "Oswald", sans-serif;
   text-transform: uppercase;
   font-weight: 700;
@@ -71,10 +76,10 @@ img {
 .cartButtons {
   display: flex;
   flex: 1 1 200px;
-  max-width: 400px;
+  max-width: 100px;
+  width: 100%;
   flex-direction: row;
   justify-content: flex-end;
-  align-items: center;
   gap: 10px;
 }
 
@@ -82,6 +87,7 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  padding: 40px;
 }
 
 .addButton {

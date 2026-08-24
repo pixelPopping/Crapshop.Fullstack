@@ -14,7 +14,7 @@ const SignUpForm = ({ onSubmit, loading, errorMessage }) => {
       <div className="outer-form">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="text-container">
-            <h2>New at CrapShop</h2>
+            <h2>New @ Stella@Home.</h2>
             <p>Make a new account and start your order!</p>
             <p>Personal Information</p>
           </div>

@@ -1,0 +1,19 @@
+.layoutSignup {
+  display: grid;
+  width: 100vw;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  background-color: beige;
+}
+
+.buttonContainerSignup {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 40px;
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+}

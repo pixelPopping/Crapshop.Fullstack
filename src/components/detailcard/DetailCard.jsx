@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
 import { FavoriteContext } from "../../context/FavoriteContext.jsx";
-import DropDown from "../dropdown/DropDown.jsx";
 import styles from "./DetailCard.module.css";
 
 function DetailCard({ id, label, text, image, price }) {
@@ -30,10 +29,6 @@ function DetailCard({ id, label, text, image, price }) {
 
           <div className={styles.cardContainer}>
             <div className={styles.cartButtons}>
-              <DropDown
-                value={selectedQuantity}
-                onChange={setSelectedQuantity}
-              />
               <button
                 className={styles.addButton}
                 onClick={() =>
