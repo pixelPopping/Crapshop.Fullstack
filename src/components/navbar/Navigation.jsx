@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import styles from "./navigation.module.css";
+
 
 function Navigation() {
   return (
      <>
-      <div className={styles.outerNavigation}>
-      <div className={styles.navbarContainer}>
-      <nav className={styles.navigation}>
+      <div>
+      <div>
+      <nav>
         <ul>
           <li>
             <NavLink
