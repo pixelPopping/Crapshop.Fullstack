@@ -23,7 +23,7 @@ import SearchBar from "../../components/searchFilter/SearchBar";
 import Hamburger from "../../components/hamburgermenu/Hamburger";
 import ShowModal from "../../components/modal/ShowModal";
 import DetailCard from "../../components/detailcard/DetailCard";
-import ShoppingCart from "../../components/shoppingcart/ShoppingCart.jsx";
+import ShoppingCart from "../../components/shoppingCart/ShoppingCart.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
 
 import styles from "./DetailPagina.module.css";
