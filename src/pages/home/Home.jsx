@@ -145,7 +145,6 @@ function Home() {
             >
               <FontAwesomeIcon icon={faUser} />
             </div>
-
             <div
               className={styles.iconItem}
               onClick={handleLogout}
