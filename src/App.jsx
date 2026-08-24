@@ -16,7 +16,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext/AuthContext.jsx";
 import Recencies from "./pages/recencies/Recencies.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";
-import Checkout from "./pages/checkout/checkout.jsx";
+import Checkout from "./pages/checkout/Checkout.jsx";
 import Success from "./pages/success/Succes.jsx";
 import Navigation from "./components/navbar/Navigation.jsx";
 import Gallery from "./pages/gallery/Gallery.jsx";
