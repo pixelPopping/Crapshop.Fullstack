@@ -11,7 +11,6 @@ import {
 import { ShoppingCartContext } from "../../context/ShoppingCartContext";
 import { AuthContext } from "../../context/AuthContext";
 import { FavoriteContext } from "../../context/FavoriteContext";
-import useHandleLogout from "../../helpers/useHandleLogout";
 import SearchBar from "../../components/searchFilter/SearchBar";
 import Hamburger from "../../components/hamburgermenu/Hamburger";
 import ShowModal from "../../components/modal/ShowModal";
@@ -25,7 +24,7 @@ function ProfilePagina() {
   const { items: cartItems } = useContext(ShoppingCartContext);
   const { isAuth, user, token } = useContext(AuthContext);
   const { items: favoriteItems } = useContext(FavoriteContext);
-  const handleLogout = useHandleLogout();
+
 
   const params = new URLSearchParams(location.search);
   const zoekQuery = params.get("query")?.toLowerCase() || "";
