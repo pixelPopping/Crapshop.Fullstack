@@ -21,6 +21,7 @@ import Success from "./pages/success/Succes.jsx";
 import Navigation from "./components/navbar/Navigation.jsx";
 import Gallery from "./pages/gallery/Gallery.jsx";
 import Recipi from "./pages/recipi/Recipi.jsx";
+import Croissants from "./pages/croissants/Croissants.jsx";
 
 function App() {
   const { isAuth } = useContext(AuthContext);
@@ -44,6 +45,8 @@ function App() {
   <Route path="/gallery" element={<Gallery/>} />
 
   <Route path="/recipi" element={<Recipi />} />
+
+  <Route path="/croissants" element={<Croissants/>} />
 
   <Route path="/detailpagina/:id" element={<DetailPagina />} />
 
