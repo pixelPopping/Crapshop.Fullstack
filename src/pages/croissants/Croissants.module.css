@@ -1,0 +1,234 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playwrite+DE+SAS+Guides&display=swap');
+
+
+.recipePage {
+  min-height: 100vh;
+  padding: 40px;
+  background-color: beige;
+}
+
+
+/* HEADER */
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  margin-bottom: 8px;
+  font-size: 3rem;
+  font-family: "Archivo Black", sans-serif;
+}
+
+.header p {
+  margin: 0;
+  opacity: 0.7;
+}
+
+
+/* MAIN */
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+/* GRID */
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 320px;
+  gap: 20px;
+}
+
+
+/* CARD */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  background: #fff;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+
+/* CARD CONTENT */
+
+.cardContent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 25px;
+  color: white;
+
+  background: linear-gradient(
+    transparent,
+    rgba(0, 0, 0, 0.75)
+  );
+}
+
+.cardContent span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cardContent h2 {
+  margin: 5px 0 0;
+  font-size: 1.4rem;
+}
+
+
+/* FEATURED */
+
+.featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+
+/* TEXT */
+
+.outerRecipi {
+  display: flex;
+  width: 100%;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 100px;
+
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.textContainer h2 {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+
+/* ORDERED LIST */
+
+.orderdlist {
+  padding-left: 50px;
+}
+
+.orderdlist li {
+  padding-left: 10px;
+}
+
+.orderdlist p {
+  text-align: start;
+
+  font-family: "Playwrite DE SAS Guides", cursive;
+
+  font-weight: 400;
+  font-style: normal;
+
+  font-size: 40px;
+
+  line-height: 1.5;
+
+  margin: 0 0 35px;
+}
+
+.orderdlist li::marker {
+  font-family: "Archivo Black", sans-serif;
+  font-size: 1.2rem;
+}
+
+
+/* FOOTER */
+
+.footer {
+  height: 100px;
+  margin-top: 50px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 800px) {
+
+  .recipePage {
+    padding: 25px;
+  }
+
+  .recipeGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 280px;
+  }
+
+  .featured {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .orderdlist p {
+    font-size: 30px;
+  }
+}
+
+
+/* MOBILE */
+
+@media (max-width: 550px) {
+
+  .recipePage {
+    padding: 15px;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .recipeGrid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 300px;
+  }
+
+  .featured {
+    grid-column: span 1;
+  }
+
+  .textContainer {
+    margin-top: 60px;
+  }
+
+  .textContainer h2 {
+    font-size: 2rem;
+  }
+
+  .orderdlist {
+    padding-left: 35px;
+  }
+
+  .orderdlist p {
+    font-size: 22px;
+    line-height: 1.6;
+  }
+}

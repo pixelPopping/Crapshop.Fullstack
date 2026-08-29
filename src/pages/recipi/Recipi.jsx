@@ -56,6 +56,13 @@ function Recipi() {
         </section>
     
       </main>
+      <h2>Ingredienten</h2>
+         <ul>
+          <li>500 gr bloem</li>
+          <li>280 gr water</li>
+          <li>100 gr actieve starter</li>
+          <li>8 gr zout</li>
+         </ul>
        <section className={styles.outerRecipi}>
             <article className={styles.textContainer}>
                 <ol className={styles.orderdlist}>

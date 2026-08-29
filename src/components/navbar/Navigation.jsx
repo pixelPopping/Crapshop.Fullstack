@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
-import styles from "./navigation.module.css";
+
 
 function Navigation() {
   return (
      <>
-      <div className={styles.outerNavigation}>
-      <div className={styles.navbarContainer}>
-      <nav className={styles.navigation}>
+      <div>
+      <div>
+      <nav>
         <ul>
           <li>
             <NavLink
@@ -35,7 +35,17 @@ function Navigation() {
                 isActive === true ? "active-link" : "default-link"
               }
             >
-              Starter & Bread
+              Starter & Bread Recipi
+            </NavLink>
+          </li>
+          <li>
+              <NavLink
+              to="/croissants"
+              className={({ isActive }) =>
+                isActive === true ? "active-link" : "default-link"
+              }
+            >
+              Croissants Recipi
             </NavLink>
           </li>
           <li>
