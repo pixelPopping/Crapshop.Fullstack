@@ -25,3 +25,25 @@
   flex-direction: row;
   width: 100%;
 }
+
+.demoLogin {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.demoLogin p {
+  margin-bottom: 1rem;
+}
+
+.demoButton {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.demoButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

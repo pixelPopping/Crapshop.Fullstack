@@ -1,6 +1,17 @@
-import { useContext, useState, useMemo } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import {
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  NavLink,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faSignOutAlt,
   faUser,
@@ -9,20 +20,39 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import useProducts from "../../hooks/useProducts";
+
 import styles from "./Shop.module.css";
+
 import SearchBar from "../../components/searchFilter/SearchBar.jsx";
 import Shopcard from "../../components/shopcard/Shopcard.jsx";
 import FooterLayout from "../../components/Footer/FooterLayout.jsx";
-import { ShoppingCartContext } from "../../context/ShoppingCartContext.jsx";
-import { AuthContext } from "../../context/AuthContext/AuthContext.jsx";
-import { FavoriteContext } from "../../context/FavoriteContext.jsx";
+
+import {
+  ShoppingCartContext,
+} from "../../context/ShoppingCartContext.jsx";
+
+import {
+  AuthContext,
+} from "../../context/AuthContext/AuthContext.jsx";
+
+import {
+  FavoriteContext,
+} from "../../context/FavoriteContext.jsx";
+
 import useHandleLogout from "../../helpers/UseHandleLogout.jsx";
 
 function ShopPagina() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const params = new URLSearchParams(location.search);
+  // ==========================================
+  // URL PARAMETERS
+  // ==========================================
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
 
   const categoryFromUrl =
     params.get("category") || "";
@@ -30,116 +60,249 @@ function ShopPagina() {
   const queryFromUrl =
     params.get("query") || "";
 
-  const [query, setQuery] = useState(queryFromUrl);
+  // ==========================================
+  // STATE
+  // ==========================================
 
-  const [selectedCategory, setSelectedCategory] =
-    useState(categoryFromUrl);
+  const [query, setQuery] =
+    useState(queryFromUrl);
 
-  const { items } =
-    useContext(ShoppingCartContext);
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] = useState(categoryFromUrl);
 
-  const { isAuth, user } =
-    useContext(AuthContext);
-
-  const { items: favoriteItems } =
-    useContext(FavoriteContext);
+  // ==========================================
+  // CONTEXTS
+  // ==========================================
 
   const {
-    products,
-    categories,
-    loading,
-    error,
-  } = useProducts();
+    items = [],
+  } = useContext(
+    ShoppingCartContext
+  );
 
-  const handleLogout = useHandleLogout();
+  const {
+    isAuth,
+    user,
+  } = useContext(
+    AuthContext
+  );
 
-  const filteredItems = useMemo(
-    () =>
-      products.filter((item) => {
-        const search = query.toLowerCase();
+  const {
+    items: favoriteItems = [],
+  } = useContext(
+    FavoriteContext
+  );
 
-        const matchesSearch =
-          item.title
-            ?.toLowerCase()
-            .includes(search) ||
-          item.description
-            ?.toLowerCase()
-            .includes(search) ||
-          item.category
-            ?.toLowerCase()
-            .includes(search);
+  // ==========================================
+  // PRODUCTS
+  // ==========================================
 
-        const matchesCategory =
-          selectedCategory === "" ||
-          selectedCategory ===
-            "Alle categorieën" ||
-          item.category?.toLowerCase() ===
-            selectedCategory.toLowerCase();
+  const productData =
+    useProducts();
 
-        return (
-          matchesSearch &&
-          matchesCategory
-        );
-      }),
-    [
+  /*
+   * Extra bescherming:
+   * products kan nooit undefined
+   * zijn binnen deze component.
+   */
+
+  const products = Array.isArray(
+    productData?.products
+  )
+    ? productData.products
+    : [];
+
+  const categories =
+    Array.isArray(
+      productData?.categories
+    )
+      ? productData.categories
+      : [
+          "Alle categorieën",
+        ];
+
+  const loading =
+    productData?.loading ??
+    false;
+
+  const error =
+    productData?.error ?? "";
+
+  const demoMode =
+    productData?.demoMode ??
+    false;
+
+  const handleLogout =
+    useHandleLogout();
+
+  // ==========================================
+  // FILTER PRODUCTS
+  // ==========================================
+
+  const filteredItems =
+    useMemo(() => {
+      /*
+       * products is hier gegarandeerd
+       * een array.
+       */
+
+      return products.filter(
+        (item) => {
+          const search =
+            query
+              .toLowerCase()
+              .trim();
+
+          const title =
+            item.title
+              ?.toLowerCase() ||
+            "";
+
+          const description =
+            item.description
+              ?.toLowerCase() ||
+            "";
+
+          const category =
+            item.category
+              ?.toLowerCase() ||
+            "";
+
+          const matchesSearch =
+            title.includes(search) ||
+            description.includes(
+              search
+            ) ||
+            category.includes(
+              search
+            );
+
+          const matchesCategory =
+            selectedCategory ===
+              "" ||
+            selectedCategory ===
+              "Alle categorieën" ||
+            category ===
+              selectedCategory.toLowerCase();
+
+          return (
+            matchesSearch &&
+            matchesCategory
+          );
+        }
+      );
+    }, [
       products,
       query,
       selectedCategory,
-    ],
-  );
+    ]);
 
-  const handleSearch = (value) => {
+  // ==========================================
+  // SEARCH
+  // ==========================================
+
+  const handleSearch = (
+    value
+  ) => {
     setQuery(value);
+
+    const category =
+      selectedCategory &&
+      selectedCategory !==
+        "Alle categorieën"
+        ? `&category=${encodeURIComponent(
+            selectedCategory
+          )}`
+        : "";
 
     navigate(
       `/Shop?query=${encodeURIComponent(
-        value,
-      )}${
-        selectedCategory
-          ? `&category=${encodeURIComponent(
-              selectedCategory,
-            )}`
-          : ""
-      }`,
+        value
+      )}${category}`
     );
   };
 
-  const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
+  // ==========================================
+  // CATEGORY
+  // ==========================================
 
-    if (
-      value === "" ||
-      value === "Alle categorieën"
-    ) {
-      navigate(
-        `/Shop?query=${encodeURIComponent(
-          query,
-        )}`,
+  const handleCategoryChange =
+    (value) => {
+      setSelectedCategory(
+        value
       );
-    } else {
-      navigate(
-        `/Shop?query=${encodeURIComponent(
-          query,
-        )}&category=${encodeURIComponent(
-          value,
-        )}`,
-      );
-    }
-  };
+
+      if (
+        value === "" ||
+        value ===
+          "Alle categorieën"
+      ) {
+        navigate(
+          `/Shop?query=${encodeURIComponent(
+            query
+          )}`
+        );
+      } else {
+        navigate(
+          `/Shop?query=${encodeURIComponent(
+            query
+          )}&category=${encodeURIComponent(
+            value
+          )}`
+        );
+      }
+    };
+
+  // ==========================================
+  // RENDER
+  // ==========================================
 
   return (
-    <div className={styles.shopOuterContainer}>
+    <div
+      className={
+        styles.shopOuterContainer
+      }
+    >
+      {/* ======================================
+          TITLE
+      ====================================== */}
 
-      <div className={styles.shop}>
-        <h1>Bakkery.</h1>
+      <div
+        className={
+          styles.shop
+        }
+      >
+        <h1>
+          Bakkery.
+        </h1>
       </div>
 
-      <section className={styles.shopOuter}>
+      {/* ======================================
+          HEADER
+      ====================================== */}
 
-        <header className={styles.shopHeader}>
-
-          <nav className={styles.navbarFourShop}>
-            <ul className={styles.navLinksShop}>
+      <section
+        className={
+          styles.shopOuter
+        }
+      >
+        <header
+          className={
+            styles.shopHeader
+          }
+        >
+          <nav
+            className={
+              styles.navbarFourShop
+            }
+          >
+            <ul
+              className={
+                styles.navLinksShop
+              }
+            >
               <li>
                 <NavLink to="/">
                   Home
@@ -148,28 +311,49 @@ function ShopPagina() {
             </ul>
           </nav>
 
-          <div className={styles.searchbar}>
+          {/* SEARCH */}
+
+          <div
+            className={
+              styles.searchbar
+            }
+          >
             <SearchBar
               inputValue={query}
-              inputCallback={handleSearch}
+              inputCallback={
+                handleSearch
+              }
               selectedCategory={
                 selectedCategory
               }
               onCategoryChange={
                 handleCategoryChange
               }
-              categories={categories}
-              showCategories={true}
+              categories={
+                categories
+              }
+              showCategories={
+                true
+              }
             />
           </div>
 
-          <div className={styles.iconBar}>
+          {/* ICONS */}
+
+          <div
+            className={
+              styles.iconBar
+            }
+          >
+            {/* FAVORITES */}
 
             <div
-              className={styles.iconItem}
+              className={
+                styles.iconItem
+              }
               onClick={() =>
                 navigate(
-                  "/favorietenpage",
+                  "/favorietenpage"
                 )
               }
               title="Favorieten"
@@ -178,25 +362,41 @@ function ShopPagina() {
                 icon={faHeart}
               />
 
-              {favoriteItems.length > 0 && (
-                <span className="icon-count">
-                  {favoriteItems.length}
+              {favoriteItems.length >
+                0 && (
+                <span
+                  className={
+                    styles.iconCount
+                  }
+                >
+                  {
+                    favoriteItems.length
+                  }
                 </span>
               )}
             </div>
 
+            {/* CART */}
+
             <div
-              className={styles.iconItem}
+              className={
+                styles.iconItem
+              }
               onClick={() =>
-                navigate("/cart")
+                navigate(
+                  "/cart"
+                )
               }
               title="Winkelwagen"
             >
               <FontAwesomeIcon
-                icon={faShoppingCart}
+                icon={
+                  faShoppingCart
+                }
               />
 
-              {items.length > 0 && (
+              {items.length >
+                0 && (
                 <span
                   className={
                     styles.iconCount
@@ -207,6 +407,8 @@ function ShopPagina() {
               )}
             </div>
 
+            {/* AUTH */}
+
             {isAuth ? (
               <>
                 <div
@@ -214,12 +416,15 @@ function ShopPagina() {
                     styles.iconItem
                   }
                   title={`Ingelogd als ${
-                    user?.username ??
+                    user?.username ||
+                    user?.email ||
                     "Onbekend"
                   }`}
                 >
                   <FontAwesomeIcon
-                    icon={faUser}
+                    icon={
+                      faUser
+                    }
                   />
                 </div>
 
@@ -227,11 +432,15 @@ function ShopPagina() {
                   className={
                     styles.iconItem
                   }
-                  onClick={handleLogout}
+                  onClick={
+                    handleLogout
+                  }
                   title="Log uit"
                 >
                   <FontAwesomeIcon
-                    icon={faSignOutAlt}
+                    icon={
+                      faSignOutAlt
+                    }
                   />
                 </div>
               </>
@@ -242,12 +451,16 @@ function ShopPagina() {
                     styles.iconItem
                   }
                   onClick={() =>
-                    navigate("/signup")
+                    navigate(
+                      "/signup"
+                    )
                   }
                   title="Sign Up"
                 >
                   <FontAwesomeIcon
-                    icon={faUser}
+                    icon={
+                      faUser
+                    }
                   />
                 </div>
 
@@ -256,46 +469,82 @@ function ShopPagina() {
                     styles.iconItem
                   }
                   onClick={() =>
-                    navigate("/signin")
+                    navigate(
+                      "/signin"
+                    )
                   }
                   title="Login"
                 >
                   <FontAwesomeIcon
-                    icon={faUser}
+                    icon={
+                      faUser
+                    }
                   />
                 </div>
               </>
             )}
-
           </div>
         </header>
-
       </section>
 
-      <main className={styles.shopProducts}>
+      {/* ======================================
+          PRODUCTS
+      ====================================== */}
+
+      <main
+        className={
+          styles.shopProducts
+        }
+      >
+        {/* LOADING */}
 
         {loading && (
-          <p>Loading...</p>
-        )}
-
-        {error && (
           <p>
-            There was an error fetching
-            the products.
+            Loading...
           </p>
         )}
 
+        {/* DEMO MODE */}
+
+        {demoMode &&
+          !loading && (
+            <div
+              className={
+                styles.demoMessage
+              }
+            >
+              Demo mode — backend
+              unavailable. Showing
+              local products.
+            </div>
+          )}
+
+        {/* ERROR */}
+
+        {error &&
+          !loading && (
+            <p>
+              {error}
+            </p>
+          )}
+
+        {/* NO RESULTS */}
+
         {!loading &&
           !error &&
-          filteredItems.length === 0 && (
+          filteredItems.length ===
+            0 && (
             <p>
               No search results.
             </p>
           )}
 
+        {/* PRODUCT LIST */}
+
         {!loading &&
           !error &&
-          filteredItems.length > 0 && (
+          filteredItems.length >
+            0 && (
             <section
               className={
                 styles.productList
@@ -307,30 +556,41 @@ function ShopPagina() {
                     key={item.id}
                     onClick={() =>
                       navigate(
-                        `/detailpagina/${item.id}`,
+                        `/detailpagina/${item.id}`
                       )
                     }
-                    label={item.title}
+                    label={
+                      item.title
+                    }
                     text={
                       item.description
                     }
-                    image={item.image}
-                    price={item.price}
+                    image={
+                      item.image
+                    }
+                    price={
+                      item.price
+                    }
                     rating={
-                      item.rating_rate
+                      item.rating
+                        ?.rate ??
+                      item.rating_rate ??
+                      0
                     }
                   />
-                ),
+                )
               )}
             </section>
           )}
-
       </main>
+
+      {/* ======================================
+          FOOTER
+      ====================================== */}
 
       <footer>
         <FooterLayout />
       </footer>
-
     </div>
   );
 }

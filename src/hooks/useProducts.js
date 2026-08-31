@@ -4,6 +4,8 @@ import {
   getCategories,
 } from "../api/productsApi";
 
+const DEMO_PRODUCTS = "/products.json";
+
 export default function useProducts() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([
@@ -11,69 +13,177 @@ export default function useProducts() {
   ]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    async function fetchData() {
+    async function loadDemoProducts() {
+      const response = await fetch(
+        DEMO_PRODUCTS,
+        {
+          signal: controller.signal,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "products.json kon niet worden geladen."
+        );
+      }
+
+      const data = await response.json();
+
+      const localProducts = Array.isArray(data)
+        ? data
+        : Array.isArray(data.products)
+        ? data.products
+        : [];
+
+      if (localProducts.length === 0) {
+        throw new Error(
+          "Geen producten gevonden in products.json."
+        );
+      }
+
+      const localCategories = [
+        ...new Set(
+          localProducts
+            .map((product) => product.category)
+            .filter(Boolean)
+        ),
+      ];
+
+      setProducts(localProducts);
+
+      setCategories([
+        "Alle categorieën",
+        ...localCategories,
+      ]);
+
+      setDemoMode(true);
+      setError("");
+
+      console.log(
+        "✅ DEMO PRODUCTS:",
+        localProducts
+      );
+    }
+
+    async function loadProducts() {
+      setLoading(true);
+      setError("");
+
       try {
-        setLoading(true);
-        setError("");
-
-        const products = await getProducts(
-          controller.signal,
+        // Eerst backend proberen
+        const productsData = await getProducts(
+          controller.signal
         );
 
-        const categories = await getCategories(
-          controller.signal,
-        );
+        const backendProducts = Array.isArray(
+          productsData
+        )
+          ? productsData
+          : Array.isArray(productsData?.products)
+          ? productsData.products
+          : [];
 
-        setProducts(products);
-        setCategories([
-          "Alle categorieën",
-          ...categories,
-        ]);
-      } catch (error) {
+        if (backendProducts.length === 0) {
+          throw new Error(
+            "Backend returned no products."
+          );
+        }
+
+        setProducts(backendProducts);
+
+        // Categories hoeven de demo niet te breken
+        try {
+          const categoriesData =
+            await getCategories(
+              controller.signal
+            );
+
+          const backendCategories =
+            Array.isArray(categoriesData)
+              ? categoriesData
+              : Array.isArray(
+                  categoriesData?.categories
+                )
+              ? categoriesData.categories
+              : [
+                  ...new Set(
+                    backendProducts
+                      .map(
+                        (product) =>
+                          product.category
+                      )
+                      .filter(Boolean)
+                  ),
+                ];
+
+          setCategories([
+            "Alle categorieën",
+            ...backendCategories,
+          ]);
+        } catch {
+          const fallbackCategories = [
+            ...new Set(
+              backendProducts
+                .map(
+                  (product) =>
+                    product.category
+                )
+                .filter(Boolean)
+            ),
+          ];
+
+          setCategories([
+            "Alle categorieën",
+            ...fallbackCategories,
+          ]);
+        }
+
+        setDemoMode(false);
+
+        console.log(
+          "✅ PRODUCTS FROM BACKEND:",
+          backendProducts
+        );
+      } catch (err) {
         if (
-          error.name === "CanceledError" ||
-          error.code === "ERR_CANCELED"
+          err.name === "CanceledError" ||
+          err.code === "ERR_CANCELED" ||
+          err.name === "AbortError"
         ) {
           return;
         }
 
-        try {
-          const response = await fetch(
-            "/products.json",
-          );
+        console.warn(
+          "⚠️ Backend unavailable."
+        );
 
-          if (!response.ok) {
-            throw new Error(
-              "Lokale producten konden niet worden geladen.",
-            );
+        try {
+          await loadDemoProducts();
+        } catch (fallbackError) {
+          if (
+            fallbackError.name ===
+            "AbortError"
+          ) {
+            return;
           }
 
-          const localProducts =
-            await response.json();
+          console.error(
+            "❌ Demo products failed:",
+            fallbackError
+          );
 
-          const localCategories = [
-            ...new Set(
-              localProducts.map(
-                (product) => product.category,
-              ),
-            ),
-          ];
-
-          setProducts(localProducts);
-
+          setProducts([]);
           setCategories([
             "Alle categorieën",
-            ...localCategories,
           ]);
-
-          setError("");
-        } catch (fallbackError) {
+          setDemoMode(true);
           setError(
-            "Producten konden niet worden geladen.",
+            "Demo producten konden niet worden geladen."
           );
         }
       } finally {
@@ -81,9 +191,11 @@ export default function useProducts() {
       }
     }
 
-    fetchData();
+    loadProducts();
 
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return {
@@ -91,5 +203,6 @@ export default function useProducts() {
     categories,
     loading,
     error,
+    demoMode,
   };
 }

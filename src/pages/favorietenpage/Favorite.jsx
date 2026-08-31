@@ -1,6 +1,18 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import {
+  NavLink,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faUser,
   faHeart,
@@ -9,85 +21,177 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import useProducts from "../../hooks/useProducts";
-import { FavoriteContext } from "../../context/FavoriteContext";
-import { AuthContext } from "../../context/AuthContext";
-import { ShoppingCartContext } from "../../context/ShoppingCartContext";
+
+import {
+  FavoriteContext,
+} from "../../context/FavoriteContext";
+
+import {
+  AuthContext,
+} from "../../context/AuthContext";
+
+import {
+  ShoppingCartContext,
+} from "../../context/ShoppingCartContext";
+
 import FavorietenItem from "../../components/favorietenItem/FavorietenItem.jsx";
 import ShowModal from "../../components/modal/ShowModal";
 import FooterLayout from "../../components/Footer/FooterLayout";
 import SearchBar from "../../components/searchFilter/SearchBar";
+
 import useHandleLogout from "../../helpers/UseHandleLogout";
 import filterProducts from "../../helpers/filteredProducts";
+
 import styles from "./Favorite.module.css";
 
-const FavorietenPage = () => {
+function FavorietenPage() {
+  // ==========================================
+  // FAVORITES
+  // ==========================================
+
   const {
     items = [],
     setItems,
     totalFavorites,
   } = useContext(FavoriteContext);
 
-  const { user, isAuth } = useContext(AuthContext);
+  // ==========================================
+  // AUTH
+  // ==========================================
 
-  const { items: cartItems = [] } = useContext(
-    ShoppingCartContext
-  );
+  const {
+    user,
+    isAuth,
+  } = useContext(AuthContext);
+
+  // ==========================================
+  // CART
+  // ==========================================
+
+  const {
+    items: cartItems = [],
+  } = useContext(ShoppingCartContext);
+
+  // ==========================================
+  // ROUTER
+  // ==========================================
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  // ==========================================
+  // PRODUCTS
+  // ==========================================
 
   const {
     products = [],
     categories = [],
     loading,
     error,
+    demoMode,
   } = useProducts();
 
-  const handleLogout = useHandleLogout();
-  const params = new URLSearchParams(location.search);
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  const handleLogout =
+    useHandleLogout();
+
+  // ==========================================
+  // URL PARAMETERS
+  // ==========================================
+
+  const params =
+    new URLSearchParams(
+      location.search
+    );
 
   const zoekQuery =
-    params.get("query")?.toLowerCase() || "";
+    params
+      .get("query")
+      ?.toLowerCase() || "";
 
   const zoekCategory =
-    params.get("category") || "Alle categorieën";
+    params.get("category") ||
+    "Alle categorieën";
 
-  const [query, setQuery] = useState(zoekQuery);
+  // ==========================================
+  // STATE
+  // ==========================================
 
-  const [selectedCategory, setSelectedCategory] =
-    useState(zoekCategory);
+  const [query, setQuery] =
+    useState(zoekQuery);
 
-  const [showModal, setShowModal] = useState(
-    zoekQuery.length > 0
-  );
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] = useState(zoekCategory);
+
+  const [showModal, setShowModal] =
+    useState(
+      zoekQuery.length > 0
+    );
+
+  // ==========================================
+  // LOCAL STORAGE
+  // ==========================================
 
   const getStorageKey = (userId) =>
     `Favorieten_${userId || "guest"}`;
 
+  // ==========================================
+  // FILTER PRODUCTS
+  // ==========================================
 
-  const filteredProducts = useMemo(() => {
-    return filterProducts(
+  const filteredProducts =
+    useMemo(() => {
+      return filterProducts(
+        products,
+        query,
+        selectedCategory
+      );
+    }, [
       products,
       query,
-      selectedCategory
-    );
-  }, [products, query, selectedCategory]);
+      selectedCategory,
+    ]);
 
-  const totaalPrijs = useMemo(() => {
-    const total = items.reduce((acc, item) => {
-      const price = Number(item.price) || 0;
-      const quantity = Number(item.quantity) || 1;
+  // ==========================================
+  // TOTAL PRICE
+  // ==========================================
 
-      return acc + price * quantity;
-    }, 0);
+  const totaalPrijs =
+    useMemo(() => {
+      const total = items.reduce(
+        (acc, item) => {
+          const price =
+            Number(item.price) || 0;
 
-    return total.toFixed(2);
-  }, [items]);
+          const quantity =
+            Number(item.quantity) || 1;
 
+          return (
+            acc +
+            price * quantity
+          );
+        },
+        0
+      );
+
+      return total.toFixed(2);
+    }, [items]);
+
+  // ==========================================
+  // LOAD FAVORITES
+  // ==========================================
 
   useEffect(() => {
-    const key = getStorageKey(user?.id);
-    const stored = localStorage.getItem(key);
+    const key =
+      getStorageKey(user?.id);
+
+    const stored =
+      localStorage.getItem(key);
 
     if (!stored) {
       setItems([]);
@@ -95,9 +199,14 @@ const FavorietenPage = () => {
     }
 
     try {
-      const parsedItems = JSON.parse(stored);
+      const parsedItems =
+        JSON.parse(stored);
 
-      if (Array.isArray(parsedItems)) {
+      if (
+        Array.isArray(
+          parsedItems
+        )
+      ) {
         setItems(parsedItems);
       } else {
         setItems([]);
@@ -110,65 +219,119 @@ const FavorietenPage = () => {
 
       setItems([]);
     }
-  }, [user?.id, setItems]);
+  }, [
+    user?.id,
+    setItems,
+  ]);
+
+  // ==========================================
+  // SAVE FAVORITES
+  // ==========================================
 
   useEffect(() => {
-    const key = getStorageKey(user?.id);
+    const key =
+      getStorageKey(user?.id);
 
     localStorage.setItem(
       key,
       JSON.stringify(items)
     );
-  }, [items, user?.id]);
+  }, [
+    items,
+    user?.id,
+  ]);
 
+  // ==========================================
+  // SYNC URL
+  // ==========================================
 
   useEffect(() => {
     setQuery(zoekQuery);
-    setSelectedCategory(zoekCategory);
+
+    setSelectedCategory(
+      zoekCategory
+    );
 
     setShowModal(
       zoekQuery.length > 0 ||
-        zoekCategory !== "Alle categorieën"
+        zoekCategory !==
+          "Alle categorieën"
     );
-  }, [zoekQuery, zoekCategory]);
+  }, [
+    zoekQuery,
+    zoekCategory,
+  ]);
 
+  // ==========================================
+  // SEARCH
+  // ==========================================
 
-  const handleSearchChange = (value) => {
-    setQuery(value);
+  const handleSearchChange =
+    (value) => {
+      setQuery(value);
 
-    navigate(
-      `?query=${encodeURIComponent(
+      navigate(
+        `?query=${encodeURIComponent(
+          value
+        )}&category=${encodeURIComponent(
+          selectedCategory
+        )}`
+      );
+
+      setShowModal(
+        value.length > 0
+      );
+    };
+
+  // ==========================================
+  // CATEGORY
+  // ==========================================
+
+  const handleCategoryChange =
+    (value) => {
+      setSelectedCategory(
         value
-      )}&category=${encodeURIComponent(
-        selectedCategory
-      )}`
-    );
+      );
 
-    setShowModal(value.length > 0);
-  };
+      navigate(
+        `?query=${encodeURIComponent(
+          query
+        )}&category=${encodeURIComponent(
+          value
+        )}`
+      );
 
+      setShowModal(
+        query.length > 0 ||
+          value !==
+            "Alle categorieën"
+      );
+    };
 
-  const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
-
-    navigate(
-      `?query=${encodeURIComponent(
-        query
-      )}&category=${encodeURIComponent(value)}`
-    );
-
-    setShowModal(
-      query.length > 0 ||
-        value !== "Alle categorieën"
-    );
-  };
-
+  // ==========================================
+  // RENDER
+  // ==========================================
 
   return (
-    <div className={styles.favoriteLayout}>
-      <nav className={styles.navbarFourFavorites}>
+    <div
+      className={
+        styles.favoriteLayout
+      }
+    >
+      {/* ======================================
+          NAVIGATION
+      ======================================= */}
 
-        <ul className={styles.navLinks}>
+      <nav
+        className={
+          styles.navbarFourFavorites
+        }
+      >
+        <ul
+          className={
+            styles.navLinks
+          }
+        >
           <li>
             <NavLink to="/gallery">
               Gallery
@@ -194,142 +357,180 @@ const FavorietenPage = () => {
           </li>
         </ul>
 
-        {/* Search */}
+        {/* SEARCH */}
 
         <SearchBar
           type="text"
           inputValue={query}
-          inputCallback={handleSearchChange}
-          selectedCategory={selectedCategory}
+          inputCallback={
+            handleSearchChange
+          }
+          selectedCategory={
+            selectedCategory
+          }
           onCategoryChange={
             handleCategoryChange
           }
           categories={categories}
         />
 
-        {/* Icons */}
+        {/* ICONS */}
 
-        <div className={styles.navIcons}>
-
-          {/* ==================================
-              AUTHENTICATED USER
-          =================================== */}
+        <div
+          className={
+            styles.navIcons
+          }
+        >
+          {/* AUTH */}
 
           {isAuth ? (
             <>
-              {/* Logout */}
-
               <button
                 type="button"
-                className={styles.iconItem}
-                onClick={handleLogout}
+                className={
+                  styles.iconItem
+                }
+                onClick={
+                  handleLogout
+                }
                 title="Log uit"
                 aria-label="Log uit"
               >
                 <FontAwesomeIcon
-                  icon={faSignOutAlt}
+                  icon={
+                    faSignOutAlt
+                  }
                 />
               </button>
 
-              {/* User */}
-
               <span
-                className={styles.iconItem}
+                className={
+                  styles.iconItem
+                }
                 title={`Ingelogd als ${
-                  user?.username ?? "Onbekend"
+                  user?.username ??
+                  "Onbekend"
                 }`}
               >
-                <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon
+                  icon={faUser}
+                />
               </span>
             </>
           ) : (
             <>
-              {/* Sign Up */}
-
               <button
                 type="button"
-                className={styles.iconItem}
+                className={
+                  styles.iconItem
+                }
                 onClick={() =>
-                  navigate("/signup")
+                  navigate(
+                    "/signup"
+                  )
                 }
                 title="Sign Up"
                 aria-label="Sign Up"
               >
-                <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon
+                  icon={faUser}
+                />
               </button>
-
-              {/* Login */}
 
               <button
                 type="button"
-                className={styles.iconItem}
+                className={
+                  styles.iconItem
+                }
                 onClick={() =>
-                  navigate("/signin")
+                  navigate(
+                    "/signin"
+                  )
                 }
                 title="Login"
                 aria-label="Login"
               >
-                <FontAwesomeIcon icon={faUser} />
+                <FontAwesomeIcon
+                  icon={faUser}
+                />
               </button>
             </>
           )}
 
-          {/* ==================================
-              SHOPPING CART
-          =================================== */}
+          {/* CART */}
 
           <button
             type="button"
-            className={styles.iconItem}
+            className={
+              styles.iconItem
+            }
             onClick={() =>
               navigate("/cart")
             }
             title="Winkelwagen"
             aria-label="Winkelwagen"
           >
-            <div className={styles.iconWrapper}>
+            <div
+              className={
+                styles.iconWrapper
+              }
+            >
               <FontAwesomeIcon
-                icon={faShoppingCart}
+                icon={
+                  faShoppingCart
+                }
               />
 
-              {cartItems.length > 0 && (
+              {cartItems.length >
+                0 && (
                 <span
-                  className={styles.iconCount}
+                  className={
+                    styles.iconCount
+                  }
                 >
-                  {cartItems.length}
+                  {
+                    cartItems.length
+                  }
                 </span>
               )}
             </div>
           </button>
 
-          {/* ==================================
-              FAVORITES
-          =================================== */}
+          {/* FAVORITES */}
 
           <button
             type="button"
-            className={styles.iconItem}
+            className={
+              styles.iconItem
+            }
             onClick={() =>
-              navigate("/favorietenpage")
+              navigate(
+                "/favorietenpage"
+              )
             }
             title="Favorieten"
             aria-label="Favorieten"
           >
-            <div className={styles.iconWrapper}>
+            <div
+              className={
+                styles.iconWrapper
+              }
+            >
               <FontAwesomeIcon
                 icon={faHeart}
               />
 
               {items.length > 0 && (
                 <span
-                  className={styles.iconCount}
+                  className={
+                    styles.iconCount
+                  }
                 >
                   {items.length}
                 </span>
               )}
             </div>
           </button>
-
         </div>
       </nav>
 
@@ -337,53 +538,72 @@ const FavorietenPage = () => {
           MAIN
       ======================================= */}
 
-      <main className={styles.favoriteContent}>
-
+      <main
+        className={
+          styles.favoriteContent
+        }
+      >
         {loading ? (
           <p>
             Producten worden geladen...
           </p>
-        ) : error ? (
+        ) : error &&
+          !demoMode ? (
           <p>{error}</p>
         ) : (
           <section
-            className={styles.favoriteInner}
+            className={
+              styles.favoriteInner
+            }
           >
+            {/* DEMO MODE */}
 
-            <h2>❤️ Favorites</h2>
+            {demoMode && (
+              <div
+                className={
+                  styles.demoMessage
+                }
+              >
+                Demo mode — backend
+                unavailable. Local
+                products are being
+                shown.
+              </div>
+            )}
 
-            {/* ==================================
-                EMPTY FAVORITES
-            =================================== */}
+            <h2>
+              ❤️ Favorites
+            </h2>
+
+            {/* EMPTY */}
 
             {items.length === 0 ? (
               <p>
-                You haven't added any
-                favorites yet.
+                You haven't added
+                any favorites yet.
               </p>
             ) : (
               <>
-
-                {/* ==================================
-                    FAVORITES
-                =================================== */}
+                {/* FAVORITES */}
 
                 <div
                   className={
                     styles.favorietenItemsGrid
                   }
                 >
-                  {items.map((item) => (
-                    <FavorietenItem
-                      key={item.id}
-                      item={item}
-                    />
-                  ))}
+                  {items.map(
+                    (item) => (
+                      <FavorietenItem
+                        key={
+                          item.id
+                        }
+                        item={item}
+                      />
+                    )
+                  )}
                 </div>
 
-                {/* ==================================
-                    SUMMARY
-                =================================== */}
+                {/* SUMMARY */}
 
                 <div
                   className={
@@ -393,24 +613,25 @@ const FavorietenPage = () => {
                   <p>
                     <strong>
                       Total Price: €
-                      {totaalPrijs}
+                      {
+                        totaalPrijs
+                      }
                     </strong>
                   </p>
 
                   <p>
                     <em>
                       Total Favorites:{" "}
-                      {totalFavorites}
+                      {
+                        totalFavorites
+                      }
                     </em>
                   </p>
                 </div>
-
               </>
             )}
 
-            {/* ==================================
-                SEARCH MODAL
-            =================================== */}
+            {/* SEARCH MODAL */}
 
             {showModal && (
               <ShowModal
@@ -426,10 +647,8 @@ const FavorietenPage = () => {
                 }
               />
             )}
-
           </section>
         )}
-
       </main>
 
       {/* ======================================
@@ -439,9 +658,8 @@ const FavorietenPage = () => {
       <footer>
         <FooterLayout />
       </footer>
-
     </div>
   );
-};
+}
 
 export default FavorietenPage;

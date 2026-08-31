@@ -1,74 +1,166 @@
-//prioriteiten
-// 1 wheel of fortune
-// 2 shopping cart
-// 3 registreren en inloggen
-// 4 zoek filter/ categorieen box
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import "./App.css";
+
 import Home from "./pages/home/Home.jsx";
 import Shop from "./pages/shop/Shop.jsx";
 import DetailPagina from "./pages/detailPagina/DetailPagina.jsx";
 import Cart from "./pages/cartpage/Cart.jsx";
 import Profile from "./pages/profile/Profile.jsx";
+
 import SignUp from "./pages/signUP/SignUp.jsx";
 import SignIn from "./pages/signIn/SignIn.jsx";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext/AuthContext.jsx";
+
 import Recencies from "./pages/recencies/Recencies.jsx";
 import Favorite from "./pages/favorietenpage/Favorite.jsx";
+
 import Checkout from "./pages/checkout/Checkout.jsx";
 import Success from "./pages/success/Succes.jsx";
-import Navigation from "./components/navbar/Navigation.jsx";
+
 import Gallery from "./pages/gallery/Gallery.jsx";
 import Recipi from "./pages/recipi/Recipi.jsx";
 import Croissants from "./pages/croissants/Croissants.jsx";
 
+import Navigation from "./components/navbar/Navigation.jsx";
+
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext/AuthContext.jsx";
+
 function App() {
-  const { isAuth } = useContext(AuthContext);
+  const { isAuth } =
+    useContext(AuthContext);
+
   return (
     <>
-    <Navigation/>
-<Routes>
-  <Route path="/" element={<Home />} />
+      <Navigation />
 
-  <Route
-    path="/profile"
-    element={isAuth ? <Profile /> : <Navigate to="/signin" />}
-  />
+      <Routes>
 
-  <Route path="/signup" element={<SignUp />} />
+        {/* =====================================
+            PUBLIC PAGES
+        ===================================== */}
 
-  <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-  <Route path="/shop" element={<Shop />} />
+        <Route
+          path="/shop"
+          element={<Shop />}
+        />
 
-  <Route path="/gallery" element={<Gallery/>} />
+        <Route
+          path="/detailpagina/:id"
+          element={<DetailPagina />}
+        />
 
-  <Route path="/recipi" element={<Recipi />} />
+        <Route
+          path="/gallery"
+          element={<Gallery />}
+        />
 
-  <Route path="/croissants" element={<Croissants/>} />
+        <Route
+          path="/recipi"
+          element={<Recipi />}
+        />
 
-  <Route path="/detailpagina/:id" element={<DetailPagina />} />
+        <Route
+          path="/croissants"
+          element={<Croissants />}
+        />
 
+        <Route
+          path="/recencies"
+          element={<Recencies />}
+        />
 
-  <Route
-    path="/cart"
-    element={isAuth ? <Cart /> : <Navigate to="/signin" />}
-  />
+        <Route
+          path="/favorietenpage"
+          element={<Favorite />}
+        />
 
-  <Route path="/recencies" element={<Recencies />} />
+        {/* =====================================
+            AUTH
+        ===================================== */}
 
-  <Route path="/favorietenpage" element={<Favorite />} />
+        <Route
+          path="/signup"
+          element={<SignUp />}
+        />
 
-   <Route path="/success" element={<Success/>} />
+        <Route
+          path="/signin"
+          element={<SignIn />}
+        />
 
+        {/* =====================================
+            CART
+            Geen login nodig voor portfolio demo
+        ===================================== */}
 
-  <Route
-    path="/checkout"
-    element={isAuth ? <Checkout /> : <Navigate to="/signin" />}
-  />
-</Routes>
-</>
+        <Route
+          path="/cart"
+          element={<Cart />}
+        />
+
+        {/* =====================================
+            CHECKOUT
+            Geen login nodig voor demo
+        ===================================== */}
+
+        <Route
+          path="/checkout"
+          element={<Checkout />}
+        />
+
+        {/* =====================================
+            SUCCESS
+        ===================================== */}
+
+        <Route
+          path="/success"
+          element={<Success />}
+        />
+
+        <Route
+          path="/checkout/success"
+          element={<Success />}
+        />
+
+        {/* =====================================
+            PROFILE
+            Wel login/demo-login nodig
+        ===================================== */}
+
+        <Route
+          path="/profile"
+          element={
+            isAuth ? (
+              <Profile />
+            ) : (
+              <Navigate to="/signin" />
+            )
+          }
+        />
+
+        {/* =====================================
+            UNKNOWN ROUTE
+        ===================================== */}
+
+        <Route
+          path="*"
+          element={
+            <Navigate to="/" replace />
+          }
+        />
+
+      </Routes>
+    </>
   );
 }
 
